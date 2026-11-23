@@ -22,10 +22,12 @@ function Pandoc(doc)
   for _, b in ipairs(doc.blocks) do
     if b.t == 'RawBlock' and b.text:find('\\appendices', 1, true) then
       appendix = true; out[#out+1] = b
+    elseif b.t == 'RawBlock' and appendix and b.text:find('\\twocolumn', 1, true) then
       if #deferred > 0 then
         out[#out+1] = pandoc.RawBlock('latex', '\\section{Long result tables}')
         for _, t in ipairs(deferred) do out[#out+1] = pandoc.RawBlock('latex', '{\\scriptsize\n' .. tex({t}) .. '\n}') end
       end
+      out[#out+1] = b
     elseif b.t == 'Table' then
       local longtext = false
       for _, bd in ipairs(b.bodies) do for _, r in ipairs(bd.body) do for _, c in ipairs(r.cells) do if #cell(c) > 70 then longtext = true end end end end

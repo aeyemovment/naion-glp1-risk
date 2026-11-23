@@ -384,9 +384,53 @@ def discussion():
          "makes thresholds coarse. Outcome definitions differed (one cohort reported ischemic optic neuropathy), TriNetX cells below 10 were masked, several studies were available only as "
          "abstracts, and overlapping registries were handled by selection rather than by individual linkage. No imaging was available, so multimodal and computer-vision models could not be "
          "trained. All results are retrospective and in silico.",
-         "In conclusion, ML on published evidence confirms a modest, reproducible association between GLP-1RA exposure and NAION and yields a research-grade enrichment score, not a "
-         "treatment-selection tool. Patient-level prospective data are the necessary next step."]
-    return "\n\n".join(d)
+         ]
+    return "\n\n".join(d) + "\n\n" + conclusion()
+
+def conclusion():
+    """Conclusion answering the study questions, with numbers read from the result files."""
+    P = pd.read_csv("results/stage5/pvalues_all.csv")
+    A = P[P.family == "A2_within_study_exposure"]
+    def row(term, model_has=""):
+        r = A[(A.term == term) & A.model.str.contains(model_has, regex=False)].iloc[0]
+        return r
+    eq = lambda v: (lambda t: t if t.startswith("<") else "=" + t)(pq(v))
+    def fmt(r): return f"OR {r.OR:.2f}, 95% CI {r.ci_lo:.2f} to {r.ci_hi:.2f}, P{eq(r.p)}, q{eq(r.q_bh)}"
+    anyx, obe, sema, sglt, age10 = row("glp1ra_exposed", "any GLP-1RA"), row("exposed_obesity"), row("exposed_semaglutide"), row("exposed_vs_sglt2i"), row("exposed_x_age_per_10y")
+    E = P[P.family == "E_ml_experiments"].set_index("term")
+    xr, xl = E.loc["xgb vs rf: AUROC difference (10 x 10% folds)"], E.loc["xgb vs logreg: AUROC difference (10 x 10% folds)"]
+    lo = E.loc["xgb: leave-one-study-out AUROC > 0.5"]
+    C = pd.read_csv("results/stage14/combination_performance.csv")
+    b = C.sort_values("auroc_mean", ascending=False).iloc[0]
+    full = C[(C.k == C.k.max()) & (C.model == "xgb")].iloc[0]
+    O = pd.read_csv("results/stage14/odds_ratio_stability.csv").set_index("base_feature").loc["glp1ra_exposed"]
+    SG = pd.read_csv("results/stage14/shapley_groups.csv"); SG = SG[SG.model == "xgb"].sort_values("shapley_value", ascending=False)
+    top = SG.iloc[0]; pat = SG[SG.group != "setting"].iloc[0]
+    combo = " + ".join(b.subset.split("|"))
+    return "\n\n".join([
+        "## Conclusion",
+        "This study asked whether published evidence can stratify the risk of NAION in GLP-1RA users, which features carry that risk, and which "
+        "model architecture predicts it best.",
+        f"**Risk features.** Within studies, GLP-1RA exposure was associated with NAION ({fmt(anyx)}). The highest-risk subgroup was GLP-1RA "
+        f"use for obesity ({fmt(obe)}), followed by semaglutide ({fmt(sema)}) and comparison with SGLT2 inhibitors ({fmt(sglt)}); the exposure "
+        f"effect was larger in studies with older participants ({fmt(age10)} per 10 years of mean age). Exposure was the most stable single feature: "
+        f"its odds ratio exceeded 1 in all {int(O.n_models)} feature combinations that contained it (median {O.median_OR:.2f}, range "
+        f"{O.min_OR:.2f} to {O.max_OR:.2f}).",
+        f"**Feature combinations.** The best-discriminating combination was {combo} ({'XGBoost' if b.model == 'xgb' else b.model}, AUROC "
+        f"{b.auroc_mean:.3f} ± {b.auroc_std:.3f}), no better than all nine groups together ({full.auroc_mean:.3f} ± {full.auroc_std:.3f}). "
+        f"The largest contribution came from study setting (region, data source and outcome definition; Shapley value {top.shapley_value:.3f} "
+        f"AUROC, q{eq(top.q_shapley)}), which describes where a patient was studied rather than the patient; among the remaining features, the largest contribution "
+        f"came from {'follow-up duration (time at risk)' if pat.group == 'duration' else pat.group} (Shapley value {pat.shapley_value:.3f} AUROC, q{eq(pat.q_shapley)}). "
+        "No pair of feature groups was synergistic, so the hypothesis that weak features compound into strong risk was not supported.",
+        f"**Best architecture.** PubMed-only XGBoost discriminated best (AUROC 0.656 ± 0.011 over ten folds), but its advantage over random "
+        f"forest ({xr.estimate:+.3f} AUROC, P{eq(xr.p)}) and logistic regression ({xl.estimate:+.3f}, P{eq(xl.p)}) was not significant, and graph, "
+        f"convolutional, ensemble, anomaly-detection and synthetic digital-twin variants did not improve on it. In studies the model had not "
+        f"seen, AUROC fell to {lo.estimate:.3f} (P{eq(lo.p)} versus chance).",
+        "**Answer.** Published evidence supports a reproducible association between GLP-1RA exposure and NAION, strongest with obesity "
+        "indications, but it does not support individual risk prediction good enough to select patients for treatment, including "
+        "antiplatelet therapy. The model is a research tool for enriching cohorts, and its main product is a benchmark and protocol for the "
+        "patient-level, imaging-linked prospective data that the question requires."])
+
 
 def intro():
     return "\n\n".join(["## Introduction",
@@ -427,6 +471,8 @@ def plain_terms(md):
     if left: print("WARNING remaining in-house terms:", sorted(set(left)))
     return md
 
+import nomenclature as NOM, captions as CAP
+
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
           AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
@@ -444,7 +490,9 @@ def nejm():
           "## Data and code availability",
           AVAIL,
           "## References"]
-    return plain_terms("\n\n".join(md))
+    out = "\n\n".join(md)
+    out = NOM.annotate_captions(out).replace("## References", "## Supplementary Appendix: Nomenclature\n\n" + NOM.markdown().split("\n", 1)[1] + "\n\n## References")
+    return plain_terms(out)
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
@@ -511,7 +559,9 @@ def preprint():
             AVAIL,
             "## References"]
     out = "\n\n".join(s for s in secs if s)
+    out = out.replace("## Complete experimental results\n\n", "## Complete experimental results\n\n" + NOM.markdown() + "\n\n", 1)
     for a, b in XREF_PREPRINT.items(): out = out.replace(a, b)
+    out = CAP.expand(out)
     return plain_terms(out)
 
 XREF_PREPRINT = {"(Table 1)": "(Reconstructed cohorts table, Section A)", "(Figure 1)": "(study flow figure, Section A)",

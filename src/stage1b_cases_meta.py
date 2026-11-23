@@ -114,13 +114,23 @@ top = pd.Series(np.average(np.abs(sv), axis=0, weights=w), index=Xm.columns).sor
 plt.figure(); shap.summary_plot(sv[:, [list(Xm.columns).index(c) for c in top]], Xm[top], show=False, plot_size=(6.5, 4))
 plt.xlabel("SHAP value (log ratio scale)"); plt.tight_layout(); plt.savefig(f"{OUT}/fig_meta_shap.png", dpi=300); plt.close("all")
 # forest plot of primary estimates
+_REFS = json.load(open("data/raw/refs.json"))
+POP = {"t2d": "T2D", "t2d_or_obesity": "T2D or obesity", "iih": "IIH", "liver_tx": "liver transplant", "obesity": "obesity", "other": "mixed"}
+def forest_label(r):
+    """First author (from PubMed metadata when the extraction left it blank), year, PMID and population."""
+    fa = r.first_author if isinstance(r.first_author, str) and r.first_author.strip() else ""
+    if not fa:
+        au = _REFS.get(str(int(r.source_pmid)), {}).get("authors", [])
+        fa = au[0].split()[0] if au else "PMID " + str(int(r.source_pmid))
+    yr = int(r.year) if pd.notna(r.year) else ""
+    return f"{fa} {yr} ({POP.get(r.population, r.population)})"
 fp = m.loc[m.groupby("source_pmid").se.idxmin()].sort_values("log_eff")
 fig, ax = plt.subplots(figsize=(5.5, 0.28 * len(fp) + 0.8))
 yy = np.arange(len(fp))
 ax.hlines(yy, fp.ci_low, fp.ci_high, color="#52514e", lw=1.2)
 ax.scatter(fp.effect_estimate, yy, s=10 + 40 * (1 / fp.se) / (1 / fp.se).max(), color="#2a78d6", zorder=3)
 ax.axvline(1, color="#a3a29d", ls="--", lw=1); ax.set_xscale("log")
-ax.set_yticks(yy, [f"{r.first_author or ''} {int(r.year) if pd.notna(r.year) else ''} ({r.population})" for r in fp.itertuples()], fontsize=7)
+ax.set_yticks(yy, [forest_label(r) for r in fp.itertuples()], fontsize=7)
 ax.set_xlabel("Ratio estimate (log scale), most precise estimate per study"); fig.tight_layout()
 fig.savefig(f"{OUT}/fig_forest.png", dpi=300); plt.close(fig)
 fp[["source_pmid", "first_author", "year", "population", "exposure_drug", "comparator", "effect_measure", "effect_estimate", "ci_low", "ci_high"]].to_csv(f"{OUT}/forest_table.csv", index=False)

@@ -578,8 +578,15 @@ figures.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Study flow and validation design.}]{figures/fig1_study_flow.png}
-\caption{Study flow and validation design.}\label{fig:flow}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Study flow and validation design. Boxes show the PubMed search, screening of PubMed Central full texts, structured extraction by publication type, reconstruction of count-weighted pseudo-individual patient data from published 2x2 counts, and the validation schemes (10\% train / 90\% test hold-out, ten disjoint 10\% training folds, training fractions of 10\% to 90\%, leave-one-study-out) applied to all models. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig1_study_flow.png}
+\caption{Study flow and validation design. Boxes show the PubMed search,
+screening of PubMed Central full texts, structured extraction by
+publication type, reconstruction of count-weighted pseudo-individual
+patient data from published 2x2 counts, and the validation schemes (10\%
+train / 90\% test hold-out, ten disjoint 10\% training folds, training
+fractions of 10\% to 90\%, leave-one-study-out) applied to all models.
+Remaining abbreviations and variable names: Nomenclature
+appendix.}\label{fig:flow}
 \end{figure*}
 
 \subsection{Associations}\label{associations}
@@ -619,9 +626,16 @@ attributions.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={ROC, precision-recall and calibration on the 90\% hold-out.}]{figures/fig_holdout_roc_pr_cal.png}
-\caption{ROC, precision-recall and calibration on the 90\%
-hold-out.}\label{fig:roc}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Discrimination and calibration of PubMed-only models on the 90\% hold-out (trained on 10\%). (A) Receiver operating characteristic curves; AUROC in the legend; dashed diagonal = chance. (B) Precision-recall curves; precision is bounded by the NAION prevalence (0.044\%), so curves fall close to zero. (C) Calibration by decile of predicted risk: predicted versus observed NAION risk per 1,000 patients; dashed line = perfect calibration. Blue, logistic regression (L2); orange, random forest; green, XGBoost. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_holdout_roc_pr_cal.png}
+\caption{Discrimination and calibration of PubMed-only models on the
+90\% hold-out (trained on 10\%). (A) Receiver operating characteristic
+curves; AUROC in the legend; dashed diagonal = chance. (B)
+Precision-recall curves; precision is bounded by the NAION prevalence
+(0.044\%), so curves fall close to zero. (C) Calibration by decile of
+predicted risk: predicted versus observed NAION risk per 1,000 patients;
+dashed line = perfect calibration. Blue, logistic regression (L2);
+orange, random forest; green, XGBoost. Remaining abbreviations and
+variable names: Nomenclature appendix.}\label{fig:roc}
 \end{figure*}
 
 \subsection{Threshold performance}\label{threshold-performance}
@@ -725,9 +739,14 @@ detectors trained only on patients without NAION performed near chance
 same study arm share identical features in reconstructed aggregate data;
 anomaly methods need individual-level covariates.
 
-\begin{table*}[!htbp]\centering\caption{NAION incidence per 100,000 person-years in GLP-1RA users and
-comparators, by stratum (IRR, incidence rate ratio; MH, Mantel-Haenszel
-by study; q, Benjamini-Hochberg).}\scriptsize
+\begin{table*}[!htbp]\centering\caption{NAION incidence per 100,000 person-years (rate) in GLP-1RA users and
+comparators by stratum. Events = NAION events; IRR = incidence rate
+ratio (GLP-1RA / comparator) with exact conditional binomial 95\% CI; MH
+IRR = Mantel-Haenszel IRR pooled within studies; q = Benjamini-Hochberg
+adjusted P value. Stratifier levels: age\_band (study mean age),
+indication (t2d, iih), drug (glp1ra\_class, sema\_or\_tirz,
+semaglutide), fu\_band (follow-up), female\_band (share of women).
+Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{llllllllllll}\toprule
 Stratifier & Level & Studies & GLP events & GLP rate & Non-GLP events & Non-GLP rate & IRR & 95\% CI low & 95\% CI high & MH IRR & q \\
 \midrule
@@ -777,7 +796,11 @@ published data capture background NAION risk but little of what
 determines which GLP-1RA users develop NAION.
 
 \begin{table*}[!htbp]\centering\caption{Model performance within GLP-1RA users and within non-users (mean over
-ten folds; threshold = top 10\% of training risk).}\scriptsize
+ten folds; threshold = top 10\% of training risk). PR-AUC = area under
+the precision-recall curve; O/E = observed/expected events; Sens,
+sensitivity; Spec, specificity; Acc, accuracy; PPV and NPV = positive
+and negative predictive values (proportions). Remaining abbreviations
+and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{llllllllll}\toprule
 Model & Group & AUROC & PR-AUC & O/E & Sens & Spec & Acc & PPV & NPV \\
 \midrule
@@ -886,10 +909,14 @@ interaction. For an optional-input calculator, a single XGBoost trained
 with random feature-group dropout differed from a bank of dedicated
 sub-models by -0.0121 AUROC on average across input patterns.
 
-\begin{table*}[!htbp]\centering\caption{Best feature-group combinations by number of groups (two best per size;
-mean over folds; threshold = training top 10\%; q, Benjamini-Hochberg
-over all combinations and models; full results for all 511 combinations
-and every model in Supplementary Workbook S1).}\scriptsize
+\begin{table*}[!htbp]\centering\caption{Best feature-group combinations for each number of groups (two best per
+size; mean over folds; threshold = top 10\% of training risk). SD =
+standard deviation of AUROC over folds; q (AUROC\textgreater0.5) and q
+(PPV\textgreater prev) = Benjamini-Hochberg adjusted P values for AUROC
+above chance and PPV above prevalence, over all 511 combinations and
+models; Sens, Spec, Acc, PPV, NPV as proportions. Full results for every
+combination and model are in Supplementary Workbook S1. Remaining
+abbreviations and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{lllllllllll}\toprule
 Feature groups & Model & AUROC & SD & q (AUROC\textgreater0.5) & Sens & Spec & Acc & PPV & NPV & q (PPV\textgreater prev) \\
 \midrule
@@ -914,10 +941,14 @@ age & diabetes & drug & duration & exposure & hypertension & indication & settin
 \bottomrule\end{tabular}}
 \end{table*}
 
-\begin{table*}[!htbp]\centering\caption{Odds-ratio reliability of each feature across all combinations that
-contain it (count-weighted logistic regression with cluster-robust
-standard errors by study; study-level covariates are ecological and
-imprecise with 11 clusters).}\scriptsize
+\begin{table*}[!htbp]\centering\caption{Reliability of each feature's odds ratio (OR) across all combinations
+containing it (count-weighted logistic regression with cluster-robust
+standard errors by study). Models = number of combinations;
+Median/Min/Max OR across them; OR\textgreater1 = share of combinations
+with OR above 1; q\textless0.05 = share significant after
+Benjamini-Hochberg correction. Study-level covariates are ecological and
+imprecise with 11 clusters. Remaining abbreviations and variable names:
+Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{lllllll}\toprule
 Feature & Models & Median OR & Min OR & Max OR & OR\textgreater1 & q\textless0.05 \\
 \midrule
@@ -983,33 +1014,61 @@ have not been measured.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.}]{figures/fig_imaging_whatif.png}
-\caption{Simulated AUROC after adding ocular imaging modalities and
-sleep apnoea to the published-feature model; black bars show the range
-across hypothetical effect sizes.}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Simulated effect of adding ocular imaging and obstructive sleep apnoea (OSA) to the published-feature XGBoost model (AUROC; values at bar ends). Grey = base model; blue = with imaging features; orange = with OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus photographs or optical coherence tomography (OCT); drusen = optic disc drusen; OCTA = OCT angiography (peripapillary perfusion); serial = on-treatment change on repeat imaging. CDR and OSA effects use published odds ratios; drusen, OCTA and serial effects are hypothetical, and black bars show the range across low and high assumed effect sizes. All imaging values are synthetic. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_imaging_whatif.png}
+\caption{Simulated effect of adding ocular imaging and obstructive sleep
+apnoea (OSA) to the published-feature XGBoost model (AUROC; values at
+bar ends). Grey = base model; blue = with imaging features; orange =
+with OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus
+photographs or optical coherence tomography (OCT); drusen = optic disc
+drusen; OCTA = OCT angiography (peripapillary perfusion); serial =
+on-treatment change on repeat imaging. CDR and OSA effects use published
+odds ratios; drusen, OCTA and serial effects are hypothetical, and black
+bars show the range across low and high assumed effect sizes. All
+imaging values are synthetic. Remaining abbreviations and variable
+names: Nomenclature appendix.}
 \end{figure*}
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.}]{figures/fig_feature_combinations.png}
-\caption{Stand-alone gain vs Shapley value of each feature group
-(XGBoost) and pairwise Shapley interactions across all 511 feature
-combinations.}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Feature-group contributions across all 511 combinations of nine feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of a model using only that group); blue = Shapley value (average gain in AUROC when the group is added, over all combinations). Right: pairwise Shapley interaction indices (AUROC); red = redundancy (the pair adds less together than separately), blue = synergy. Groups: exposure = GLP-1RA exposure; drug = therapy arm; indication; age = study mean age (with partial ABCD2 age item); sex = share of women; duration = follow-up; hypertension and diabetes = partial ABCD2 items; setting = region, data source and outcome definition. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_feature_combinations.png}
+\caption{Feature-group contributions across all 511 combinations of nine
+feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of
+a model using only that group); blue = Shapley value (average gain in
+AUROC when the group is added, over all combinations). Right: pairwise
+Shapley interaction indices (AUROC); red = redundancy (the pair adds
+less together than separately), blue = synergy. Groups: exposure =
+GLP-1RA exposure; drug = therapy arm; indication; age = study mean age
+(with partial ABCD2 age item); sex = share of women; duration =
+follow-up; hypertension and diabetes = partial ABCD2 items; setting =
+region, data source and outcome definition. Remaining abbreviations and
+variable names: Nomenclature appendix.}
 \end{figure*}
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={AUROC and PPV of each model within non-users and within GLP-1RA users (mean \ensuremath{\pm} SD over ten folds).}]{figures/fig_subgroups.png}
-\caption{AUROC and PPV of each model within non-users and within GLP-1RA
-users (mean \ensuremath{\pm} SD over ten folds).}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Detection within GLP-1RA users (orange) and within non-users (blue): (left) AUROC and (right) PPV at the threshold flagging the top 10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network; Ens., mean ensemble; Poisson, Poisson regression with person-time offset; IForest, isolation forest; AE, autoencoder (both anomaly detectors trained on non-events). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_subgroups.png}
+\caption{Detection within GLP-1RA users (orange) and within non-users
+(blue): (left) AUROC and (right) PPV at the threshold flagging the top
+10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten
+folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random
+forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional
+convolutional network; Ens., mean ensemble; Poisson, Poisson regression
+with person-time offset; IForest, isolation forest; AE, autoencoder
+(both anomaly detectors trained on non-events). Remaining abbreviations
+and variable names: Nomenclature appendix.}
 \end{figure*}
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={NAION incidence per 100,000 person-years by study age band, indication and drug; grey band = published background incidence in adults aged 50 years or older.}]{figures/fig_incidence_strata.png}
-\caption{NAION incidence per 100,000 person-years by study age band,
-indication and drug; grey band = published background incidence in
-adults aged 50 years or older.}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={NAION incidence per 100,000 person-years (log scale; points = pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and comparators (blue), by (A) study mean age band, (B) indication (iih = idiopathic intracranial hypertension; t2d = type 2 diabetes) and (C) drug of the exposed arm (glp1ra\_class = any GLP-1RA; sema\_or\_tirz = semaglutide or tirzepatide). Grey band = published background incidence in adults aged 50 years or older. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_incidence_strata.png}
+\caption{NAION incidence per 100,000 person-years (log scale; points =
+pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and
+comparators (blue), by (A) study mean age band, (B) indication (iih =
+idiopathic intracranial hypertension; t2d = type 2 diabetes) and (C)
+drug of the exposed arm (glp1ra\_class = any GLP-1RA; sema\_or\_tirz =
+semaglutide or tirzepatide). Grey band = published background incidence
+in adults aged 50 years or older. Remaining abbreviations and variable
+names: Nomenclature appendix.}
 \end{figure*}
 
 \section{Discussion}\label{discussion}
@@ -1093,13 +1152,1184 @@ selection rather than by individual linkage. No imaging was available,
 so multimodal and computer-vision models could not be trained. All
 results are retrospective and in silico.
 
-In conclusion, ML on published evidence confirms a modest, reproducible
-association between GLP-1RA exposure and NAION and yields a
-research-grade enrichment score, not a treatment-selection tool.
-Patient-level prospective data are the necessary next step.
+\section{Conclusion}\label{conclusion}
+
+This study asked whether published evidence can stratify the risk of
+NAION in GLP-1RA users, which features carry that risk, and which model
+architecture predicts it best.
+
+\textbf{Risk features.} Within studies, GLP-1RA exposure was associated
+with NAION (OR 1.59, 95\% CI 1.42 to 1.77, P\textless0.001,
+q\textless0.001). The highest-risk subgroup was GLP-1RA use for obesity
+(OR 2.70, 95\% CI 1.64 to 4.44, P\textless0.001, q\textless0.001),
+followed by semaglutide (OR 1.73, 95\% CI 1.44 to 2.08, P\textless0.001,
+q\textless0.001) and comparison with SGLT2 inhibitors (OR 1.81, 95\% CI
+1.54 to 2.11, P\textless0.001, q\textless0.001); the exposure effect was
+larger in studies with older participants (OR 1.99, 95\% CI 1.30 to
+3.04, P=0.001, q=0.002 per 10 years of mean age). Exposure was the most
+stable single feature: its odds ratio exceeded 1 in all 256 feature
+combinations that contained it (median 1.59, range 1.04 to 1.92).
+
+\textbf{Feature combinations.} The best-discriminating combination was
+age + exposure + setting + sex (XGBoost, AUROC 0.660 \ensuremath{\pm} 0.008), no better
+than all nine groups together (0.655 \ensuremath{\pm} 0.012). The largest contribution
+came from study setting (region, data source and outcome definition;
+Shapley value 0.035 AUROC, q=0.059), which describes where a patient was
+studied rather than the patient; among the remaining features, the
+largest contribution came from follow-up duration (time at risk)
+(Shapley value 0.029 AUROC, q=0.006). No pair of feature groups was
+synergistic, so the hypothesis that weak features compound into strong
+risk was not supported.
+
+\textbf{Best architecture.} PubMed-only XGBoost discriminated best
+(AUROC 0.656 \ensuremath{\pm} 0.011 over ten folds), but its advantage over random
+forest (+0.011 AUROC, P=0.745) and logistic regression (+0.041, P=0.218)
+was not significant, and graph, convolutional, ensemble,
+anomaly-detection and synthetic digital-twin variants did not improve on
+it. In studies the model had not seen, AUROC fell to 0.535 (P=0.021
+versus chance).
+
+\textbf{Answer.} Published evidence supports a reproducible association
+between GLP-1RA exposure and NAION, strongest with obesity indications,
+but it does not support individual risk prediction good enough to select
+patients for treatment, including antiplatelet therapy. The model is a
+research tool for enriching cohorts, and its main product is a benchmark
+and protocol for the patient-level, imaging-linked prospective data that
+the question requires.
 
 \clearpage\onecolumn
 \appendices
+
+\section{Nomenclature: abbreviations and variable
+names}\label{nomenclature-abbreviations-and-variable-names}
+
+Abbreviations are also defined at first use in the text. Variable and
+label names are those printed in tables and figures; ``\ldots{}'' stands
+for any suffix or prefix (for example, therapy\_\ldots{} covers
+therapy\_semaglutide and therapy\_sglt2i).
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\caption{Abbreviations.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ABCD\textsuperscript{2} & Age, Blood pressure, Clinical features, Duration of symptoms and
+Diabetes score for stroke risk after transient ischemic attack \\
+ABCD\textsuperscript{3}-I & ABCD\textsuperscript{2} extended with dual transient ischemic attack and Imaging
+findings \\
+Acc & accuracy \\
+AE & autoencoder (anomaly detector) \\
+AI & artificial intelligence \\
+AION & anterior ischemic optic neuropathy \\
+AUROC & area under the receiver operating characteristic curve \\
+B & number of permutations \\
+BP & blood pressure \\
+CDR & cup-to-disc ratio \\
+CI & confidence interval \\
+CNN & convolutional neural network (CNN-1D, one-dimensional) \\
+CO2e & carbon dioxide equivalent \\
+CV & cross-validation \\
+DL & deep learning \\
+DPP-4i & dipeptidyl peptidase-4 inhibitor \\
+EBGM & empirical Bayes geometric mean (pharmacovigilance
+disproportionality) \\
+EHR & electronic health record \\
+Ens. & ensemble (mean of member models) \\
+FAERS & US Food and Drug Administration Adverse Event Reporting
+System \\
+FE & fixed effects \\
+GAT & graph attention network \\
+GB & gigabyte \\
+GCIPL & ganglion cell-inner plexiform layer \\
+GIP & glucose-dependent insulinotropic polypeptide \\
+GLP-1 & glucagon-like peptide-1 \\
+GLP-1RA & glucagon-like peptide-1 receptor agonist \\
+GNN & graph neural network \\
+Grad-CAM & gradient-weighted class activation mapping \\
+GraphSAGE & graph sample-and-aggregate network \\
+IC025 & lower 95\% credibility bound of the information component
+(pharmacovigilance) \\
+IForest & isolation forest (anomaly detector) \\
+IIH & idiopathic intracranial hypertension \\
+ION & ischemic optic neuropathy \\
+IONDT & Ischemic Optic Neuropathy Decompression Trial \\
+IPD & individual patient data \\
+IRR & incidence rate ratio \\
+I\textsuperscript{2} & percentage of between-study variance due to heterogeneity \\
+k & number of estimates (meta-analysis) or neighbours per node
+(graph) \\
+L2 & ridge (squared-coefficient) penalty \\
+LOSO & leave-one-study-out validation \\
+LR & logistic regression \\
+LR+ & positive likelihood ratio \\
+MH & Mantel-Haenszel \\
+ML & machine learning \\
+MRI & magnetic resonance imaging \\
+NAION & nonarteritic anterior ischemic optic neuropathy \\
+NB & net benefit \\
+NIR & no-information rate \\
+NPV & negative predictive value \\
+O/E & observed-to-expected event ratio \\
+OCT & optical coherence tomography \\
+OCTA & optical coherence tomography angiography \\
+OR & odds ratio \\
+OSA & obstructive sleep apnea \\
+PC & principal component \\
+PCA & principal component analysis \\
+PMC & PubMed Central \\
+PMID & PubMed identifier \\
+PPV & positive predictive value \\
+PR-AUC & area under the precision-recall curve \\
+PRR & proportional reporting ratio \\
+PUE & power usage effectiveness \\
+PY & person-years \\
+q & Benjamini-Hochberg adjusted P value \\
+QPI-1007 & intravitreal small interfering RNA against caspase-2
+(investigational) \\
+RCT & randomized controlled trial \\
+RF & random forest \\
+RNFL & retinal nerve fiber layer \\
+ROC & receiver operating characteristic \\
+ROR & reporting odds ratio \\
+SD & standard deviation \\
+SE & standard error \\
+Sens & sensitivity \\
+SGLT2i & sodium-glucose cotransporter-2 inhibitor \\
+SHAP & Shapley additive explanations \\
+Spec & specificity \\
+SUSTAIN-6 & Trial to Evaluate Cardiovascular and Other Long-term
+Outcomes with Semaglutide in Subjects with Type 2 Diabetes \\
+SVM & support vector machine \\
+T2D & type 2 diabetes \\
+TIA & transient ischemic attack \\
+TRIPOD+AI & Transparent Reporting of a multivariable prediction model
+for Individual Prognosis Or Diagnosis, AI extension \\
+VA & US Department of Veterans Affairs \\
+XGB & XGBoost (extreme gradient boosting) \\
+\end{longtable}
+}
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\caption{Variable and label names used in tables and
+figures.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+therapy\_\ldots{} & drug arm of the patient (one-hot): semaglutide;
+sema\_or\_tirz = semaglutide or tirzepatide; glp1ra\_class = any or
+unspecified GLP-1RA; comparators sglt2i, dpp4i, no\_glp1ra (no GLP-1RA),
+other\_antidiabetic, other\_antiobesity \\
+indication\_\ldots{} & study population: t2d = type 2 diabetes, obesity
+= obesity without diabetes, iih = idiopathic intracranial
+hypertension \\
+region\_\ldots{} & study region: us = United States, nordic = Nordic
+countries, uk = United Kingdom \\
+source\_type\_\ldots{} & data source: claims = insurance claims,
+ehr\_network = multi-institution EHR network, ehr\_primary\_care =
+primary-care EHR, national\_registry = national registry, single\_center
+= single-center records, va\_ehr = Veterans Affairs EHR \\
+outcome\_def\_\ldots{} & outcome definition: naion = NAION, ion =
+ischemic optic neuropathy (when NAION was not reported separately) \\
+source\_type & data source (see source\_type\_\ldots) \\
+outcome\_def & outcome definition (see outcome\_def\_\ldots) \\
+case\_control & case-control design \\
+target\_trial & target-trial emulation design \\
+variable\_level & naming pattern of one-hot features: variable name,
+underscore, level \\
+glp1ra\_exposed & 1 if the patient was in a GLP-1RA arm, 0 if in a
+comparator arm \\
+followup\_years & mean study follow-up (years) \\
+mean\_age & mean age of the study arm (years) \\
+pct\_female & percentage of women in the study arm \\
+\ldots\_missing & 1 if the preceding variable was not reported and was
+replaced by the median across studies \\
+semaglutide & semaglutide \\
+sema\_or\_tirz & semaglutide or tirzepatide \\
+glp1ra\_class & any or unspecified GLP-1RA \\
+no\_glp1ra & no GLP-1RA (comparator) \\
+sglt2i & SGLT2 inhibitor \\
+dpp4i & DPP-4 inhibitor \\
+other\_antidiabetic & other glucose-lowering drug \\
+other\_antiobesity & other anti-obesity drug \\
+ehr\_network & multi-institution EHR network \\
+ehr\_primary\_care & primary-care EHR \\
+national\_registry & national registry \\
+single\_center & single-center records \\
+va\_ehr & Veterans Affairs EHR \\
+claims & insurance claims \\
+any\_glp1ra & any GLP-1RA \\
+t2d\_or\_obesity & type 2 diabetes or obesity \\
+exposed\_vs\_\ldots{} & GLP-1RA exposure versus the named comparator
+(within-study contrast) \\
+exposed\_x\_\ldots{} & interaction of GLP-1RA exposure with the named
+study-level covariate \\
+exposed\_\ldots{} & GLP-1RA exposure within the named drug or indication
+subgroup \\
+age\_per\_10y & per 10-year higher mean age \\
+female\_per\_10pct & per 10-percentage-point higher share of women \\
+age\_band & stratum of study mean age \\
+female\_band & stratum of the share of women \\
+fu\_band & stratum of follow-up duration \\
+dataset\_\ldots{} & data source of a published estimate (e.g.~danish =
+Danish registries, trinetx = TriNetX network, medicare = Medicare
+claims) \\
+design\_\ldots{} & study design of a published estimate (cohort,
+target\_trial = target-trial emulation, case\_control, other) \\
+comparator\_cls\_\ldots{} & comparator class of a published estimate
+(sglt2, unexposed, other\_antidiabetic, \ldots) \\
+exposure\_drug\_\ldots{} & exposure drug of a published estimate
+(semaglutide, any\_glp1ra, tirzepatide, \ldots) \\
+followup & reported follow-up of a published estimate (years) \\
+followup\_missing & 1 if follow-up was not reported \\
+population & study population of a published estimate \\
+adjusted\_f & 1 if the estimate was covariate-adjusted \\
+abcd\_\ldots{} & partial ABCD\textsuperscript{2} component derived from study-level data:
+A = age, B = blood pressure (hypertension prevalence), D = diabetes \\
+logreg & L2-penalized logistic regression \\
+rf & random forest \\
+xgb & XGBoost \\
+gnn & graph neural network \\
+cnn1d & one-dimensional convolutional neural network \\
+ensemble & ensemble (mean of member predictions unless stated) \\
+cross\_family & ensemble combining PubMed-only, synthetic and hybrid
+models \\
+focal\_mlp & multilayer perceptron trained with focal loss \\
+poisson\_offset & Poisson regression with log person-time offset \\
+logreg\_kingzeng & logistic regression with King-Zeng rare-event
+correction \\
+xgb\_standard & XGBoost, unweighted \\
+xgb\_balanced\_raw & XGBoost with class-balanced weights, uncorrected \\
+xgb\_balanced\_priorcorrected & XGBoost with class-balanced weights,
+prior-corrected probabilities \\
+xgb\_incidence\_anchored & XGBoost with predictions anchored to
+published incidence \\
+xgb\_continue & XGBoost fine-tuned by continued boosting \\
+isolation\_forest & isolation forest (anomaly detection) \\
+one\_class\_svm & one-class support vector machine (anomaly
+detection) \\
+lof\_novelty & local outlier factor in novelty mode (anomaly
+detection) \\
+gnn\_joint & graph neural network trained jointly on both groups \\
+pooled\_refit & model refitted on pooled source and target data \\
+pretrain\_only & model trained on non-users only, applied unchanged \\
+recal\_intercept & intercept-only recalibration \\
+recal\_logistic & logistic (intercept and slope) recalibration \\
+glp\_only & model trained on GLP-1RA users only \\
+internal\_nonGLP & internal validation in non-users \\
+external\_GLP & external validation in GLP-1RA users \\
+\ldots\_mean & mean across folds or repeats \\
+\ldots\_sd & standard deviation across folds or repeats \\
+auroc & AUROC \\
+pr\_auc & PR-AUC \\
+cal\_slope & calibration slope \\
+o\_e & observed-to-expected event ratio \\
+lr\_pos & positive likelihood ratio \\
+flagged\_frac & fraction of patients flagged as high risk \\
+train\_frac & fraction of patients used for training \\
+T1\_youden & threshold maximizing Youden's J (sensitivity + specificity
+- 1) \\
+T2\_top10pct & threshold flagging the top 10\% of training risk \\
+T3\_top20pct & threshold flagging the top 20\% of training risk \\
+brier & Brier score (mean squared error of predicted risk) \\
+uniform & graph edges all weighted 1 \\
+gauss\ldots{} & graph edges weighted by a Gaussian kernel of feature
+distance with the stated bandwidth \\
+threshold & decision threshold (see T1\_youden, T2\_top10pct,
+T3\_top20pct) \\
+synthetic\_only & 1 for computationally generated synthetic records \\
+research\_prototype & research-prototype flag (not for clinical use) \\
+\end{longtable}
+}
+
+\section{Data inventory and
+modalities}\label{data-inventory-and-modalities}
+
+\begin{table}[!htbp]\centering\caption{Data sources by type and modality. Structured tabular data (categorical
+and numeric) were the only modality usable for modelling; imaging
+existed only as figures in case reports and no video was located.
+Records = publications or extracted rows; Patients = reconstructed or
+reported patients; Used in = analyses that used the source. Remaining
+abbreviations and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{lllllll}\toprule
+Source & Data type & Modalities & No.~of modalities & Records & Patients & Used in \\
+\midrule
+PubMed bibliographic records & unstructured text (title, abstract) + metadata & text & 1 & 169 & --- & screening, extraction \\
+PMC open-access full texts & unstructured text + embedded tables & text, tabular & 2 & 60 & --- & extraction \\
+Cohort / case-control studies (extracted) & structured tabular: categorical + numeric counts/effects & categorical, numeric & 2 & 166 & --- & pseudo-IPD (Stage 1), meta-regression, twin generators \\
+Reconstructed pseudo-IPD & structured tabular (count-weighted patient rows) & categorical, numeric, binary outcome & 2 & 48 & 3,271,499 & Stage 1 supervised ML, Stage 2 test sets \\
+Case reports / series (extracted) & structured tabular from narrative text & categorical, numeric, free-text notes & 3 & 20 & 20 & unsupervised phenotyping \\
+Case-report ophthalmic imaging (figures only, not analysed as pixels) & image (fundus photo, OCT RNFL/GCIPL, visual fields, MRI) & image & 1 & 17 & 8 & inventory only (pre/post pairs counted); insufficient n for CV/DL \\
+Pharmacovigilance (FAERS, VigiBase, EudraVigilance) & structured tabular (disproportionality statistics) & categorical, numeric & 2 & 25 & --- & external priors, discussion \\
+RCT-pooled analyses and meta-analyses & structured tabular (pooled estimates) & categorical, numeric & 2 & 44 & --- & external priors for synthetic-only (h=100\%) generators \\
+Video & - & none located & 0 & 0 & 0 & - \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{Reconstructed cohorts (one primary, non-overlapping contrast per study).
+Setting = data source; Population: T2D, type 2 diabetes; IIH, idiopathic
+intracranial hypertension; events/N = NAION events and patients in each
+arm. Remaining abbreviations and variable names: Nomenclature
+appendix.\label{tbl:cohorts}}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
+Study & Setting & Region & Population & Exposure & Comparator & Exposed, events/N & Comparator, events/N \\
+\midrule
+Hathaway 2024 \cite{p38958939} & Single center & US & T2D & Semaglutide & Other antidiabetic & 46/555 & 23/1,134 \\
+Grauslund 2024 \cite{p39696569} & National registry & Nordic & T2D & Semaglutide & No GLP-1RA & 67/106,454 & 151/317,698 \\
+Simonsen 2025 \cite{p40098249} & National registry & Nordic & T2D & Semaglutide & SGLT2i & 8/16,860 & 7/34,153 \\
+Hsu 2025 \cite{p40146102} & EHR network & US & T2D & Semaglutide & Other antidiabetic & 45/174,584 & 29/174,584 \\
+Wang 2025 \cite{p40788646} & EHR network & US & T2D & Semaglutide or tirzepatide & Other antidiabetic & 35/79,699 & 19/79,699 \\
+Ramsey 2025 \cite{p40788647} & EHR network & US & T2D & GLP-1RA class & No GLP-1RA & 96/185,066 & 79/185,066 \\
+Tesfaye 2026 \cite{p41104517} & Claims & US & T2D & GLP-1RA class & SGLT2i & 270/482,912 & 144/482,912 \\
+Heberer 2026 \cite{p41678180} & VA EHR & US & T2D & Semaglutide & SGLT2i & 30/11,478 & 143/90,883 \\
+Noh 2026 \cite{p41701611} & Primary-care EHR & UK & T2D & GLP-1RA class & DPP-4i & 14/106,858 & 53/416,369 \\
+Al-Harbi 2026 \cite{p41994958} & EHR network & US & IIH & GLP-1RA class & No GLP-1RA & 12/15,559 & 28/15,560 \\
+Ueda 2026 \cite{p42441962} & National registry & Nordic & T2D & GLP-1RA class & SGLT2i & 62/107,518 & 64/185,898 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\section{PubMed-only supervised
+models}\label{pubmed-only-supervised-models}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Performance across ten disjoint 10\% training folds (each tested on the remaining 90\%). (A) AUROC and (B) PR-AUC; each dot is one fold and the horizontal bar is the mean. Blue, logistic regression (L2); orange, random forest; green, XGBoost. PR-AUC values are small because the event rate is 0.044\%. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_kfold.png}
+\caption{Performance across ten disjoint 10\% training folds (each
+tested on the remaining 90\%). (A) AUROC and (B) PR-AUC; each dot is one
+fold and the horizontal bar is the mean. Blue, logistic regression (L2);
+orange, random forest; green, XGBoost. PR-AUC values are small because
+the event rate is 0.044\%. Remaining abbreviations and variable names:
+Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Training-fraction sweep: models trained on 10\% to 90\% of patients and tested on the remainder (10 repeats per fraction; points = mean, bars = SD). (A) AUROC on the held-out remainder. (B) Calibration-in-the-large as observed/expected (O/E) events; dashed line = 1 (perfect). (C) Stability of explanations: Kendall's W agreement of SHAP feature rankings across repeats (1 = identical rankings). Blue, logistic regression (L2); orange, random forest; green, XGBoost. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_train_fraction_curves.png}
+\caption{Training-fraction sweep: models trained on 10\% to 90\% of
+patients and tested on the remainder (10 repeats per fraction; points =
+mean, bars = SD). (A) AUROC on the held-out remainder. (B)
+Calibration-in-the-large as observed/expected (O/E) events; dashed line
+= 1 (perfect). (C) Stability of explanations: Kendall's W agreement of
+SHAP feature rankings across repeats (1 = identical rankings). Blue,
+logistic regression (L2); orange, random forest; green, XGBoost.
+Remaining abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\begin{table}[!htbp]\centering\caption{Training-fraction sweep (mean over 10 repeats). train\_frac = share of
+patients used for training; auroc and auroc\_sd = mean and SD of AUROC
+on the remainder; pr\_auc = PR-AUC; brier = Brier score; cal\_slope =
+calibration slope (1 = ideal); o\_e and o\_e\_sd = observed/expected
+events (1 = ideal). Models: logreg, L2 logistic regression; rf, random
+forest; xgb, XGBoost. Remaining abbreviations and variable names:
+Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{lllllllll}\toprule
+model & train\_frac & auroc & auroc\_sd & pr\_auc & brier & cal\_slope & o\_e & o\_e\_sd \\
+\midrule
+logreg & 10\% & 0.6122 & 0.0127 & 0.0007 & 0.0004 & 0.9831 & 1.0125 & 0.0471 \\
+logreg & 20\% & 0.6257 & 0.0174 & 0.0011 & 0.0004 & 0.9851 & 0.9944 & 0.0779 \\
+logreg & 30\% & 0.6259 & 0.0093 & 0.001 & 0.0004 & 0.9849 & 1.0013 & 0.0861 \\
+logreg & 40\% & 0.628 & 0.0085 & 0.0009 & 0.0004 & 1.0021 & 0.8647 & 0.0313 \\
+logreg & 50\% & 0.6394 & 0.0131 & 0.0008 & 0.0004 & 0.9942 & 0.93 & 0.0418 \\
+logreg & 60\% & 0.6374 & 0.0087 & 0.0009 & 0.0004 & 1.0002 & 0.879 & 0.0345 \\
+logreg & 70\% & 0.626 & 0.0125 & 0.0013 & 0.0004 & 1.0084 & 0.8244 & 0.0422 \\
+logreg & 80\% & 0.6345 & 0.0109 & 0.0015 & 0.0004 & 1.005 & 0.8498 & 0.0365 \\
+logreg & 90\% & 0.6313 & 0.0118 & 0.0035 & 0.0004 & 1.0018 & 0.8719 & 0.0921 \\
+rf & 10\% & 0.6475 & 0.0074 & 0.0008 & 0.0004 & 0.9823 & 1.0141 & 0.0565 \\
+rf & 20\% & 0.6567 & 0.0063 & 0.001 & 0.0004 & 0.9864 & 0.9907 & 0.0697 \\
+rf & 30\% & 0.6625 & 0.0082 & 0.0009 & 0.0004 & 0.9869 & 0.9895 & 0.0842 \\
+rf & 40\% & 0.6618 & 0.0069 & 0.0009 & 0.0004 & 0.9844 & 1.0004 & 0.0509 \\
+rf & 50\% & 0.6623 & 0.0071 & 0.0009 & 0.0004 & 0.9877 & 0.9742 & 0.031 \\
+rf & 60\% & 0.6656 & 0.0062 & 0.0009 & 0.0004 & 0.9861 & 0.9876 & 0.0443 \\
+rf & 70\% & 0.6592 & 0.0137 & 0.0009 & 0.0004 & 0.9856 & 0.9914 & 0.0632 \\
+rf & 80\% & 0.6647 & 0.0115 & 0.0009 & 0.0004 & 0.9874 & 0.9786 & 0.048 \\
+rf & 90\% & 0.6538 & 0.0217 & 0.0009 & 0.0004 & 0.9891 & 0.9658 & 0.1082 \\
+xgb & 10\% & 0.6542 & 0.0097 & 0.0043 & 0.0004 & 0.9792 & 1.0126 & 0.06 \\
+xgb & 20\% & 0.6617 & 0.0058 & 0.0044 & 0.0004 & 0.9848 & 0.9914 & 0.069 \\
+xgb & 30\% & 0.667 & 0.0066 & 0.0047 & 0.0004 & 0.9864 & 0.9898 & 0.0844 \\
+xgb & 40\% & 0.6704 & 0.0041 & 0.0048 & 0.0004 & 0.9833 & 1.0011 & 0.0513 \\
+xgb & 50\% & 0.6695 & 0.0053 & 0.0047 & 0.0004 & 0.9873 & 0.9737 & 0.0304 \\
+xgb & 60\% & 0.674 & 0.0063 & 0.0054 & 0.0004 & 0.9856 & 0.9872 & 0.0439 \\
+xgb & 70\% & 0.6679 & 0.015 & 0.0051 & 0.0004 & 0.9843 & 0.99 & 0.063 \\
+xgb & 80\% & 0.6733 & 0.0099 & 0.0053 & 0.0004 & 0.9867 & 0.9799 & 0.0475 \\
+xgb & 90\% & 0.6641 & 0.0227 & 0.0053 & 0.0004 & 0.9885 & 0.9621 & 0.1082 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are named variable\_level (e.g., therapy\_sglt2i = SGLT2-inhibitor comparator arm; source\_type\_single\_center = single-center data source). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_beeswarm_xgb.png}
+\caption{SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each
+dot is one covariate pattern; the x-axis is its SHAP value (contribution
+to the predicted log-odds of NAION; right = higher risk); colour is the
+feature value (red = high or 1, blue = low or 0). Features are ordered
+by mean absolute SHAP value; one-hot features are named variable\_level
+(e.g., therapy\_sglt2i = SGLT2-inhibitor comparator arm;
+source\_type\_single\_center = single-center data source). Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with one-hot levels summed into their parent variable (therapy = drug arm; region; source\_type = data source; outcome\_def = outcome definition). Blue, logistic regression (L2); green, XGBoost; random-forest SHAP values are on the probability scale (about 10\^{}-4) and therefore not visible. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_kfold_importance.png}
+\caption{Feature-group importance across ten folds: mean absolute SHAP
+value (log-odds scale; bars = mean, whiskers = SD over folds), with
+one-hot levels summed into their parent variable (therapy = drug arm;
+region; source\_type = data source; outcome\_def = outcome definition).
+Blue, logistic regression (L2); green, XGBoost; random-forest SHAP
+values are on the probability scale (about 10\^{}-4) and therefore not
+visible. Remaining abbreviations and variable names: Nomenclature
+appendix.}
+\end{figure}
+
+\section{Statistical inference (all P values, Benjamini-Hochberg q
+within
+family)}\label{statistical-inference-all-p-values-benjamini-hochberg-q-within-family}
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1879}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.4970}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0424}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0848}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0909}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0485}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0485}}@{}}
+\caption{Within-study associations with NAION (count-weighted logistic
+regression with study fixed effects). Terms: exposed\_ = GLP-1RA
+exposure in the named drug or indication subgroup; exposed\_vs\_ =
+versus the named comparator; exposed\_x\_ = interaction with the named
+study-level covariate (per 10 years of mean age, per 10 percentage
+points of women, per year of follow-up). OR = odds ratio; q =
+Benjamini-Hochberg adjusted P value. Remaining abbreviations and
+variable names: Nomenclature appendix.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Term
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OR
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+95\% CI low
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+95\% CI high
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+P
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+q
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Term
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OR
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+95\% CI low
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+95\% CI high
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+P
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+q
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+glp1ra\_exposed & A2 study fixed effects: any GLP-1RA vs comparator &
+1.587 & 1.422 & 1.772 & \textless0.001 & \textless0.001 \\
+exposed\_semaglutide & A2 study FE: exposure by drug & 1.73 & 1.439 &
+2.08 & \textless0.001 & \textless0.001 \\
+exposed\_glp1ra\_class & A2 study FE: exposure by drug & 1.496 & 1.3 &
+1.721 & \textless0.001 & \textless0.001 \\
+exposed\_sema\_or\_tirz & A2 study FE: exposure by drug & 1.842 & 1.054
+& 3.221 & 0.032 & 0.044 \\
+exposed\_t2d & A2 study FE: exposure by indication & 1.622 & 1.448 &
+1.817 & \textless0.001 & \textless0.001 \\
+exposed\_obesity & A2 study FE: exposure by indication & 2.697 & 1.637 &
+4.441 & \textless0.001 & \textless0.001 \\
+exposed\_iih & A2 study FE: exposure by indication & 0.428 & 0.218 &
+0.842 & 0.014 & 0.021 \\
+exposed\_vs\_dpp4i & A2 study FE: exposure by comparator class & 1.029 &
+0.571 & 1.855 & 0.924 & 0.943 \\
+exposed\_vs\_no\_glp1ra & A2 study FE: exposure by comparator class &
+1.143 & 0.936 & 1.394 & 0.189 & 0.236 \\
+exposed\_vs\_other\_antidiabetic & A2 study FE: exposure by comparator
+class & 2.348 & 1.743 & 3.164 & \textless0.001 & \textless0.001 \\
+exposed\_vs\_sglt2i & A2 study FE: exposure by comparator class & 1.806
+& 1.544 & 2.113 & \textless0.001 & \textless0.001 \\
+glp1ra\_exposed & A2 study FE: exposure effect modification (study-level
+age, \% female, follow-up) & 1.411 & 1.244 & 1.602 & \textless0.001 &
+\textless0.001 \\
+exposed\_x\_age\_per\_10y & A2 study FE: exposure effect modification
+(study-level age, \% female, follow-up) & 1.989 & 1.301 & 3.041 & 0.001
+& 0.002 \\
+exposed\_x\_female\_per\_10pct & A2 study FE: exposure effect
+modification (study-level age, \% female, follow-up) & 0.996 & 0.886 &
+1.12 & 0.943 & 0.943 \\
+exposed\_x\_followup\_years & A2 study FE: exposure effect modification
+(study-level age, \% female, follow-up) & 1.021 & 0.945 & 1.103 & 0.595
+& 0.687 \\
+\end{longtable}
+}
+
+\begin{table}[!htbp]\centering\caption{Marginal associations with NAION across studies (count-weighted logistic
+regression with cluster-robust standard errors by study). These
+comparisons are ecological and confounded by study setting. Feature
+names: therapy\_, indication\_, region\_, source\_type\_, outcome\_def\_
+= one-hot levels (reference levels omitted); OR = odds ratio; q =
+Benjamini-Hochberg adjusted P value. Remaining abbreviations and
+variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllll}\toprule
+Term & OR & 95\% CI low & 95\% CI high & P & q \\
+\midrule
+therapy\_dpp4i & 1.055 & 0.712 & 1.564 & 0.789 & 0.789 \\
+therapy\_glp1ra\_class & 1.086 & 0.733 & 1.61 & 0.681 & 0.766 \\
+therapy\_other\_antidiabetic & 0.628 & 0.342 & 1.154 & 0.134 & 0.201 \\
+therapy\_other\_antiobesity & 0.123 & 0.096 & 0.156 & \textless0.001 & \textless0.001 \\
+therapy\_sema\_or\_tirz & 1.158 & 0.63 & 2.127 & 0.637 & 0.764 \\
+therapy\_semaglutide & 1.215 & 0.954 & 1.547 & 0.114 & 0.187 \\
+therapy\_sglt2i & 0.614 & 0.424 & 0.89 & 0.010 & 0.023 \\
+indication\_iih & 86.796 & 1.014 & 7429.09 & 0.049 & 0.089 \\
+indication\_obesity & 0.63 & 0.402 & 0.985 & 0.043 & 0.086 \\
+region\_nordic & 1.951 & 1.52 & 2.506 & \textless0.001 & \textless0.001 \\
+region\_uk & 0.213 & 0.182 & 0.25 & \textless0.001 & \textless0.001 \\
+source\_type\_claims & 0.54 & 0.18 & 1.627 & 0.274 & 0.379 \\
+source\_type\_single\_center & 326.045 & 217.289 & 489.235 & \textless0.001 & \textless0.001 \\
+source\_type\_va\_ehr & 0.551 & 0.09 & 3.385 & 0.520 & 0.669 \\
+outcome\_def\_ion & 0.494 & 0.415 & 0.587 & \textless0.001 & \textless0.001 \\
+age\_per\_10y & 1.538 & 0.098 & 24.122 & 0.759 & 0.789 \\
+female\_per\_10pct & 0.499 & 0.301 & 0.828 & 0.007 & 0.018 \\
+followup\_years & 0.756 & 0.697 & 0.82 & \textless0.001 & \textless0.001 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{SHAP permutation tests (B = 500 permutations). Mean
+\textbar SHAP\textbar{} = mean absolute SHAP value (XGBoost, log-odds);
+P (global null) = outcome permuted across all patients; P (within-study
+null) = outcome permuted within studies, which tests whether the feature
+carries information beyond study membership; q = Benjamini-Hochberg
+adjusted P value. Remaining abbreviations and variable names:
+Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{lllll}\toprule
+Feature & Mean & SHAP &  & P (global null) \\
+\midrule
+followup\_years & 0.031 & 0.186 & 0.209 & 0.996 \\
+glp1ra\_exposed & 0.118 & 0.002 & 0.004 & 0.002 \\
+indication & 0.015 & 0.008 & 0.014 & 1 \\
+mean\_age & 0.057 & 0.026 & 0.033 & 0.255 \\
+outcome\_def & 0.011 & 0.228 & 0.228 & 0.03 \\
+pct\_female & 0.112 & 0.002 & 0.004 & 0.146 \\
+region & 0.263 & 0.002 & 0.004 & 0.369 \\
+source\_type & 0.143 & 0.002 & 0.004 & 0.916 \\
+therapy & 0.141 & 0.01 & 0.015 & 0.012 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{Random-effects (DerSimonian-Laird) meta-analysis of published ratio
+estimates. k = number of estimates; I2 = percentage of variance due to
+between-study heterogeneity; q = Benjamini-Hochberg adjusted P value.
+Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
+Analysis & k & Pooled ratio & 95\% CI low & 95\% CI high & I2 & P & q \\
+\midrule
+all studies (most precise estimate each) & 25 & 1.341 & 1.161 & 1.549 & 86.553 & \textless0.001 & \textless0.001 \\
+indication = t2d & 20 & 1.363 & 1.163 & 1.598 & 87.828 & \textless0.001 & \textless0.001 \\
+indication = t2d\_or\_obesity & 2 & 1.859 & 0.764 & 4.525 & 86.938 & 0.172 & 0.229 \\
+subgroup difference by indication & 2 & nan & nan & nan & nan & 0.501 & 0.501 \\
+drug = any\_glp1ra & 15 & 1.302 & 1.128 & 1.504 & 81.066 & \textless0.001 & \textless0.001 \\
+drug = semaglutide & 8 & 1.569 & 1.007 & 2.444 & 91.924 & 0.047 & 0.075 \\
+subgroup difference by drug & 2 & nan & nan & nan & nan & 0.434 & 0.496 \\
+excluding IIH cohort & 24 & 1.38 & 1.196 & 1.592 & 86.354 & \textless0.001 & \textless0.001 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{Demographic contrasts: observed versus expected values (e.g., share of
+men among case reports versus exposed cohorts) with the stated test; q =
+Benjamini-Hochberg adjusted P value. Remaining abbreviations and
+variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllll}\toprule
+Contrast & observed & expected & test & P & q \\
+\midrule
+case reports: male share vs exposed-cohort male share & 0.688 & 0.49 & exact binomial & 0.137 & 0.274 \\
+case reports: age vs exposed-cohort mean age & 47 & 60.15 & Wilcoxon signed-rank vs cohort mean & 0.003 & 0.016 \\
+case reports: obesity indication share vs 50\% & 0.786 & 0.5 & exact binomial & 0.057 & 0.172 \\
+meta-analysis 42612051: age \textless65 vs \textgreater=65 & 2.187 & 1 & z-test of ratio of ratios (from published CIs) & 0.272 & 0.407 \\
+meta-analysis 42612051: female- vs male-dominant cohorts & 0.951 & 1 & z-test of ratio of ratios (from published CIs) & 0.919 & 0.919 \\
+meta-analysis 42612051: diabetes vs obesity indication & 1.095 & 1 & z-test of ratio of ratios (from published CIs) & 0.85 & 0.919 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{Statistical tests of the machine-learning experiments. Estimate = the
+tested quantity (AUROC, difference or rank correlation); Hanley-McNeil =
+AUROC standard error; Nadeau-Bengio corrected = resampled t test
+corrected for overlapping training sets; Wilcoxon and Spearman as
+stated; q = Benjamini-Hochberg adjusted P value. Remaining abbreviations
+and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{lllll}\toprule
+Experiment & estimate & test & P & q \\
+\midrule
+logreg: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.627 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
+rf: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.642 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
+xgb: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.657 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
+xgb vs logreg: AUROC difference (10 x 10\% folds) & 0.041 & Nadeau-Bengio corrected resampled t & 0.218 & 0.277 \\
+xgb vs rf: AUROC difference (10 x 10\% folds) & 0.011 & Nadeau-Bengio corrected resampled t & 0.745 & 0.745 \\
+rf vs logreg: AUROC difference (10 x 10\% folds) & 0.03 & Nadeau-Bengio corrected resampled t & 0.314 & 0.339 \\
+logreg: leave-one-study-out AUROC \textgreater{} 0.5 & 0.51 & Wilcoxon over 11 held-out studies & 0.289 & 0.337 \\
+rf: leave-one-study-out AUROC \textgreater{} 0.5 & 0.532 & Wilcoxon over 11 held-out studies & 0.087 & 0.136 \\
+xgb: leave-one-study-out AUROC \textgreater{} 0.5 & 0.535 & Wilcoxon over 11 held-out studies & 0.021 & 0.037 \\
+logreg: AUROC trend with training fraction (10-90\%) & 0.304 & Spearman (90 runs) & 0.004 & 0.008 \\
+rf: AUROC trend with training fraction (10-90\%) & 0.266 & Spearman (90 runs) & 0.011 & 0.023 \\
+xgb: AUROC trend with training fraction (10-90\%) & 0.389 & Spearman (90 runs) & \textless0.001 & \textless0.001 \\
+Stage 2 hybrid best vs PubMed-only (XGB, paired) & 0.001 & paired z over 27 split/seed pairs & 0.167 & 0.233 \\
+Stage 2 synthetic-only best vs PubMed-only (XGB, paired) & -0.01 & paired z over 27 split/seed pairs & \textless0.001 & \textless0.001 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Within-study odds ratios for NAION (count-weighted logistic regression with study fixed effects, so each estimate compares patients within the same study). Points = odds ratio, lines = 95\% CI, log scale; dashed line = no association. Blue, q \textless{} 0.05; grey, not significant; q = Benjamini-Hochberg adjusted P value. Values at right: OR (95\% CI) and q. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest_within_study.png}
+\caption{Within-study odds ratios for NAION (count-weighted logistic
+regression with study fixed effects, so each estimate compares patients
+within the same study). Points = odds ratio, lines = 95\% CI, log scale;
+dashed line = no association. Blue, q \textless{} 0.05; grey, not
+significant; q = Benjamini-Hochberg adjusted P value. Values at right:
+OR (95\% CI) and q. Remaining abbreviations and variable names:
+Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={Most precise published ratio estimate per study (smallest standard error), as reported by the authors (hazard, odds, risk or incidence rate ratios; not directly interchangeable). Points = estimate (size proportional to precision), lines = 95\% CI, log scale; dashed line = 1. Labels: first author, year (population). T2D, type 2 diabetes; IIH, idiopathic intracranial hypertension. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest.png}
+\caption{Most precise published ratio estimate per study (smallest
+standard error), as reported by the authors (hazard, odds, risk or
+incidence rate ratios; not directly interchangeable). Points = estimate
+(size proportional to precision), lines = 95\% CI, log scale; dashed
+line = 1. Labels: first author, year (population). T2D, type 2 diabetes;
+IIH, idiopathic intracranial hypertension. Remaining abbreviations and
+variable names: Nomenclature appendix.}\label{fig:forestpub}
+\end{figure}
+
+\section{Threshold metrics (hold-out; P values against
+chance)}\label{threshold-metrics-hold-out-p-values-against-chance}
+
+\begin{table}[!htbp]\centering\caption{Threshold metrics on the 90\% hold-out with P values against chance.
+Thresholds: Youden = maximizes sensitivity + specificity - 1; Top 10\% /
+Top 20\% = flags the top 10\% or 20\% of training risk. Sens,
+sensitivity; Spec, specificity; Acc, accuracy; P vs NIR = accuracy
+versus the no-information rate; PPV versus prevalence (P vs prev); NPV,
+negative predictive value; LR+, positive likelihood ratio; NB, net
+benefit at the threshold probability; NB treat-all, net benefit of
+treating everyone. Remaining abbreviations and variable names:
+Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllllllllllllll}\toprule
+Model & Threshold & AUROC & Sens & P & Spec & P & Acc & P vs NIR & PPV & P vs prev & NPV & P & LR+ & NB & NB treat-all \\
+\midrule
+logreg & Youden & 0.6275 & 0.808 & \textless0.001 & 0.3958 & 0.377 & 0.396 & 1 & 0.000587 & \textless0.001 & 0.9998 & \textless0.001 & 1.3373 & 9.97e-05 & 1.7e-05 \\
+logreg & Top 10\% & 0.6275 & 0.2167 & \textless0.001 & 0.8697 & 0.424 & 0.8694 & 1 & 0.00073 & \textless0.001 & 0.9996 & \textless0.001 & 1.6631 & 3.73e-05 & -4.75e-06 \\
+logreg & Top 20\% & 0.6275 & 0.3769 & \textless0.001 & 0.764 & 0.402 & 0.7638 & 1 & 0.000701 & \textless0.001 & 0.9996 & \textless0.001 & 1.5969 & 6.19e-05 & 3.39e-07 \\
+rf & Youden & 0.6421 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 9.86e-05 & -4.56e-06 \\
+rf & Top 10\% & 0.6421 & 0.2051 & \textless0.001 & 0.9309 & 0.344 & 0.9305 & 1 & 0.0013 & \textless0.001 & 0.9996 & \textless0.001 & 2.9667 & 5.04e-05 & -0.000134 \\
+rf & Top 20\% & 0.6421 & 0.3444 & \textless0.001 & 0.7934 & 0.399 & 0.7932 & 1 & 0.000731 & \textless0.001 & 0.9996 & \textless0.001 & 1.6674 & 4.17e-05 & -9.08e-05 \\
+xgb & Youden & 0.6569 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 0.000108 & 1.51e-05 \\
+xgb & Top 10\% & 0.6569 & 0.3235 & \textless0.001 & 0.85 & 0.358 & 0.8498 & 1 & 0.000946 & \textless0.001 & 0.9997 & \textless0.001 & 2.1572 & 4.31e-05 & -0.00022 \\
+xgb & Top 20\% & 0.6569 & 0.3754 & \textless0.001 & 0.7935 & 0.377 & 0.7933 & 1 & 0.000797 & \textless0.001 & 0.9997 & \textless0.001 & 1.8177 & 3.53e-05 & -0.000188 \\
+ensemble & Youden & 0.6568 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 9.73e-05 & -7.17e-06 \\
+ensemble & Top 10\% & 0.6568 & 0.3289 & \textless0.001 & 0.8449 & 0.359 & 0.8446 & 1 & 0.00093 & \textless0.001 & 0.9997 & \textless0.001 & 2.1204 & 5.77e-05 & -0.00012 \\
+ensemble & Top 20\% & 0.6568 & 0.3808 & \textless0.001 & 0.7883 & 0.378 & 0.7881 & 1 & 0.000789 & \textless0.001 & 0.9997 & \textless0.001 & 1.799 & 5.49e-05 & -9.12e-05 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]\centering\caption{Threshold metrics across ten folds (mean). Thresholds: T1\_youden =
+maximizes Youden's J; T2\_top10pct and T3\_top20pct = flag the top 10\%
+or 20\% of training risk. *\_mean = mean over folds; lr\_pos = positive
+likelihood ratio; flagged\_frac = share of patients flagged. Models:
+logreg, rf, xgb, ensemble (mean of members). Remaining abbreviations and
+variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllllllll}\toprule
+model & threshold & auroc\_mean & sensitivity\_mean & specificity\_mean & accuracy\_mean & ppv\_mean & npv\_mean & lr\_pos\_mean & flagged\_frac\_mean \\
+\midrule
+ensemble & T1\_youden & 0.65561 & 0.57248 & 0.62969 & 0.62967 & 0.00069 & 0.99971 & 1.57919 & 0.3704 \\
+ensemble & T2\_top10pct & 0.65561 & 0.31414 & 0.85511 & 0.85487 & 0.00101 & 0.99965 & 2.31932 & 0.14497 \\
+ensemble & T3\_top20pct & 0.65561 & 0.42501 & 0.76448 & 0.76433 & 0.0008 & 0.99967 & 1.82865 & 0.2356 \\
+logreg & T1\_youden & 0.61586 & 0.55674 & 0.61235 & 0.61233 & 0.00064 & 0.99969 & 1.47306 & 0.38772 \\
+logreg & T2\_top10pct & 0.61586 & 0.25847 & 0.8481 & 0.84784 & 0.00075 & 0.99962 & 1.72242 & 0.15195 \\
+logreg & T3\_top20pct & 0.61586 & 0.36911 & 0.76226 & 0.76209 & 0.00068 & 0.99964 & 1.55374 & 0.2378 \\
+rf & T1\_youden & 0.64577 & 0.59429 & 0.60213 & 0.60213 & 0.00066 & 0.99971 & 1.52031 & 0.39796 \\
+rf & T2\_top10pct & 0.64577 & 0.3105 & 0.8459 & 0.84567 & 0.00096 & 0.99965 & 2.20604 & 0.15417 \\
+rf & T3\_top20pct & 0.64577 & 0.40869 & 0.76917 & 0.76901 & 0.0008 & 0.99967 & 1.83686 & 0.23091 \\
+xgb & T1\_youden & 0.65646 & 0.59262 & 0.61114 & 0.61113 & 0.00068 & 0.99971 & 1.55053 & 0.38895 \\
+xgb & T2\_top10pct & 0.65646 & 0.3522 & 0.8204 & 0.8202 & 0.00087 & 0.99966 & 2.00968 & 0.17967 \\
+xgb & T3\_top20pct & 0.65646 & 0.43888 & 0.75359 & 0.75345 & 0.00078 & 0.99968 & 1.79597 & 0.24649 \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\section{Case-level phenotyping and study-level
+meta-regression}\label{case-level-phenotyping-and-study-level-meta-regression}
+
+Among 18 NAION case patients (median age 47; 69\% men; 15 semaglutide, 2
+tirzepatide, 1 liraglutide; median onset 24 weeks), k-means, Gaussian
+mixture and Ward clustering found no stable multi-patient phenotype: the
+best solution (k=2, silhouette 0.41) isolated a single tirzepatide case.
+A random-forest meta-regression of 148 published estimates from 25
+studies did not predict effect size in held-out studies (grouped
+cross-validated R\textsuperscript{2} -0.06).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio,alt={Case-report phenotypes: NAION case patients from case reports and series projected onto the first two principal components (PC1, PC2; percentage of variance explained in parentheses) of standardized clinical features. Colours = k-means clusters at the best silhouette solution (k = 2); one cluster contains a single tirzepatide-treated patient, so no stable multi-patient phenotype was found. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_case_phenotypes_pca.png}
+\caption{Case-report phenotypes: NAION case patients from case reports
+and series projected onto the first two principal components (PC1, PC2;
+percentage of variance explained in parentheses) of standardized
+clinical features. Colours = k-means clusters at the best silhouette
+solution (k = 2); one cluster contains a single tirzepatide-treated
+patient, so no stable multi-patient phenotype was found. Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). Features describe the publication: dataset\_ (data source, e.g., danish = Danish registries, trinetx = TriNetX network, medicare = Medicare claims), design\_ (cohort or target-trial emulation), comparator\_cls\_ (comparator class), exposure\_drug\_ (exposure drug), followup (years) and followup\_missing (not reported). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_meta_shap.png}
+\caption{SHAP summary for the random-forest meta-regression of 148
+published log ratio estimates from 25 studies. Each dot is one published
+estimate; the x-axis is its SHAP value on the log-ratio scale; colour is
+the feature value (red = 1 or high, blue = 0 or low). Features describe
+the publication: dataset\_ (data source, e.g., danish = Danish
+registries, trinetx = TriNetX network, medicare = Medicare claims),
+design\_ (cohort or target-trial emulation), comparator\_cls\_
+(comparator class), exposure\_drug\_ (exposure drug), followup (years)
+and followup\_missing (not reported). Remaining abbreviations and
+variable names: Nomenclature appendix.}
+\end{figure}
+
+\section{Graph neural networks}\label{graph-neural-networks-1}
+
+The GraphSAGE GNN reached an AUROC of 0.649 \ensuremath{\pm} 0.014 across the 10 folds,
+not different from XGBoost on identical splits (difference -0.0077;
+P=0.779), with O/E 1.01. In leave-one-study-out validation its AUROC was
+0.531 (P=0.034 vs 0.5). Integrated-gradient attributions ranked therapy,
+data source and region highest, mirroring SHAP.
+
+Nested tuning over 366 GNN configurations selected a SAGE network of
+depth 6 with k=20 neighbours, uniform edge weighting and same-study
+weight 5.0; on the untouched folds it differed from the default network
+by 0.0006 AUROC (P=0.948).
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Graph neural network tuning, evaluated on untouched folds 5 to 9 (AUROC). (A) Network depth (1 to 6 message-passing layers) by edge weighting: uniform = all k-nearest-neighbour edges weight 1; gauss0.5, gauss1, gauss2 = Gaussian kernel of feature distance with bandwidth 0.5, 1 or 2; dashed = graph attention network (GAT) with learned weights. (B) Weight of same-study edges as a multiple of a k-nearest-neighbour edge. (C) Number of neighbours per node (k). Points = mean; bars = SD across folds. All differences are smaller than 0.002 AUROC. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_gnn_depth_weights.png}
+\caption{Graph neural network tuning, evaluated on untouched folds 5 to
+9 (AUROC). (A) Network depth (1 to 6 message-passing layers) by edge
+weighting: uniform = all k-nearest-neighbour edges weight 1; gauss0.5,
+gauss1, gauss2 = Gaussian kernel of feature distance with bandwidth 0.5,
+1 or 2; dashed = graph attention network (GAT) with learned weights. (B)
+Weight of same-study edges as a multiple of a k-nearest-neighbour edge.
+(C) Number of neighbours per node (k). Points = mean; bars = SD across
+folds. All differences are smaller than 0.002 AUROC. Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\section{Ensembles (including the
+GNN)}\label{ensembles-including-the-gnn}
+
+Among 11 member combinations \ensuremath{\times} 3 combiners, the best ensemble
+(cross\_family(pubmed+hybrid+synthetic), mean) reached AUROC 0.657, a
+difference of 0.0010 from the best single model (q=1.000).
+
+\section{Synthetic digital twins (factorial grid with local
+refinement)}\label{synthetic-digital-twins-factorial-grid-with-local-refinement}
+
+In the XGBoost grid (5,310 fits), no hybrid cell improved AUROC over
+PubMed-only training (0 of 162 cells with a confidence interval above
+zero); the best hybrid changed AUROC by 0.0009 (95\% CI, -0.0004 to
+0.0022), synthetic-only training with twins fitted to real data lost
+0.010, and twins built only from published priors reached AUROC values
+near 0.55. Adding twins beyond about 9 to 27 times the real training
+size reduced performance.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Synthetic-data grid (Stage 2, XGBoost): change in AUROC versus PubMed-only training on the same split (mean and 95\% CI over grid cells and seeds). Left, by synthetic volume (multiples of the real training size); right, by synthetic share of the training set. Blue, marginal generator; orange, Gaussian-copula generator; green, structural (logistic) generator. Dashed line = no change; values below zero mean synthetic data reduced discrimination. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_volume_share_response.png}
+\caption{Synthetic-data grid (Stage 2, XGBoost): change in AUROC versus
+PubMed-only training on the same split (mean and 95\% CI over grid cells
+and seeds). Left, by synthetic volume (multiples of the real training
+size); right, by synthetic share of the training set. Blue, marginal
+generator; orange, Gaussian-copula generator; green, structural
+(logistic) generator. Dashed line = no change; values below zero mean
+synthetic data reduced discrimination. Remaining abbreviations and
+variable names: Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Synthetic-data grid at 9x volume: change in AUROC versus PubMed-only training (colour; red = worse, blue = better) by synthetic share of the training set (columns) and percentage of real PubMed data held out for testing (rows), for each generator. Training sets made entirely of synthetic data (100\% share) lose the most. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_heatmap_share_heldout_V9.png}
+\caption{Synthetic-data grid at 9x volume: change in AUROC versus
+PubMed-only training (colour; red = worse, blue = better) by synthetic
+share of the training set (columns) and percentage of real PubMed data
+held out for testing (rows), for each generator. Training sets made
+entirely of synthetic data (100\% share) lose the most. Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+Across the full factorial grid (45,360 configurations), 4452 hybrid or
+synthetic configurations improved discrimination over PubMed-only
+training after Benjamini-Hochberg correction.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Full factorial experiment: AUROC on held-out real PubMed data versus the real training fraction, for each model. Black, PubMed-only training; orange, best hybrid (real plus synthetic) configuration; blue, best synthetic-only configuration; both selected as the best of the grid and therefore optimistic. Purple diamond at 0\% real data: synthetic-only training from published priors alone. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_learning_curves_families.png}
+\caption{Full factorial experiment: AUROC on held-out real PubMed data
+versus the real training fraction, for each model. Black, PubMed-only
+training; orange, best hybrid (real plus synthetic) configuration; blue,
+best synthetic-only configuration; both selected as the best of the grid
+and therefore optimistic. Purple diamond at 0\% real data:
+synthetic-only training from published priors alone. Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Full factorial experiment: main effect of each design factor on AUROC relative to PubMed-only training (mean change and 95\% CI, averaged over all other factors), by model (blue, logistic regression; orange, random forest; green, XGBoost; purple, mean ensemble). Generator set: Marg = marginal, Cop = Gaussian copula, Struct = structural (logistic), joined by + when combined. Prior source: real = fitted to the real training split; prior = published estimates only; blend = 50/50. Volume = synthetic records as a multiple of the real training size. Synthetic share = percentage of the training set that is synthetic. Dashed line = no change. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_main_effects.png}
+\caption{Full factorial experiment: main effect of each design factor on
+AUROC relative to PubMed-only training (mean change and 95\% CI,
+averaged over all other factors), by model (blue, logistic regression;
+orange, random forest; green, XGBoost; purple, mean ensemble). Generator
+set: Marg = marginal, Cop = Gaussian copula, Struct = structural
+(logistic), joined by + when combined. Prior source: real = fitted to
+the real training split; prior = published estimates only; blend =
+50/50. Volume = synthetic records as a multiple of the real training
+size. Synthetic share = percentage of the training set that is
+synthetic. Dashed line = no change. Remaining abbreviations and variable
+names: Nomenclature appendix.}
+\end{figure}
+
+\section{Model summary}\label{model-summary}
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1179}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0769}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1590}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0718}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0359}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1077}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0974}}@{}}
+\caption{Model performance by family. AUROC 10/90 = trained on 10\%,
+tested on 90\%; AUROC 10x10\% folds = mean \ensuremath{\pm} SD over ten disjoint folds;
+AUROC LOSO = leave-one-study-out; O/E = observed/expected events;
+Sens/Spec and PPV/NPV at the top-10\% threshold; hybrid = real plus
+synthetic training data; synthetic only = no real training data; priors
+= published estimates used to generate synthetic data. Remaining
+abbreviations and variable names: Nomenclature
+appendix.\label{tbl:models}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Training data
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10/90
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10\ensuremath{\times}10\% folds
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC LOSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+O/E
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sens/Spec top 10\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PPV/NPV top 10\%
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Training data
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10/90
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10\ensuremath{\times}10\% folds
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC LOSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+O/E
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sens/Spec top 10\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PPV/NPV top 10\%
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Logistic regression (L2) & PubMed only & 0.627 & 0.616 \ensuremath{\pm} 0.010 & 0.528 &
+1.01 & 0.26/0.85 & 0.075\%/99.96\% \\
+Random forest & PubMed only & 0.642 & 0.646 \ensuremath{\pm} 0.014 & 0.531 & 1.00 &
+0.31/0.85 & 0.096\%/99.96\% \\
+XGBoost & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & 0.534 & 1.00 & 0.35/0.82
+& 0.087\%/99.97\% \\
+Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & --- &
+--- & 0.31/0.86 & 0.101\%/99.97\% \\
+GNN (GraphSAGE, 2 layers) & PubMed only & 0.647 & 0.649 \ensuremath{\pm} 0.014 & 0.531
+& 1.01 & 0.35/0.82 & 0.086\%/99.97\% \\
+GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only
+& --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
+xgb --- pubmed only & PubMed only & --- & 0.667 (all fractions) & --- &
+1.00 & --- & --- \\
+xgb --- hybrid (copula + structural generators, published priors, 100\ensuremath{\times},
+10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- & 1.01 &
+--- & --- \\
+ensemble --- synthetic only (copula generator, real-data priors, 9\ensuremath{\times},
+100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) & --- &
+1.01 & --- & --- \\
+ensemble --- synthetic only, 0\% real (copula generator, 100\ensuremath{\times}) &
+Published priors only & --- & 0.569 (all real data as test) & --- & 1.11
+& --- & --- \\
+Ensemble cross\_family(pubmed+hybrid+synthetic) (mean) & PubMed only &
+--- & 0.657 \ensuremath{\pm} 0.010 & --- & 1.01 & --- & --- \\
+Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.008 & --- &
+1.00 & --- & --- \\
+\end{longtable}
+}
+
+\section{Data modalities and multimodal
+feasibility}\label{data-modalities-and-multimodal-feasibility}
+
+\begin{table}[!htbp]\centering\caption{Data modalities available for modelling and their use. CNN,
+convolutional neural network; Grad-CAM, gradient-weighted class
+activation mapping; OCT, optical coherence tomography. Remaining
+abbreviations and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llll}\toprule
+Modality & Available & Amount & Use / feasibility \\
+\midrule
+Structured tabular (categorical + numeric) & Yes & 3.27 million reconstructed patients & All supervised, graph, CNN-1D and twin models \\
+Free text (abstracts, full texts) & Yes & 169 records; 60 full texts & Extraction only; too few labelled patients for text models \\
+Images (fundus, OCT, visual fields, MRI) & Figures only & about 6 patients with pre/post figures & Not trainable; 2D/3D CNN + Grad-CAM pipeline prepared \\
+3D volumes (OCT cubes) & No & 0 & Not available \\
+Video / time series & No & 0 & Not available \\
+\bottomrule\end{tabular}}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Background-risk models trained only on non-users and applied to GLP-1 receptor agonist users. (A) AUROC per fold: blue, internal validation in held-out non-users; orange, external validation in GLP-1RA users; dashed line = chance. (B) Observed/expected (O/E) NAION events in GLP-1RA users (mean and 95\% CI); values above the dashed line at 1 mean the non-user model under-predicts risk in users. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; Ens., mean ensemble. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_stage7_external.png}
+\caption{Background-risk models trained only on non-users and applied to
+GLP-1 receptor agonist users. (A) AUROC per fold: blue, internal
+validation in held-out non-users; orange, external validation in GLP-1RA
+users; dashed line = chance. (B) Observed/expected (O/E) NAION events in
+GLP-1RA users (mean and 95\% CI); values above the dashed line at 1 mean
+the non-user model under-predicts risk in users. LR, logistic
+regression; RF, random forest; XGB, XGBoost; GNN, graph neural network;
+Ens., mean ensemble. Remaining abbreviations and variable names:
+Nomenclature appendix.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Fine-tuning a non-user model for GLP-1RA users: AUROC in held-out GLP-1RA users versus the percentage of GLP-1RA users used for fine-tuning, by fine-tuning data source (real, synthetic or hybrid). Lines = update methods: recal intercept / recal logistic = intercept-only or intercept-and-slope recalibration; xgb continue = continued boosting; gnn joint = graph network trained jointly; pooled refit = refit on pooled data; glp only = model trained on GLP-1RA users only. Dashed line = pretrained non-user model without update. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_finetune.png}
+\caption{Fine-tuning a non-user model for GLP-1RA users: AUROC in
+held-out GLP-1RA users versus the percentage of GLP-1RA users used for
+fine-tuning, by fine-tuning data source (real, synthetic or hybrid).
+Lines = update methods: recal intercept / recal logistic =
+intercept-only or intercept-and-slope recalibration; xgb continue =
+continued boosting; gnn joint = graph network trained jointly; pooled
+refit = refit on pooled data; glp only = model trained on GLP-1RA users
+only. Dashed line = pretrained non-user model without update. Remaining
+abbreviations and variable names: Nomenclature appendix.}
+\end{figure}
+
+\section{Reporting checklist}\label{reporting-checklist}
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1714}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8286}}@{}}
+\caption{TRIPOD+AI reporting items (Transparent Reporting of a
+multivariable prediction model for Individual Prognosis Or Diagnosis, AI
+extension) and where each is addressed. Remaining abbreviations and
+variable names: Nomenclature appendix.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+TRIPOD+AI domain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where addressed
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+TRIPOD+AI domain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where addressed
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Title/abstract & Identifies prediction-model development with ML on
+published aggregate evidence; structured abstract \\
+Background/objectives & Introduction: intended use = research risk
+stratification; future use = antiplatelet selection (not yet
+supported) \\
+Data source & Methods: PubMed search, extraction schema, pseudo-IPD
+reconstruction \\
+Participants & Table~\ref{tbl:cohorts}: 11 non-overlapping cohorts;
+eligibility = exposed/comparator counts for both arms \\
+Outcome & NAION (or ischemic optic neuropathy where only ION reported;
+flagged as a feature) \\
+Predictors & Therapy, exposure, indication, region, data source,
+follow-up, study mean age, \% female \\
+Sample size & 3,271,499 reconstructed patients, 1,425 events \\
+Missing data & Study-level medians with missingness indicators \\
+Analysis/models & LR, RF, XGBoost, GNN (GraphSAGE/GAT), ensembles;
+synthetic twins \\
+Validation & 10/90 hold-out, 10 disjoint 10\% folds, training-fraction
+sweep, leave-one-study-out, nested GNN tuning \\
+Performance measures & AUROC, PR-AUC, Brier, calibration slope, O/E,
+sensitivity, specificity, accuracy, PPV, NPV, net benefit \\
+Explainability & SHAP with permutation tests; integrated gradients for
+GNN \\
+Fairness & Sex and age examined at study level only; patient-level
+fairness not assessable \\
+Limitations & Ecological features; no patient-level covariates; no
+imaging; not prospectively validated \\
+Code/data availability & Extraction files, code and results deposited
+with the preprint \\
+\end{longtable}
+}
+
+\section{Threshold metrics: advantages and limitations of the best
+model}\label{threshold-metrics-advantages-and-limitations-of-the-best-model}
+
+(train 10\% / test 90\%), mean \ensuremath{\pm} SD, unless stated.
+
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Best model (XGBoost)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+vs chance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reads as
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AUROC & 0.657 (hold-out; 95\% CI \ensuremath{\approx}0.64--0.67); 0.657 \ensuremath{\pm} 0.011 over folds
+& p \textless{} 1e-70 vs 0.5 & Advantage: signal is real and
+reproducible. Limitation: modest; leave-one-study-out falls to 0.535 (p
+= 0.02 vs 0.5), so most signal is setting, not patient \\
+Sensitivity & 0.59 \ensuremath{\pm} 0.10 (Youden); 0.35 (top 10\%); 0.44 (top 20\%) &
+all p \textless{} 1e-40 vs flag rate & Advantage: flags a 1.5--2\ensuremath{\times} larger
+share of events than random. Limitation: misses 40--65\% of events, so
+it cannot serve as a rule-out screen \\
+Specificity & 0.61 (Youden); 0.82 (top 10\%); 0.75 (top 20\%) & p \ensuremath{\approx}
+0.36--0.42 vs 1 \ensuremath{-} flag rate & Limitation: no better than chance at the
+same flag rate. With 99.96\% non-events, specificity mostly reflects how
+many people are flagged \\
+Accuracy & 0.61--0.85 & below the 0.9996 no-information rate (p = 1) &
+Limitation by construction: with 0.044\% prevalence, calling everyone
+``no NAION'' is 99.96\% accurate. Report it but don't use it for model
+choice \\
+PPV & 0.07\% (Youden) -- 0.09\% (top 10\%); prevalence 0.044\% & p
+\textless{} 1e-28 vs prevalence & Advantage: about 2\ensuremath{\times} enrichment (LR+
+1.5--2.2). Limitation: absolute PPV \textless{} 0.1\%, so about 1 in
+1,000--1,500 flagged patients develops NAION. Any intervention given to
+all flagged patients exposes about 1,000 patients per event \\
+NPV & 99.97\% & p \textless{} 1e-12 vs 1 \ensuremath{-} prevalence & Mostly reflects
+the low prevalence (baseline 99.956\%). Advantage only for reassurance
+messaging; not evidence of safety \\
+Net benefit & \textgreater{} treat-all and \textgreater{} treat-none at
+the trained thresholds & --- & Advantage only at threshold probabilities
+\ensuremath{\approx} 0.03--0.1\%, i.e.~for near-harmless actions (dilated exam / OCT of the
+disc, counselling, slower dose escalation). Not for antiplatelet
+therapy, whose bleeding risk implies a far higher treatment threshold \\
+\end{longtable}
+}
+
+\subsection{Model-vs-model}\label{model-vs-model}
+
+\begin{itemize}
+\tightlist
+\item
+  k-fold corrected resampled t-test: no metric differs between XGBoost,
+  RF, LR or the mean ensemble (all q \ensuremath{\geq} 0.99).
+\item
+  McNemar on the hold-out gives p \ensuremath{\approx} 0. That reflects millions of
+  patients and the differing flag rates at each threshold, not better
+  ranking. Interpret only alongside the matched-flag-rate comparison.
+\item
+  Predictions take few distinct values, because the reconstructed data
+  have about 48 covariate patterns. So percentile thresholds are coarse:
+  the realised flag rate for ``top 10\%'' was 14--18\%. This is a key
+  limitation; patient-level features would fix it.
+\end{itemize}
+
+\subsection{Implication for the intended use (antiplatelet
+selection)}\label{implication-for-the-intended-use-antiplatelet-selection}
+
+\begin{itemize}
+\tightlist
+\item
+  At PPV \textless{} 0.1\%, an antiplatelet given to everyone flagged
+  would treat about 1,000 people per NAION event that occurs, before any
+  treatment effect is considered. Antiplatelet benefit for NAION is
+  unproven.
+\item
+  The score in its current form supports research enrichment (choosing
+  whom to examine or enrol), not treatment selection. Prospective,
+  patient-level validation plus a risk-stratified trial are required.
+\end{itemize}
 
 \section{Long result tables}
 
@@ -1111,9 +2341,12 @@ Patient-level prospective data are the necessary next step.
   >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0949}}
   >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1022}}
   >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0365}}@{}}
-\caption{AUROC with and without partial ABCD2 features in every
-experiment (paired, identical splits; q,
-Benjamini-Hochberg).}\tabularnewline
+\caption{AUROC with and without partial ABCD2 features (study-level age,
+hypertension and diabetes items) in every experiment, on identical
+splits. Difference = with minus without; q = Benjamini-Hochberg adjusted
+P value of the paired test. Experiment names refer to the Stages in
+Methods; model labels are defined in the Nomenclature. Remaining
+abbreviations and variable names: Nomenclature appendix.}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Experiment
@@ -1879,700 +3112,9 @@ Stage 3: full factorial & all 45744 configurations & 0.6406 & 0.6417 &
 \end{longtable}
 }
 
-\section{Data inventory and
-modalities}\label{data-inventory-and-modalities}
-
-\begin{table}[!htbp]\centering\caption{Data sources by type and modality. Structured tabular data (categorical
-and numeric) were the only modality usable for modelling; imaging
-existed only as figures in case reports and no video was located.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{lllllll}\toprule
-Source & Data type & Modalities & No.~of modalities & Records & Patients & Used in \\
-\midrule
-PubMed bibliographic records & unstructured text (title, abstract) + metadata & text & 1 & 169 & --- & screening, extraction \\
-PMC open-access full texts & unstructured text + embedded tables & text, tabular & 2 & 60 & --- & extraction \\
-Cohort / case-control studies (extracted) & structured tabular: categorical + numeric counts/effects & categorical, numeric & 2 & 166 & --- & pseudo-IPD (Stage 1), meta-regression, twin generators \\
-Reconstructed pseudo-IPD & structured tabular (count-weighted patient rows) & categorical, numeric, binary outcome & 2 & 48 & 3,271,499 & Stage 1 supervised ML, Stage 2 test sets \\
-Case reports / series (extracted) & structured tabular from narrative text & categorical, numeric, free-text notes & 3 & 20 & 20 & unsupervised phenotyping \\
-Case-report ophthalmic imaging (figures only, not analysed as pixels) & image (fundus photo, OCT RNFL/GCIPL, visual fields, MRI) & image & 1 & 17 & 8 & inventory only (pre/post pairs counted); insufficient n for CV/DL \\
-Pharmacovigilance (FAERS, VigiBase, EudraVigilance) & structured tabular (disproportionality statistics) & categorical, numeric & 2 & 25 & --- & external priors, discussion \\
-RCT-pooled analyses and meta-analyses & structured tabular (pooled estimates) & categorical, numeric & 2 & 44 & --- & external priors for synthetic-only (h=100\%) generators \\
-Video & - & none located & 0 & 0 & 0 & - \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{Reconstructed cohorts.\label{tbl:cohorts}}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
-Study & Setting & Region & Population & Exposure & Comparator & Exposed, events/N & Comparator, events/N \\
-\midrule
-Hathaway 2024 \cite{p38958939} & Single center & US & T2D & Semaglutide & Other antidiabetic & 46/555 & 23/1,134 \\
-Grauslund 2024 \cite{p39696569} & National registry & Nordic & T2D & Semaglutide & No GLP-1RA & 67/106,454 & 151/317,698 \\
-Simonsen 2025 \cite{p40098249} & National registry & Nordic & T2D & Semaglutide & SGLT2i & 8/16,860 & 7/34,153 \\
-Hsu 2025 \cite{p40146102} & EHR network & US & T2D & Semaglutide & Other antidiabetic & 45/174,584 & 29/174,584 \\
-Wang 2025 \cite{p40788646} & EHR network & US & T2D & Semaglutide or tirzepatide & Other antidiabetic & 35/79,699 & 19/79,699 \\
-Ramsey 2025 \cite{p40788647} & EHR network & US & T2D & GLP-1RA class & No GLP-1RA & 96/185,066 & 79/185,066 \\
-Tesfaye 2026 \cite{p41104517} & Claims & US & T2D & GLP-1RA class & SGLT2i & 270/482,912 & 144/482,912 \\
-Heberer 2026 \cite{p41678180} & VA EHR & US & T2D & Semaglutide & SGLT2i & 30/11,478 & 143/90,883 \\
-Noh 2026 \cite{p41701611} & Primary-care EHR & UK & T2D & GLP-1RA class & DPP-4i & 14/106,858 & 53/416,369 \\
-Al-Harbi 2026 \cite{p41994958} & EHR network & US & IIH & GLP-1RA class & No GLP-1RA & 12/15,559 & 28/15,560 \\
-Ueda 2026 \cite{p42441962} & National registry & Nordic & T2D & GLP-1RA class & SGLT2i & 62/107,518 & 64/185,898 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\section{PubMed-only supervised
-models}\label{pubmed-only-supervised-models}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={AUROC and PR-AUC across ten disjoint 10\% training folds.}]{figures/fig_kfold.png}
-\caption{AUROC and PR-AUC across ten disjoint 10\% training folds.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Training-fraction sweep (10\% to 90\%, 10 repeats each): AUROC, O/E and SHAP-rank stability (Kendall W).}]{figures/fig_train_fraction_curves.png}
-\caption{Training-fraction sweep (10\% to 90\%, 10 repeats each): AUROC,
-O/E and SHAP-rank stability (Kendall W).}
-\end{figure}
-
-\begin{table}[!htbp]\centering\caption{Training-fraction sweep (mean over 10 repeats).}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{lllllllll}\toprule
-model & train\_frac & auroc & auroc\_sd & pr\_auc & brier & cal\_slope & o\_e & o\_e\_sd \\
-\midrule
-logreg & 10\% & 0.6122 & 0.0127 & 0.0007 & 0.0004 & 0.9831 & 1.0125 & 0.0471 \\
-logreg & 20\% & 0.6257 & 0.0174 & 0.0011 & 0.0004 & 0.9851 & 0.9944 & 0.0779 \\
-logreg & 30\% & 0.6259 & 0.0093 & 0.001 & 0.0004 & 0.9849 & 1.0013 & 0.0861 \\
-logreg & 40\% & 0.628 & 0.0085 & 0.0009 & 0.0004 & 1.0021 & 0.8647 & 0.0313 \\
-logreg & 50\% & 0.6394 & 0.0131 & 0.0008 & 0.0004 & 0.9942 & 0.93 & 0.0418 \\
-logreg & 60\% & 0.6374 & 0.0087 & 0.0009 & 0.0004 & 1.0002 & 0.879 & 0.0345 \\
-logreg & 70\% & 0.626 & 0.0125 & 0.0013 & 0.0004 & 1.0084 & 0.8244 & 0.0422 \\
-logreg & 80\% & 0.6345 & 0.0109 & 0.0015 & 0.0004 & 1.005 & 0.8498 & 0.0365 \\
-logreg & 90\% & 0.6313 & 0.0118 & 0.0035 & 0.0004 & 1.0018 & 0.8719 & 0.0921 \\
-rf & 10\% & 0.6475 & 0.0074 & 0.0008 & 0.0004 & 0.9823 & 1.0141 & 0.0565 \\
-rf & 20\% & 0.6567 & 0.0063 & 0.001 & 0.0004 & 0.9864 & 0.9907 & 0.0697 \\
-rf & 30\% & 0.6625 & 0.0082 & 0.0009 & 0.0004 & 0.9869 & 0.9895 & 0.0842 \\
-rf & 40\% & 0.6618 & 0.0069 & 0.0009 & 0.0004 & 0.9844 & 1.0004 & 0.0509 \\
-rf & 50\% & 0.6623 & 0.0071 & 0.0009 & 0.0004 & 0.9877 & 0.9742 & 0.031 \\
-rf & 60\% & 0.6656 & 0.0062 & 0.0009 & 0.0004 & 0.9861 & 0.9876 & 0.0443 \\
-rf & 70\% & 0.6592 & 0.0137 & 0.0009 & 0.0004 & 0.9856 & 0.9914 & 0.0632 \\
-rf & 80\% & 0.6647 & 0.0115 & 0.0009 & 0.0004 & 0.9874 & 0.9786 & 0.048 \\
-rf & 90\% & 0.6538 & 0.0217 & 0.0009 & 0.0004 & 0.9891 & 0.9658 & 0.1082 \\
-xgb & 10\% & 0.6542 & 0.0097 & 0.0043 & 0.0004 & 0.9792 & 1.0126 & 0.06 \\
-xgb & 20\% & 0.6617 & 0.0058 & 0.0044 & 0.0004 & 0.9848 & 0.9914 & 0.069 \\
-xgb & 30\% & 0.667 & 0.0066 & 0.0047 & 0.0004 & 0.9864 & 0.9898 & 0.0844 \\
-xgb & 40\% & 0.6704 & 0.0041 & 0.0048 & 0.0004 & 0.9833 & 1.0011 & 0.0513 \\
-xgb & 50\% & 0.6695 & 0.0053 & 0.0047 & 0.0004 & 0.9873 & 0.9737 & 0.0304 \\
-xgb & 60\% & 0.674 & 0.0063 & 0.0054 & 0.0004 & 0.9856 & 0.9872 & 0.0439 \\
-xgb & 70\% & 0.6679 & 0.015 & 0.0051 & 0.0004 & 0.9843 & 0.99 & 0.063 \\
-xgb & 80\% & 0.6733 & 0.0099 & 0.0053 & 0.0004 & 0.9867 & 0.9799 & 0.0475 \\
-xgb & 90\% & 0.6641 & 0.0227 & 0.0053 & 0.0004 & 0.9885 & 0.9621 & 0.1082 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP beeswarm, XGBoost on the 90\% hold-out.}]{figures/fig_shap_beeswarm_xgb.png}
-\caption{SHAP beeswarm, XGBoost on the 90\% hold-out.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP importance across ten folds.}]{figures/fig_shap_kfold_importance.png}
-\caption{SHAP importance across ten folds.}
-\end{figure}
-
-\section{Statistical inference (all P values, Benjamini-Hochberg q
-within
-family)}\label{statistical-inference-all-p-values-benjamini-hochberg-q-within-family}
-
-{\footnotesize
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1879}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.4970}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0424}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0848}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0909}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0485}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0485}}@{}}
-\caption{Within-study (study fixed effects)
-associations.}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Term
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Model
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OR
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-95\% CI low
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-95\% CI high
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-P
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-q
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Term
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Model
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OR
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-95\% CI low
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-95\% CI high
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-P
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-q
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-glp1ra\_exposed & A2 study fixed effects: any GLP-1RA vs comparator &
-1.587 & 1.422 & 1.772 & \textless0.001 & \textless0.001 \\
-exposed\_semaglutide & A2 study FE: exposure by drug & 1.73 & 1.439 &
-2.08 & \textless0.001 & \textless0.001 \\
-exposed\_glp1ra\_class & A2 study FE: exposure by drug & 1.496 & 1.3 &
-1.721 & \textless0.001 & \textless0.001 \\
-exposed\_sema\_or\_tirz & A2 study FE: exposure by drug & 1.842 & 1.054
-& 3.221 & 0.032 & 0.044 \\
-exposed\_t2d & A2 study FE: exposure by indication & 1.622 & 1.448 &
-1.817 & \textless0.001 & \textless0.001 \\
-exposed\_obesity & A2 study FE: exposure by indication & 2.697 & 1.637 &
-4.441 & \textless0.001 & \textless0.001 \\
-exposed\_iih & A2 study FE: exposure by indication & 0.428 & 0.218 &
-0.842 & 0.014 & 0.021 \\
-exposed\_vs\_dpp4i & A2 study FE: exposure by comparator class & 1.029 &
-0.571 & 1.855 & 0.924 & 0.943 \\
-exposed\_vs\_no\_glp1ra & A2 study FE: exposure by comparator class &
-1.143 & 0.936 & 1.394 & 0.189 & 0.236 \\
-exposed\_vs\_other\_antidiabetic & A2 study FE: exposure by comparator
-class & 2.348 & 1.743 & 3.164 & \textless0.001 & \textless0.001 \\
-exposed\_vs\_sglt2i & A2 study FE: exposure by comparator class & 1.806
-& 1.544 & 2.113 & \textless0.001 & \textless0.001 \\
-glp1ra\_exposed & A2 study FE: exposure effect modification (study-level
-age, \% female, follow-up) & 1.411 & 1.244 & 1.602 & \textless0.001 &
-\textless0.001 \\
-exposed\_x\_age\_per\_10y & A2 study FE: exposure effect modification
-(study-level age, \% female, follow-up) & 1.989 & 1.301 & 3.041 & 0.001
-& 0.002 \\
-exposed\_x\_female\_per\_10pct & A2 study FE: exposure effect
-modification (study-level age, \% female, follow-up) & 0.996 & 0.886 &
-1.12 & 0.943 & 0.943 \\
-exposed\_x\_followup\_years & A2 study FE: exposure effect modification
-(study-level age, \% female, follow-up) & 1.021 & 0.945 & 1.103 & 0.595
-& 0.687 \\
-\end{longtable}
-}
-
-\begin{table}[!htbp]\centering\caption{Marginal associations (cluster-robust SE by study; ecological,
-setting-confounded).}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllll}\toprule
-Term & OR & 95\% CI low & 95\% CI high & P & q \\
-\midrule
-therapy\_dpp4i & 1.055 & 0.712 & 1.564 & 0.789 & 0.789 \\
-therapy\_glp1ra\_class & 1.086 & 0.733 & 1.61 & 0.681 & 0.766 \\
-therapy\_other\_antidiabetic & 0.628 & 0.342 & 1.154 & 0.134 & 0.201 \\
-therapy\_other\_antiobesity & 0.123 & 0.096 & 0.156 & \textless0.001 & \textless0.001 \\
-therapy\_sema\_or\_tirz & 1.158 & 0.63 & 2.127 & 0.637 & 0.764 \\
-therapy\_semaglutide & 1.215 & 0.954 & 1.547 & 0.114 & 0.187 \\
-therapy\_sglt2i & 0.614 & 0.424 & 0.89 & 0.010 & 0.023 \\
-indication\_iih & 86.796 & 1.014 & 7429.09 & 0.049 & 0.089 \\
-indication\_obesity & 0.63 & 0.402 & 0.985 & 0.043 & 0.086 \\
-region\_nordic & 1.951 & 1.52 & 2.506 & \textless0.001 & \textless0.001 \\
-region\_uk & 0.213 & 0.182 & 0.25 & \textless0.001 & \textless0.001 \\
-source\_type\_claims & 0.54 & 0.18 & 1.627 & 0.274 & 0.379 \\
-source\_type\_single\_center & 326.045 & 217.289 & 489.235 & \textless0.001 & \textless0.001 \\
-source\_type\_va\_ehr & 0.551 & 0.09 & 3.385 & 0.520 & 0.669 \\
-outcome\_def\_ion & 0.494 & 0.415 & 0.587 & \textless0.001 & \textless0.001 \\
-age\_per\_10y & 1.538 & 0.098 & 24.122 & 0.759 & 0.789 \\
-female\_per\_10pct & 0.499 & 0.301 & 0.828 & 0.007 & 0.018 \\
-followup\_years & 0.756 & 0.697 & 0.82 & \textless0.001 & \textless0.001 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{SHAP permutation tests (B=500).}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{lllll}\toprule
-Feature & Mean & SHAP &  & P (global null) \\
-\midrule
-followup\_years & 0.031 & 0.186 & 0.209 & 0.996 \\
-glp1ra\_exposed & 0.118 & 0.002 & 0.004 & 0.002 \\
-indication & 0.015 & 0.008 & 0.014 & 1 \\
-mean\_age & 0.057 & 0.026 & 0.033 & 0.255 \\
-outcome\_def & 0.011 & 0.228 & 0.228 & 0.03 \\
-pct\_female & 0.112 & 0.002 & 0.004 & 0.146 \\
-region & 0.263 & 0.002 & 0.004 & 0.369 \\
-source\_type & 0.143 & 0.002 & 0.004 & 0.916 \\
-therapy & 0.141 & 0.01 & 0.015 & 0.012 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{Random-effects meta-analysis of published estimates.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
-Analysis & k & Pooled ratio & 95\% CI low & 95\% CI high & I2 & P & q \\
-\midrule
-all studies (most precise estimate each) & 25 & 1.341 & 1.161 & 1.549 & 86.553 & \textless0.001 & \textless0.001 \\
-indication = t2d & 20 & 1.363 & 1.163 & 1.598 & 87.828 & \textless0.001 & \textless0.001 \\
-indication = t2d\_or\_obesity & 2 & 1.859 & 0.764 & 4.525 & 86.938 & 0.172 & 0.229 \\
-subgroup difference by indication & 2 & nan & nan & nan & nan & 0.501 & 0.501 \\
-drug = any\_glp1ra & 15 & 1.302 & 1.128 & 1.504 & 81.066 & \textless0.001 & \textless0.001 \\
-drug = semaglutide & 8 & 1.569 & 1.007 & 2.444 & 91.924 & 0.047 & 0.075 \\
-subgroup difference by drug & 2 & nan & nan & nan & nan & 0.434 & 0.496 \\
-excluding IIH cohort & 24 & 1.38 & 1.196 & 1.592 & 86.354 & \textless0.001 & \textless0.001 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{Demographic contrasts.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllll}\toprule
-Contrast & observed & expected & test & P & q \\
-\midrule
-case reports: male share vs exposed-cohort male share & 0.688 & 0.49 & exact binomial & 0.137 & 0.274 \\
-case reports: age vs exposed-cohort mean age & 47 & 60.15 & Wilcoxon signed-rank vs cohort mean & 0.003 & 0.016 \\
-case reports: obesity indication share vs 50\% & 0.786 & 0.5 & exact binomial & 0.057 & 0.172 \\
-meta-analysis 42612051: age \textless65 vs \textgreater=65 & 2.187 & 1 & z-test of ratio of ratios (from published CIs) & 0.272 & 0.407 \\
-meta-analysis 42612051: female- vs male-dominant cohorts & 0.951 & 1 & z-test of ratio of ratios (from published CIs) & 0.919 & 0.919 \\
-meta-analysis 42612051: diabetes vs obesity indication & 1.095 & 1 & z-test of ratio of ratios (from published CIs) & 0.85 & 0.919 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{Tests of ML experiments.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{lllll}\toprule
-Experiment & estimate & test & P & q \\
-\midrule
-logreg: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.627 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
-rf: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.642 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
-xgb: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.657 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
-xgb vs logreg: AUROC difference (10 x 10\% folds) & 0.041 & Nadeau-Bengio corrected resampled t & 0.218 & 0.277 \\
-xgb vs rf: AUROC difference (10 x 10\% folds) & 0.011 & Nadeau-Bengio corrected resampled t & 0.745 & 0.745 \\
-rf vs logreg: AUROC difference (10 x 10\% folds) & 0.03 & Nadeau-Bengio corrected resampled t & 0.314 & 0.339 \\
-logreg: leave-one-study-out AUROC \textgreater{} 0.5 & 0.51 & Wilcoxon over 11 held-out studies & 0.289 & 0.337 \\
-rf: leave-one-study-out AUROC \textgreater{} 0.5 & 0.532 & Wilcoxon over 11 held-out studies & 0.087 & 0.136 \\
-xgb: leave-one-study-out AUROC \textgreater{} 0.5 & 0.535 & Wilcoxon over 11 held-out studies & 0.021 & 0.037 \\
-logreg: AUROC trend with training fraction (10-90\%) & 0.304 & Spearman (90 runs) & 0.004 & 0.008 \\
-rf: AUROC trend with training fraction (10-90\%) & 0.266 & Spearman (90 runs) & 0.011 & 0.023 \\
-xgb: AUROC trend with training fraction (10-90\%) & 0.389 & Spearman (90 runs) & \textless0.001 & \textless0.001 \\
-Stage 2 hybrid best vs PubMed-only (XGB, paired) & 0.001 & paired z over 27 split/seed pairs & 0.167 & 0.233 \\
-Stage 2 synthetic-only best vs PubMed-only (XGB, paired) & -0.01 & paired z over 27 split/seed pairs & \textless0.001 & \textless0.001 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Within-study odds ratios.}]{figures/fig_forest_within_study.png}
-\caption{Within-study odds ratios.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={Most precise published estimate per study (log scale).}]{figures/fig_forest.png}
-\caption{Most precise published estimate per study (log
-scale).}\label{fig:forestpub}
-\end{figure}
-
-\section{Threshold metrics (hold-out; P values against
-chance)}\label{threshold-metrics-hold-out-p-values-against-chance}
-
-\begin{table}[!htbp]\centering\caption{Sensitivity, specificity, accuracy, PPV and NPV with P values; NIR,
-no-information rate; NB, net benefit at the threshold probability.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllllllllllllll}\toprule
-Model & Threshold & AUROC & Sens & P & Spec & P & Acc & P vs NIR & PPV & P vs prev & NPV & P & LR+ & NB & NB treat-all \\
-\midrule
-logreg & Youden & 0.6275 & 0.808 & \textless0.001 & 0.3958 & 0.377 & 0.396 & 1 & 0.000587 & \textless0.001 & 0.9998 & \textless0.001 & 1.3373 & 9.97e-05 & 1.7e-05 \\
-logreg & Top 10\% & 0.6275 & 0.2167 & \textless0.001 & 0.8697 & 0.424 & 0.8694 & 1 & 0.00073 & \textless0.001 & 0.9996 & \textless0.001 & 1.6631 & 3.73e-05 & -4.75e-06 \\
-logreg & Top 20\% & 0.6275 & 0.3769 & \textless0.001 & 0.764 & 0.402 & 0.7638 & 1 & 0.000701 & \textless0.001 & 0.9996 & \textless0.001 & 1.5969 & 6.19e-05 & 3.39e-07 \\
-rf & Youden & 0.6421 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 9.86e-05 & -4.56e-06 \\
-rf & Top 10\% & 0.6421 & 0.2051 & \textless0.001 & 0.9309 & 0.344 & 0.9305 & 1 & 0.0013 & \textless0.001 & 0.9996 & \textless0.001 & 2.9667 & 5.04e-05 & -0.000134 \\
-rf & Top 20\% & 0.6421 & 0.3444 & \textless0.001 & 0.7934 & 0.399 & 0.7932 & 1 & 0.000731 & \textless0.001 & 0.9996 & \textless0.001 & 1.6674 & 4.17e-05 & -9.08e-05 \\
-xgb & Youden & 0.6569 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 0.000108 & 1.51e-05 \\
-xgb & Top 10\% & 0.6569 & 0.3235 & \textless0.001 & 0.85 & 0.358 & 0.8498 & 1 & 0.000946 & \textless0.001 & 0.9997 & \textless0.001 & 2.1572 & 4.31e-05 & -0.00022 \\
-xgb & Top 20\% & 0.6569 & 0.3754 & \textless0.001 & 0.7935 & 0.377 & 0.7933 & 1 & 0.000797 & \textless0.001 & 0.9997 & \textless0.001 & 1.8177 & 3.53e-05 & -0.000188 \\
-ensemble & Youden & 0.6568 & 0.719 & \textless0.001 & 0.5107 & 0.365 & 0.5108 & 1 & 0.000645 & \textless0.001 & 0.9998 & \textless0.001 & 1.4694 & 9.73e-05 & -7.17e-06 \\
-ensemble & Top 10\% & 0.6568 & 0.3289 & \textless0.001 & 0.8449 & 0.359 & 0.8446 & 1 & 0.00093 & \textless0.001 & 0.9997 & \textless0.001 & 2.1204 & 5.77e-05 & -0.00012 \\
-ensemble & Top 20\% & 0.6568 & 0.3808 & \textless0.001 & 0.7883 & 0.378 & 0.7881 & 1 & 0.000789 & \textless0.001 & 0.9997 & \textless0.001 & 1.799 & 5.49e-05 & -9.12e-05 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{table}[!htbp]\centering\caption{Threshold metrics across ten folds (mean).}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllllllll}\toprule
-model & threshold & auroc\_mean & sensitivity\_mean & specificity\_mean & accuracy\_mean & ppv\_mean & npv\_mean & lr\_pos\_mean & flagged\_frac\_mean \\
-\midrule
-ensemble & T1\_youden & 0.65561 & 0.57248 & 0.62969 & 0.62967 & 0.00069 & 0.99971 & 1.57919 & 0.3704 \\
-ensemble & T2\_top10pct & 0.65561 & 0.31414 & 0.85511 & 0.85487 & 0.00101 & 0.99965 & 2.31932 & 0.14497 \\
-ensemble & T3\_top20pct & 0.65561 & 0.42501 & 0.76448 & 0.76433 & 0.0008 & 0.99967 & 1.82865 & 0.2356 \\
-logreg & T1\_youden & 0.61586 & 0.55674 & 0.61235 & 0.61233 & 0.00064 & 0.99969 & 1.47306 & 0.38772 \\
-logreg & T2\_top10pct & 0.61586 & 0.25847 & 0.8481 & 0.84784 & 0.00075 & 0.99962 & 1.72242 & 0.15195 \\
-logreg & T3\_top20pct & 0.61586 & 0.36911 & 0.76226 & 0.76209 & 0.00068 & 0.99964 & 1.55374 & 0.2378 \\
-rf & T1\_youden & 0.64577 & 0.59429 & 0.60213 & 0.60213 & 0.00066 & 0.99971 & 1.52031 & 0.39796 \\
-rf & T2\_top10pct & 0.64577 & 0.3105 & 0.8459 & 0.84567 & 0.00096 & 0.99965 & 2.20604 & 0.15417 \\
-rf & T3\_top20pct & 0.64577 & 0.40869 & 0.76917 & 0.76901 & 0.0008 & 0.99967 & 1.83686 & 0.23091 \\
-xgb & T1\_youden & 0.65646 & 0.59262 & 0.61114 & 0.61113 & 0.00068 & 0.99971 & 1.55053 & 0.38895 \\
-xgb & T2\_top10pct & 0.65646 & 0.3522 & 0.8204 & 0.8202 & 0.00087 & 0.99966 & 2.00968 & 0.17967 \\
-xgb & T3\_top20pct & 0.65646 & 0.43888 & 0.75359 & 0.75345 & 0.00078 & 0.99968 & 1.79597 & 0.24649 \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\section{Case-level phenotyping and study-level
-meta-regression}\label{case-level-phenotyping-and-study-level-meta-regression}
-
-Among 18 NAION case patients (median age 47; 69\% men; 15 semaglutide, 2
-tirzepatide, 1 liraglutide; median onset 24 weeks), k-means, Gaussian
-mixture and Ward clustering found no stable multi-patient phenotype: the
-best solution (k=2, silhouette 0.41) isolated a single tirzepatide case.
-A random-forest meta-regression of 148 published estimates from 25
-studies did not predict effect size in held-out studies (grouped
-cross-validated R\textsuperscript{2} -0.06).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio,alt={Case-report phenotypes (PCA).}]{figures/fig_case_phenotypes_pca.png}
-\caption{Case-report phenotypes (PCA).}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={SHAP for the study-level meta-regression.}]{figures/fig_meta_shap.png}
-\caption{SHAP for the study-level meta-regression.}
-\end{figure}
-
-\section{Graph neural networks}\label{graph-neural-networks-1}
-
-The GraphSAGE GNN reached an AUROC of 0.649 \ensuremath{\pm} 0.014 across the 10 folds,
-not different from XGBoost on identical splits (difference -0.0077;
-P=0.779), with O/E 1.01. In leave-one-study-out validation its AUROC was
-0.531 (P=0.034 vs 0.5). Integrated-gradient attributions ranked therapy,
-data source and region highest, mirroring SHAP.
-
-Nested tuning over 366 GNN configurations selected a SAGE network of
-depth 6 with k=20 neighbours, uniform edge weighting and same-study
-weight 5.0; on the untouched folds it differed from the default network
-by 0.0006 AUROC (P=0.948).
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={GNN depth, edge weighting, study-link weight and neighbourhood size (untouched folds).}]{figures/fig_gnn_depth_weights.png}
-\caption{GNN depth, edge weighting, study-link weight and neighbourhood
-size (untouched folds).}
-\end{figure}
-
-\section{Ensembles (including the
-GNN)}\label{ensembles-including-the-gnn}
-
-Among 11 member combinations \ensuremath{\times} 3 combiners, the best ensemble
-(cross\_family(pubmed+hybrid+synthetic), mean) reached AUROC 0.657, a
-difference of 0.0010 from the best single model (q=1.000).
-
-\section{Synthetic digital twins (factorial grid with local
-refinement)}\label{synthetic-digital-twins-factorial-grid-with-local-refinement}
-
-In the XGBoost grid (5,310 fits), no hybrid cell improved AUROC over
-PubMed-only training (0 of 162 cells with a confidence interval above
-zero); the best hybrid changed AUROC by 0.0009 (95\% CI, -0.0004 to
-0.0022), synthetic-only training with twins fitted to real data lost
-0.010, and twins built only from published priors reached AUROC values
-near 0.55. Adding twins beyond about 9 to 27 times the real training
-size reduced performance.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Stage 2 XGBoost grid: effect of twin volume and synthetic share (\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}]{figures/fig_volume_share_response.png}
-\caption{Stage 2 XGBoost grid: effect of twin volume and synthetic share
-(\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Stage 2 heatmap: synthetic share \ensuremath{\times} real data held out (9\ensuremath{\times} volume).}]{figures/fig_heatmap_share_heldout_V9.png}
-\caption{Stage 2 heatmap: synthetic share \ensuremath{\times} real data held out (9\ensuremath{\times}
-volume).}
-\end{figure}
-
-Across the full factorial grid (45,360 configurations), 4452 hybrid or
-synthetic configurations improved discrimination over PubMed-only
-training after Benjamini-Hochberg correction.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Full factorial: learning curves by family and model.}]{figures/fig_learning_curves_families.png}
-\caption{Full factorial: learning curves by family and model.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Full factorial: main effects of generator set, prior source, volume and share.}]{figures/fig_main_effects.png}
-\caption{Full factorial: main effects of generator set, prior source,
-volume and share.}
-\end{figure}
-
-\section{Model summary}\label{model-summary}
-
-{\footnotesize
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1179}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0769}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1590}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0718}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0359}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1077}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0974}}@{}}
-\caption{Model performance by family.\label{tbl:models}}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Model
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Training data
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC 10/90
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC 10\ensuremath{\times}10\% folds
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC LOSO
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-O/E
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Sens/Spec top 10\%
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-PPV/NPV top 10\%
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Model
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Training data
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC 10/90
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC 10\ensuremath{\times}10\% folds
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AUROC LOSO
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-O/E
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Sens/Spec top 10\%
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-PPV/NPV top 10\%
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Logistic regression (L2) & PubMed only & 0.627 & 0.616 \ensuremath{\pm} 0.010 & 0.528 &
-1.01 & 0.26/0.85 & 0.075\%/99.96\% \\
-Random forest & PubMed only & 0.642 & 0.646 \ensuremath{\pm} 0.014 & 0.531 & 1.00 &
-0.31/0.85 & 0.096\%/99.96\% \\
-XGBoost & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & 0.534 & 1.00 & 0.35/0.82
-& 0.087\%/99.97\% \\
-Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & --- &
---- & 0.31/0.86 & 0.101\%/99.97\% \\
-GNN (GraphSAGE, 2 layers) & PubMed only & 0.647 & 0.649 \ensuremath{\pm} 0.014 & 0.531
-& 1.01 & 0.35/0.82 & 0.086\%/99.97\% \\
-GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only
-& --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
-xgb --- pubmed only & PubMed only & --- & 0.667 (all fractions) & --- &
-1.00 & --- & --- \\
-xgb --- hybrid (copula + structural generators, published priors, 100\ensuremath{\times},
-10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- & 1.01 &
---- & --- \\
-ensemble --- synthetic only (copula generator, real-data priors, 9\ensuremath{\times},
-100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) & --- &
-1.01 & --- & --- \\
-ensemble --- synthetic only, 0\% real (copula generator, 100\ensuremath{\times}) &
-Published priors only & --- & 0.569 (all real data as test) & --- & 1.11
-& --- & --- \\
-Ensemble cross\_family(pubmed+hybrid+synthetic) (mean) & PubMed only &
---- & 0.657 \ensuremath{\pm} 0.010 & --- & 1.01 & --- & --- \\
-Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.008 & --- &
-1.00 & --- & --- \\
-\end{longtable}
-}
-
-\section{Data modalities and multimodal
-feasibility}\label{data-modalities-and-multimodal-feasibility}
-
-\begin{table}[!htbp]\centering\caption{Data modalities available for modelling and their use.}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llll}\toprule
-Modality & Available & Amount & Use / feasibility \\
-\midrule
-Structured tabular (categorical + numeric) & Yes & 3.27 million reconstructed patients & All supervised, graph, CNN-1D and twin models \\
-Free text (abstracts, full texts) & Yes & 169 records; 60 full texts & Extraction only; too few labelled patients for text models \\
-Images (fundus, OCT, visual fields, MRI) & Figures only & about 6 patients with pre/post figures & Not trainable; 2D/3D CNN + Grad-CAM pipeline prepared \\
-3D volumes (OCT cubes) & No & 0 & Not available \\
-Video / time series & No & 0 & Not available \\
-\bottomrule\end{tabular}}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Background-risk model trained on non-GLP patients: internal vs external (GLP-1RA users) AUROC and O/E.}]{figures/fig_stage7_external.png}
-\caption{Background-risk model trained on non-GLP patients: internal vs
-external (GLP-1RA users) AUROC and O/E.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Fine-tuning experiments: AUROC in held-out GLP-1RA users by update method and fine-tuning data source.}]{figures/fig_finetune.png}
-\caption{Fine-tuning experiments: AUROC in held-out GLP-1RA users by
-update method and fine-tuning data source.}
-\end{figure}
-
-\section{Reporting checklist}\label{reporting-checklist}
-
-{\footnotesize
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1714}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8286}}@{}}
-\caption{TRIPOD+AI items.}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-TRIPOD+AI domain
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Where addressed
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-TRIPOD+AI domain
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Where addressed
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Title/abstract & Identifies prediction-model development with ML on
-published aggregate evidence; structured abstract \\
-Background/objectives & Introduction: intended use = research risk
-stratification; future use = antiplatelet selection (not yet
-supported) \\
-Data source & Methods: PubMed search, extraction schema, pseudo-IPD
-reconstruction \\
-Participants & Table~\ref{tbl:cohorts}: 11 non-overlapping cohorts;
-eligibility = exposed/comparator counts for both arms \\
-Outcome & NAION (or ischemic optic neuropathy where only ION reported;
-flagged as a feature) \\
-Predictors & Therapy, exposure, indication, region, data source,
-follow-up, study mean age, \% female \\
-Sample size & 3,271,499 reconstructed patients, 1,425 events \\
-Missing data & Study-level medians with missingness indicators \\
-Analysis/models & LR, RF, XGBoost, GNN (GraphSAGE/GAT), ensembles;
-synthetic twins \\
-Validation & 10/90 hold-out, 10 disjoint 10\% folds, training-fraction
-sweep, leave-one-study-out, nested GNN tuning \\
-Performance measures & AUROC, PR-AUC, Brier, calibration slope, O/E,
-sensitivity, specificity, accuracy, PPV, NPV, net benefit \\
-Explainability & SHAP with permutation tests; integrated gradients for
-GNN \\
-Fairness & Sex and age examined at study level only; patient-level
-fairness not assessable \\
-Limitations & Ecological features; no patient-level covariates; no
-imaging; not prospectively validated \\
-Code/data availability & Extraction files, code and results deposited
-with the preprint \\
-\end{longtable}
-}
-
-\section{Threshold metrics: advantages and limitations of the best
-model}\label{threshold-metrics-advantages-and-limitations-of-the-best-model}
-
-(train 10\% / test 90\%), mean \ensuremath{\pm} SD, unless stated.
-
-{\footnotesize
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Metric
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Best model (XGBoost)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-vs chance
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Reads as
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-AUROC & 0.657 (hold-out; 95\% CI \ensuremath{\approx}0.64--0.67); 0.657 \ensuremath{\pm} 0.011 over folds
-& p \textless{} 1e-70 vs 0.5 & Advantage: signal is real and
-reproducible. Limitation: modest; leave-one-study-out falls to 0.535 (p
-= 0.02 vs 0.5), so most signal is setting, not patient \\
-Sensitivity & 0.59 \ensuremath{\pm} 0.10 (Youden); 0.35 (top 10\%); 0.44 (top 20\%) &
-all p \textless{} 1e-40 vs flag rate & Advantage: flags a 1.5--2\ensuremath{\times} larger
-share of events than random. Limitation: misses 40--65\% of events, so
-it cannot serve as a rule-out screen \\
-Specificity & 0.61 (Youden); 0.82 (top 10\%); 0.75 (top 20\%) & p \ensuremath{\approx}
-0.36--0.42 vs 1 \ensuremath{-} flag rate & Limitation: no better than chance at the
-same flag rate. With 99.96\% non-events, specificity mostly reflects how
-many people are flagged \\
-Accuracy & 0.61--0.85 & below the 0.9996 no-information rate (p = 1) &
-Limitation by construction: with 0.044\% prevalence, calling everyone
-``no NAION'' is 99.96\% accurate. Report it but don't use it for model
-choice \\
-PPV & 0.07\% (Youden) -- 0.09\% (top 10\%); prevalence 0.044\% & p
-\textless{} 1e-28 vs prevalence & Advantage: about 2\ensuremath{\times} enrichment (LR+
-1.5--2.2). Limitation: absolute PPV \textless{} 0.1\%, so about 1 in
-1,000--1,500 flagged patients develops NAION. Any intervention given to
-all flagged patients exposes about 1,000 patients per event \\
-NPV & 99.97\% & p \textless{} 1e-12 vs 1 \ensuremath{-} prevalence & Mostly reflects
-the low prevalence (baseline 99.956\%). Advantage only for reassurance
-messaging; not evidence of safety \\
-Net benefit & \textgreater{} treat-all and \textgreater{} treat-none at
-the trained thresholds & --- & Advantage only at threshold probabilities
-\ensuremath{\approx} 0.03--0.1\%, i.e.~for near-harmless actions (dilated exam / OCT of the
-disc, counselling, slower dose escalation). Not for antiplatelet
-therapy, whose bleeding risk implies a far higher treatment threshold \\
-\end{longtable}
-}
-
-\subsection{Model-vs-model}\label{model-vs-model}
-
-\begin{itemize}
-\tightlist
-\item
-  k-fold corrected resampled t-test: no metric differs between XGBoost,
-  RF, LR or the mean ensemble (all q \ensuremath{\geq} 0.99).
-\item
-  McNemar on the hold-out gives p \ensuremath{\approx} 0. That reflects millions of
-  patients and the differing flag rates at each threshold, not better
-  ranking. Interpret only alongside the matched-flag-rate comparison.
-\item
-  Predictions take few distinct values, because the reconstructed data
-  have about 48 covariate patterns. So percentile thresholds are coarse:
-  the realised flag rate for ``top 10\%'' was 14--18\%. This is a key
-  limitation; patient-level features would fix it.
-\end{itemize}
-
-\subsection{Implication for the intended use (antiplatelet
-selection)}\label{implication-for-the-intended-use-antiplatelet-selection}
-
-\begin{itemize}
-\tightlist
-\item
-  At PPV \textless{} 0.1\%, an antiplatelet given to everyone flagged
-  would treat about 1,000 people per NAION event that occurs, before any
-  treatment effect is considered. Antiplatelet benefit for NAION is
-  unproven.
-\item
-  The score in its current form supports research enrichment (choosing
-  whom to examine or enrol), not treatment selection. Prospective,
-  patient-level validation plus a risk-stratified trial are required.
-\end{itemize}
-
 \clearpage\twocolumn
 \section*{Acknowledgment}
-\textbf{Disclosure of AI-generated content (IEEE and medRxiv policy).} This work was carried out with Claude Opus 5.5 (model \texttt{claude-opus-5-5}; Anthropic), used through the Claude Code agentic command-line tool~\cite{anthropic2026claudecode} between November 21 and 23, 2026, as an agentic research tool under the direction of the author. AI-generated content, by section: (i)~\textit{Data sources and extraction} (Sec.~II-A, Appendix~A): the AI system ran the PubMed and PubMed Central searches and extracted structured values, each stored with its source PMID and a verbatim evidence quotation so that every value can be checked against the original article; (ii)~\textit{Methods, experiments and Results} (Secs.~II--III, Appendices~B--M): the AI system wrote and executed all analysis code, including data reconstruction, model training, validation, statistical tests and the synthetic digital-twin experiments, and all tables and figures were generated by that code from saved result files; (iii)~\textit{Text}: the AI system drafted the Introduction (from a literature search it performed), Methods, Results and Discussion. The author conceived the study, set the research questions, chose the validation scheme, the synthetic-data design and every additional experiment, reviewed the results and the manuscript, and takes full responsibility for the content. Claude is not listed as an author because an AI system cannot take responsibility for the work, as required by ICMJE, IEEE and medRxiv authorship policies. Approximately 0.25~kWh of local compute and at least 764{,}000 metered language-model tokens were used (see Methods).
+\textbf{Disclosure of AI-generated content (IEEE and medRxiv policy).} This work was carried out with Claude Opus 5.5 (model \texttt{claude-opus-5-5}; Anthropic), used through the Claude Code agentic command-line tool~\cite{anthropic2026claudecode} between November 21 and 23, 2026, as an agentic research tool under the direction of the author. AI-generated content, by section: (i)~\textit{Data sources and extraction} (Sec.~II-A, Appendix~B): the AI system ran the PubMed and PubMed Central searches and extracted structured values, each stored with its source PMID and a verbatim evidence quotation so that every value can be checked against the original article; (ii)~\textit{Methods, experiments and Results} (Secs.~II--III, Appendices~C--N): the AI system wrote and executed all analysis code, including data reconstruction, model training, validation, statistical tests and the synthetic digital-twin experiments, and all tables and figures were generated by that code from saved result files; (iii)~\textit{Text}: the AI system drafted the Introduction (from a literature search it performed), Methods, Results and Discussion. The author conceived the study, set the research questions, chose the validation scheme, the synthetic-data design and every additional experiment, reviewed the results and the manuscript, and takes full responsibility for the content. Claude is not listed as an author because an AI system cannot take responsibility for the work, as required by ICMJE, IEEE and medRxiv authorship policies. Approximately 0.25~kWh of local compute and at least 764{,}000 metered language-model tokens were used (see Methods).
 
 \textit{Funding:} this work received no specific funding. \textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. and HazyEyes AI; the author declares no other competing interests. \textit{Ethics:} only published aggregate data and computationally generated synthetic records were used; no human participants were involved, so institutional review board approval was not required.
 

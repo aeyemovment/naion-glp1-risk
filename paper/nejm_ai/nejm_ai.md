@@ -151,13 +151,23 @@ We describe this work as a foundation machine learning model in the sense of a b
 
 This study has limitations. Predictors were arm- or study-level, so associations with age, sex and setting are ecological. Reconstructed patients share covariate patterns, which makes thresholds coarse. Outcome definitions differed (one cohort reported ischemic optic neuropathy), TriNetX cells below 10 were masked, several studies were available only as abstracts, and overlapping registries were handled by selection rather than by individual linkage. No imaging was available, so multimodal and computer-vision models could not be trained. All results are retrospective and in silico.
 
-In conclusion, ML on published evidence confirms a modest, reproducible association between GLP-1RA exposure and NAION and yields a research-grade enrichment score, not a treatment-selection tool. Patient-level prospective data are the necessary next step.
+## Conclusion
+
+This study asked whether published evidence can stratify the risk of NAION in GLP-1RA users, which features carry that risk, and which model architecture predicts it best.
+
+**Risk features.** Within studies, GLP-1RA exposure was associated with NAION (OR 1.59, 95% CI 1.42 to 1.77, P<0.001, q<0.001). The highest-risk subgroup was GLP-1RA use for obesity (OR 2.70, 95% CI 1.64 to 4.44, P<0.001, q<0.001), followed by semaglutide (OR 1.73, 95% CI 1.44 to 2.08, P<0.001, q<0.001) and comparison with SGLT2 inhibitors (OR 1.81, 95% CI 1.54 to 2.11, P<0.001, q<0.001); the exposure effect was larger in studies with older participants (OR 1.99, 95% CI 1.30 to 3.04, P=0.001, q=0.002 per 10 years of mean age). Exposure was the most stable single feature: its odds ratio exceeded 1 in all 256 feature combinations that contained it (median 1.59, range 1.04 to 1.92).
+
+**Feature combinations.** The best-discriminating combination was age + exposure + setting + sex (XGBoost, AUROC 0.660 ± 0.008), no better than all nine groups together (0.655 ± 0.012). The largest contribution came from study setting (region, data source and outcome definition; Shapley value 0.035 AUROC, q=0.059), which describes where a patient was studied rather than the patient; among the remaining features, the largest contribution came from follow-up duration (time at risk) (Shapley value 0.029 AUROC, q=0.006). No pair of feature groups was synergistic, so the hypothesis that weak features compound into strong risk was not supported.
+
+**Best architecture.** PubMed-only XGBoost discriminated best (AUROC 0.656 ± 0.011 over ten folds), but its advantage over random forest (+0.011 AUROC, P=0.745) and logistic regression (+0.041, P=0.218) was not significant, and graph, convolutional, ensemble, anomaly-detection and synthetic digital-twin variants did not improve on it. In studies the model had not seen, AUROC fell to 0.535 (P=0.021 versus chance).
+
+**Answer.** Published evidence supports a reproducible association between GLP-1RA exposure and NAION, strongest with obesity indications, but it does not support individual risk prediction good enough to select patients for treatment, including antiplatelet therapy. The model is a research tool for enriching cohorts, and its main product is a benchmark and protocol for the patient-level, imaging-linked prospective data that the question requires.
 
 **Use of AI tools.** Literature retrieval, data extraction, analysis code, figures and the first draft of this manuscript were produced with an AI assistant (Claude, Anthropic) working under the direction of the authors. Every extracted value carries a source PMID and evidence quote. The authors are responsible for verifying all content before submission. AI tools are not authors.
 
 ## Tables and figures
 
-Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).
+Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study). Abbreviations and variable names are defined in the Nomenclature appendix.
 
 | Study                       | Setting           | Region   | Population   | Exposure                   | Comparator         | Exposed, events/N   | Comparator, events/N   |
 |:----------------------------|:------------------|:---------|:-------------|:---------------------------|:-------------------|:--------------------|:-----------------------|
@@ -173,7 +183,7 @@ Table: Cohorts reconstructed into count-weighted patient-level data (one primary
 | Al-Harbi 2026 [@p41994958]  | EHR network       | US       | IIH          | GLP-1RA class              | No GLP-1RA         | 12/15,559           | 28/15,560              |
 | Ueda 2026 [@p42441962]      | National registry | Nordic   | T2D          | GLP-1RA class              | SGLT2i             | 62/107,518          | 64/185,898             |
 
-Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.
+Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events. Abbreviations and variable names are defined in the Nomenclature appendix.
 
 | Model                                                           | Training data         | AUROC 10/90   | AUROC 10×10% folds            | AUROC LOSO   | O/E   | Sens/Spec top 10%   | PPV/NPV top 10%   |
 |:----------------------------------------------------------------|:----------------------|:--------------|:------------------------------|:-------------|:------|:--------------------|:------------------|
@@ -190,16 +200,207 @@ Table: Model performance by family. AUROC values for 10×10% folds are mean ± S
 | Ensemble cross_family(pubmed+hybrid+synthetic) (mean)           | PubMed only           | —             | 0.657 ± 0.010                 | —            | 1.01  | —                   | —                 |
 | Ensemble logreg+xgb (mean)                                      | PubMed only           | —             | 0.657 ± 0.008                 | —            | 1.00  | —                   | —                 |
 
-![Study flow and validation design.](paper/figures/fig1_study_flow.png){width=100%}
+![Study flow and validation design. Abbreviations and variable names are defined in the Nomenclature appendix.](paper/figures/fig1_study_flow.png){width=100%}
 
-![Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90% hold-out after training on 10%; (middle) AUROC and PR-AUC across ten disjoint 10% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10% to 90%.](paper/figures/fig2_performance.png){width=100%}
+![Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90% hold-out after training on 10%; (middle) AUROC and PR-AUC across ten disjoint 10% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10% to 90%. Abbreviations and variable names are defined in the Nomenclature appendix.](paper/figures/fig2_performance.png){width=100%}
 
-![(Top) Within-study odds ratios for NAION with study fixed effects (blue, q<0.05 after Benjamini-Hochberg correction). (Bottom) SHAP importance (mean ± SD over ten folds) for three model types.](paper/figures/fig3_effects_explainability.png){width=100%}
+![(Top) Within-study odds ratios for NAION with study fixed effects (blue, q<0.05 after Benjamini-Hochberg correction). (Bottom) SHAP importance (mean ± SD over ten folds) for three model types. Abbreviations and variable names are defined in the Nomenclature appendix.](paper/figures/fig3_effects_explainability.png){width=100%}
 
 The Supplementary Appendix (the full preprint) contains all additional tables and figures: data inventory and modalities; case-level phenotyping and meta-regression; every P value (within-study and marginal associations, SHAP permutation tests, meta-analysis, demographics, ML experiments); threshold metrics for all models; training-fraction sweeps; GNN depth and edge-weight tuning; ensembles; the full digital-twin factorial; non-GLP to GLP transport and fine-tuning; CNN and imaging feasibility; incidence, rare-event and anomaly models; ABCD2 features and the with/without-ABCD ablation; all 511 feature combinations (Supplementary Workbook S1); compute and energy accounting; the imaging what-if simulation; and the TRIPOD+AI checklist.
 
 ## Data and code availability
 
 Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data and synthetic digital-twin datasets are available at https://github.com/aeyemovment/naion-glp1-risk (release v1.0.0). A research-only web calculator is at https://naion-glp1-calculator.vercel.app. Copyright (c) 2026 NeuroAgent AI, Inc. All materials are released for non-commercial research use only, with attribution (citation of this article): code and model weights under a research-only, non-commercial licence included in the repository, data under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).
+
+## Supplementary Appendix: Nomenclature
+
+
+Abbreviations are also defined at first use in the text. Variable and label names are those printed in tables and figures; "…" stands for any suffix or prefix (for example, therapy_… covers therapy_semaglutide and therapy_sglt2i).
+
+Table: Abbreviations.
+
+| Abbreviation | Definition |
+|:--|:--|
+| ABCD² | Age, Blood pressure, Clinical features, Duration of symptoms and Diabetes score for stroke risk after transient ischemic attack |
+| ABCD³-I | ABCD² extended with dual transient ischemic attack and Imaging findings |
+| Acc | accuracy |
+| AE | autoencoder (anomaly detector) |
+| AI | artificial intelligence |
+| AION | anterior ischemic optic neuropathy |
+| AUROC | area under the receiver operating characteristic curve |
+| B | number of permutations |
+| BP | blood pressure |
+| CDR | cup-to-disc ratio |
+| CI | confidence interval |
+| CNN | convolutional neural network (CNN-1D, one-dimensional) |
+| CO2e | carbon dioxide equivalent |
+| CV | cross-validation |
+| DL | deep learning |
+| DPP-4i | dipeptidyl peptidase-4 inhibitor |
+| EBGM | empirical Bayes geometric mean (pharmacovigilance disproportionality) |
+| EHR | electronic health record |
+| Ens. | ensemble (mean of member models) |
+| FAERS | US Food and Drug Administration Adverse Event Reporting System |
+| FE | fixed effects |
+| GAT | graph attention network |
+| GB | gigabyte |
+| GCIPL | ganglion cell-inner plexiform layer |
+| GIP | glucose-dependent insulinotropic polypeptide |
+| GLP-1 | glucagon-like peptide-1 |
+| GLP-1RA | glucagon-like peptide-1 receptor agonist |
+| GNN | graph neural network |
+| Grad-CAM | gradient-weighted class activation mapping |
+| GraphSAGE | graph sample-and-aggregate network |
+| IC025 | lower 95% credibility bound of the information component (pharmacovigilance) |
+| IForest | isolation forest (anomaly detector) |
+| IIH | idiopathic intracranial hypertension |
+| ION | ischemic optic neuropathy |
+| IONDT | Ischemic Optic Neuropathy Decompression Trial |
+| IPD | individual patient data |
+| IRR | incidence rate ratio |
+| I² | percentage of between-study variance due to heterogeneity |
+| k | number of estimates (meta-analysis) or neighbours per node (graph) |
+| L2 | ridge (squared-coefficient) penalty |
+| LOSO | leave-one-study-out validation |
+| LR | logistic regression |
+| LR+ | positive likelihood ratio |
+| MH | Mantel-Haenszel |
+| ML | machine learning |
+| MRI | magnetic resonance imaging |
+| NAION | nonarteritic anterior ischemic optic neuropathy |
+| NB | net benefit |
+| NIR | no-information rate |
+| NPV | negative predictive value |
+| O/E | observed-to-expected event ratio |
+| OCT | optical coherence tomography |
+| OCTA | optical coherence tomography angiography |
+| OR | odds ratio |
+| OSA | obstructive sleep apnea |
+| PC | principal component |
+| PCA | principal component analysis |
+| PMC | PubMed Central |
+| PMID | PubMed identifier |
+| PPV | positive predictive value |
+| PR-AUC | area under the precision-recall curve |
+| PRR | proportional reporting ratio |
+| PUE | power usage effectiveness |
+| PY | person-years |
+| q | Benjamini-Hochberg adjusted P value |
+| QPI-1007 | intravitreal small interfering RNA against caspase-2 (investigational) |
+| RCT | randomized controlled trial |
+| RF | random forest |
+| RNFL | retinal nerve fiber layer |
+| ROC | receiver operating characteristic |
+| ROR | reporting odds ratio |
+| SD | standard deviation |
+| SE | standard error |
+| Sens | sensitivity |
+| SGLT2i | sodium-glucose cotransporter-2 inhibitor |
+| SHAP | Shapley additive explanations |
+| Spec | specificity |
+| SUSTAIN-6 | Trial to Evaluate Cardiovascular and Other Long-term Outcomes with Semaglutide in Subjects with Type 2 Diabetes |
+| SVM | support vector machine |
+| T2D | type 2 diabetes |
+| TIA | transient ischemic attack |
+| TRIPOD+AI | Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis, AI extension |
+| VA | US Department of Veterans Affairs |
+| XGB | XGBoost (extreme gradient boosting) |
+
+Table: Variable and label names used in tables and figures.
+
+| Name | Definition |
+|:--|:--|
+| therapy_… | drug arm of the patient (one-hot): semaglutide; sema_or_tirz = semaglutide or tirzepatide; glp1ra_class = any or unspecified GLP-1RA; comparators sglt2i, dpp4i, no_glp1ra (no GLP-1RA), other_antidiabetic, other_antiobesity |
+| indication_… | study population: t2d = type 2 diabetes, obesity = obesity without diabetes, iih = idiopathic intracranial hypertension |
+| region_… | study region: us = United States, nordic = Nordic countries, uk = United Kingdom |
+| source_type_… | data source: claims = insurance claims, ehr_network = multi-institution EHR network, ehr_primary_care = primary-care EHR, national_registry = national registry, single_center = single-center records, va_ehr = Veterans Affairs EHR |
+| outcome_def_… | outcome definition: naion = NAION, ion = ischemic optic neuropathy (when NAION was not reported separately) |
+| source_type | data source (see source_type_…) |
+| outcome_def | outcome definition (see outcome_def_…) |
+| case_control | case-control design |
+| target_trial | target-trial emulation design |
+| variable_level | naming pattern of one-hot features: variable name, underscore, level |
+| glp1ra_exposed | 1 if the patient was in a GLP-1RA arm, 0 if in a comparator arm |
+| followup_years | mean study follow-up (years) |
+| mean_age | mean age of the study arm (years) |
+| pct_female | percentage of women in the study arm |
+| …_missing | 1 if the preceding variable was not reported and was replaced by the median across studies |
+| semaglutide | semaglutide |
+| sema_or_tirz | semaglutide or tirzepatide |
+| glp1ra_class | any or unspecified GLP-1RA |
+| no_glp1ra | no GLP-1RA (comparator) |
+| sglt2i | SGLT2 inhibitor |
+| dpp4i | DPP-4 inhibitor |
+| other_antidiabetic | other glucose-lowering drug |
+| other_antiobesity | other anti-obesity drug |
+| ehr_network | multi-institution EHR network |
+| ehr_primary_care | primary-care EHR |
+| national_registry | national registry |
+| single_center | single-center records |
+| va_ehr | Veterans Affairs EHR |
+| claims | insurance claims |
+| any_glp1ra | any GLP-1RA |
+| t2d_or_obesity | type 2 diabetes or obesity |
+| exposed_vs_… | GLP-1RA exposure versus the named comparator (within-study contrast) |
+| exposed_x_… | interaction of GLP-1RA exposure with the named study-level covariate |
+| exposed_… | GLP-1RA exposure within the named drug or indication subgroup |
+| age_per_10y | per 10-year higher mean age |
+| female_per_10pct | per 10-percentage-point higher share of women |
+| age_band | stratum of study mean age |
+| female_band | stratum of the share of women |
+| fu_band | stratum of follow-up duration |
+| dataset_… | data source of a published estimate (e.g. danish = Danish registries, trinetx = TriNetX network, medicare = Medicare claims) |
+| design_… | study design of a published estimate (cohort, target_trial = target-trial emulation, case_control, other) |
+| comparator_cls_… | comparator class of a published estimate (sglt2, unexposed, other_antidiabetic, ...) |
+| exposure_drug_… | exposure drug of a published estimate (semaglutide, any_glp1ra, tirzepatide, ...) |
+| followup | reported follow-up of a published estimate (years) |
+| followup_missing | 1 if follow-up was not reported |
+| population | study population of a published estimate |
+| adjusted_f | 1 if the estimate was covariate-adjusted |
+| abcd_… | partial ABCD² component derived from study-level data: A = age, B = blood pressure (hypertension prevalence), D = diabetes |
+| logreg | L2-penalized logistic regression |
+| rf | random forest |
+| xgb | XGBoost |
+| gnn | graph neural network |
+| cnn1d | one-dimensional convolutional neural network |
+| ensemble | ensemble (mean of member predictions unless stated) |
+| cross_family | ensemble combining PubMed-only, synthetic and hybrid models |
+| focal_mlp | multilayer perceptron trained with focal loss |
+| poisson_offset | Poisson regression with log person-time offset |
+| logreg_kingzeng | logistic regression with King-Zeng rare-event correction |
+| xgb_standard | XGBoost, unweighted |
+| xgb_balanced_raw | XGBoost with class-balanced weights, uncorrected |
+| xgb_balanced_priorcorrected | XGBoost with class-balanced weights, prior-corrected probabilities |
+| xgb_incidence_anchored | XGBoost with predictions anchored to published incidence |
+| xgb_continue | XGBoost fine-tuned by continued boosting |
+| isolation_forest | isolation forest (anomaly detection) |
+| one_class_svm | one-class support vector machine (anomaly detection) |
+| lof_novelty | local outlier factor in novelty mode (anomaly detection) |
+| gnn_joint | graph neural network trained jointly on both groups |
+| pooled_refit | model refitted on pooled source and target data |
+| pretrain_only | model trained on non-users only, applied unchanged |
+| recal_intercept | intercept-only recalibration |
+| recal_logistic | logistic (intercept and slope) recalibration |
+| glp_only | model trained on GLP-1RA users only |
+| internal_nonGLP | internal validation in non-users |
+| external_GLP | external validation in GLP-1RA users |
+| …_mean | mean across folds or repeats |
+| …_sd | standard deviation across folds or repeats |
+| auroc | AUROC |
+| pr_auc | PR-AUC |
+| cal_slope | calibration slope |
+| o_e | observed-to-expected event ratio |
+| lr_pos | positive likelihood ratio |
+| flagged_frac | fraction of patients flagged as high risk |
+| train_frac | fraction of patients used for training |
+| T1_youden | threshold maximizing Youden's J (sensitivity + specificity - 1) |
+| T2_top10pct | threshold flagging the top 10% of training risk |
+| T3_top20pct | threshold flagging the top 20% of training risk |
+| brier | Brier score (mean squared error of predicted risk) |
+| uniform | graph edges all weighted 1 |
+| gauss… | graph edges weighted by a Gaussian kernel of feature distance with the stated bandwidth |
+| threshold | decision threshold (see T1_youden, T2_top10pct, T3_top20pct) |
+| synthetic_only | 1 for computationally generated synthetic records |
+| research_prototype | research-prototype flag (not for clinical use) |
 
 ## References

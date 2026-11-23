@@ -696,10 +696,50 @@ selection rather than by individual linkage. No imaging was available,
 so multimodal and computer-vision models could not be trained. All
 results are retrospective and in silico.
 
-In conclusion, ML on published evidence confirms a modest, reproducible
-association between GLP-1RA exposure and NAION and yields a
-research-grade enrichment score, not a treatment-selection tool.
-Patient-level prospective data are the necessary next step.
+\subsection{Conclusion}\label{conclusion}
+
+This study asked whether published evidence can stratify the risk of
+NAION in GLP-1RA users, which features carry that risk, and which model
+architecture predicts it best.
+
+\textbf{Risk features.} Within studies, GLP-1RA exposure was associated
+with NAION (OR 1.59, 95\% CI 1.42 to 1.77, P\textless0.001,
+q\textless0.001). The highest-risk subgroup was GLP-1RA use for obesity
+(OR 2.70, 95\% CI 1.64 to 4.44, P\textless0.001, q\textless0.001),
+followed by semaglutide (OR 1.73, 95\% CI 1.44 to 2.08, P\textless0.001,
+q\textless0.001) and comparison with SGLT2 inhibitors (OR 1.81, 95\% CI
+1.54 to 2.11, P\textless0.001, q\textless0.001); the exposure effect was
+larger in studies with older participants (OR 1.99, 95\% CI 1.30 to
+3.04, P=0.001, q=0.002 per 10 years of mean age). Exposure was the most
+stable single feature: its odds ratio exceeded 1 in all 256 feature
+combinations that contained it (median 1.59, range 1.04 to 1.92).
+
+\textbf{Feature combinations.} The best-discriminating combination was
+age + exposure + setting + sex (XGBoost, AUROC 0.660 ± 0.008), no better
+than all nine groups together (0.655 ± 0.012). The largest contribution
+came from study setting (region, data source and outcome definition;
+Shapley value 0.035 AUROC, q=0.059), which describes where a patient was
+studied rather than the patient; among the remaining features, the
+largest contribution came from follow-up duration (time at risk)
+(Shapley value 0.029 AUROC, q=0.006). No pair of feature groups was
+synergistic, so the hypothesis that weak features compound into strong
+risk was not supported.
+
+\textbf{Best architecture.} PubMed-only XGBoost discriminated best
+(AUROC 0.656 ± 0.011 over ten folds), but its advantage over random
+forest (+0.011 AUROC, P=0.745) and logistic regression (+0.041, P=0.218)
+was not significant, and graph, convolutional, ensemble,
+anomaly-detection and synthetic digital-twin variants did not improve on
+it. In studies the model had not seen, AUROC fell to 0.535 (P=0.021
+versus chance).
+
+\textbf{Answer.} Published evidence supports a reproducible association
+between GLP-1RA exposure and NAION, strongest with obesity indications,
+but it does not support individual risk prediction good enough to select
+patients for treatment, including antiplatelet therapy. The model is a
+research tool for enriching cohorts, and its main product is a benchmark
+and protocol for the patient-level, imaging-linked prospective data that
+the question requires.
 
 \textbf{Use of AI tools.} Literature retrieval, data extraction,
 analysis code, figures and the first draft of this manuscript were
@@ -720,7 +760,8 @@ content before submission. AI tools are not authors.
   >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1273}}
   >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1455}}@{}}
 \caption{Cohorts reconstructed into count-weighted patient-level data
-(one primary, non-overlapping contrast per study).}\tabularnewline
+(one primary, non-overlapping contrast per study). Abbreviations and
+variable names are defined in the Nomenclature appendix.}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Study
@@ -799,7 +840,8 @@ GLP-1RA class & SGLT2i & 62/107,518 & 64/185,898 \\
 \caption{Model performance by family. AUROC values for 10×10\% folds are
 mean ± SD; thresholds fixed on training data; PPV and NPV as
 percentages. LOSO, leave-one-study-out; O/E, observed-to-expected
-events.}\tabularnewline
+events. Abbreviations and variable names are defined in the Nomenclature
+appendix.}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Model
@@ -873,28 +915,31 @@ Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 ± 0.008 & --- &
 
 \begin{figure}
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Study flow and validation design.}]{figures/fig1_study_flow.png}
-\caption{Study flow and validation design.}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Study flow and validation design. Abbreviations and variable names are defined in the Nomenclature appendix.}]{figures/fig1_study_flow.png}
+\caption{Study flow and validation design. Abbreviations and variable
+names are defined in the Nomenclature appendix.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90\% hold-out after training on 10\%; (middle) AUROC and PR-AUC across ten disjoint 10\% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10\% to 90\%.}]{figures/fig2_performance.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90\% hold-out after training on 10\%; (middle) AUROC and PR-AUC across ten disjoint 10\% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10\% to 90\%. Abbreviations and variable names are defined in the Nomenclature appendix.}]{figures/fig2_performance.png}
 \caption{Discrimination and calibration of PubMed-only models: (top)
 receiver-operating-characteristic, precision-recall and decile
 calibration on the 90\% hold-out after training on 10\%; (middle) AUROC
 and PR-AUC across ten disjoint 10\% training folds; (bottom) AUROC,
 calibration-in-the-large and SHAP-rank stability across training
-fractions of 10\% to 90\%.}
+fractions of 10\% to 90\%. Abbreviations and variable names are defined
+in the Nomenclature appendix.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={(Top) Within-study odds ratios for NAION with study fixed effects (blue, q\textless0.05 after Benjamini-Hochberg correction). (Bottom) SHAP importance (mean ± SD over ten folds) for three model types.}]{figures/fig3_effects_explainability.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={(Top) Within-study odds ratios for NAION with study fixed effects (blue, q\textless0.05 after Benjamini-Hochberg correction). (Bottom) SHAP importance (mean ± SD over ten folds) for three model types. Abbreviations and variable names are defined in the Nomenclature appendix.}]{figures/fig3_effects_explainability.png}
 \caption{(Top) Within-study odds ratios for NAION with study fixed
 effects (blue, q\textless0.05 after Benjamini-Hochberg correction).
 (Bottom) SHAP importance (mean ± SD over ten folds) for three model
-types.}
+types. Abbreviations and variable names are defined in the Nomenclature
+appendix.}
 \end{figure}
 
 The Supplementary Appendix (the full preprint) contains all additional
@@ -924,6 +969,279 @@ weights under a research-only, non-commercial licence included in the
 repository, data under CC BY-NC 4.0. Commercial use, and clinical,
 diagnostic or treatment-selection use, are not permitted without prior
 written permission (kemarearlgreen@neuroagentai.org).
+
+\subsection{Supplementary Appendix:
+Nomenclature}\label{supplementary-appendix-nomenclature}
+
+Abbreviations are also defined at first use in the text. Variable and
+label names are those printed in tables and figures; ``\ldots{}'' stands
+for any suffix or prefix (for example, therapy\_\ldots{} covers
+therapy\_semaglutide and therapy\_sglt2i).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\caption{Abbreviations.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ABCD² & Age, Blood pressure, Clinical features, Duration of symptoms and
+Diabetes score for stroke risk after transient ischemic attack \\
+ABCD³-I & ABCD² extended with dual transient ischemic attack and Imaging
+findings \\
+Acc & accuracy \\
+AE & autoencoder (anomaly detector) \\
+AI & artificial intelligence \\
+AION & anterior ischemic optic neuropathy \\
+AUROC & area under the receiver operating characteristic curve \\
+B & number of permutations \\
+BP & blood pressure \\
+CDR & cup-to-disc ratio \\
+CI & confidence interval \\
+CNN & convolutional neural network (CNN-1D, one-dimensional) \\
+CO2e & carbon dioxide equivalent \\
+CV & cross-validation \\
+DL & deep learning \\
+DPP-4i & dipeptidyl peptidase-4 inhibitor \\
+EBGM & empirical Bayes geometric mean (pharmacovigilance
+disproportionality) \\
+EHR & electronic health record \\
+Ens. & ensemble (mean of member models) \\
+FAERS & US Food and Drug Administration Adverse Event Reporting
+System \\
+FE & fixed effects \\
+GAT & graph attention network \\
+GB & gigabyte \\
+GCIPL & ganglion cell-inner plexiform layer \\
+GIP & glucose-dependent insulinotropic polypeptide \\
+GLP-1 & glucagon-like peptide-1 \\
+GLP-1RA & glucagon-like peptide-1 receptor agonist \\
+GNN & graph neural network \\
+Grad-CAM & gradient-weighted class activation mapping \\
+GraphSAGE & graph sample-and-aggregate network \\
+IC025 & lower 95\% credibility bound of the information component
+(pharmacovigilance) \\
+IForest & isolation forest (anomaly detector) \\
+IIH & idiopathic intracranial hypertension \\
+ION & ischemic optic neuropathy \\
+IONDT & Ischemic Optic Neuropathy Decompression Trial \\
+IPD & individual patient data \\
+IRR & incidence rate ratio \\
+I² & percentage of between-study variance due to heterogeneity \\
+k & number of estimates (meta-analysis) or neighbours per node
+(graph) \\
+L2 & ridge (squared-coefficient) penalty \\
+LOSO & leave-one-study-out validation \\
+LR & logistic regression \\
+LR+ & positive likelihood ratio \\
+MH & Mantel-Haenszel \\
+ML & machine learning \\
+MRI & magnetic resonance imaging \\
+NAION & nonarteritic anterior ischemic optic neuropathy \\
+NB & net benefit \\
+NIR & no-information rate \\
+NPV & negative predictive value \\
+O/E & observed-to-expected event ratio \\
+OCT & optical coherence tomography \\
+OCTA & optical coherence tomography angiography \\
+OR & odds ratio \\
+OSA & obstructive sleep apnea \\
+PC & principal component \\
+PCA & principal component analysis \\
+PMC & PubMed Central \\
+PMID & PubMed identifier \\
+PPV & positive predictive value \\
+PR-AUC & area under the precision-recall curve \\
+PRR & proportional reporting ratio \\
+PUE & power usage effectiveness \\
+PY & person-years \\
+q & Benjamini-Hochberg adjusted P value \\
+QPI-1007 & intravitreal small interfering RNA against caspase-2
+(investigational) \\
+RCT & randomized controlled trial \\
+RF & random forest \\
+RNFL & retinal nerve fiber layer \\
+ROC & receiver operating characteristic \\
+ROR & reporting odds ratio \\
+SD & standard deviation \\
+SE & standard error \\
+Sens & sensitivity \\
+SGLT2i & sodium-glucose cotransporter-2 inhibitor \\
+SHAP & Shapley additive explanations \\
+Spec & specificity \\
+SUSTAIN-6 & Trial to Evaluate Cardiovascular and Other Long-term
+Outcomes with Semaglutide in Subjects with Type 2 Diabetes \\
+SVM & support vector machine \\
+T2D & type 2 diabetes \\
+TIA & transient ischemic attack \\
+TRIPOD+AI & Transparent Reporting of a multivariable prediction model
+for Individual Prognosis Or Diagnosis, AI extension \\
+VA & US Department of Veterans Affairs \\
+XGB & XGBoost (extreme gradient boosting) \\
+\end{longtable}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\caption{Variable and label names used in tables and
+figures.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+therapy\_\ldots{} & drug arm of the patient (one-hot): semaglutide;
+sema\_or\_tirz = semaglutide or tirzepatide; glp1ra\_class = any or
+unspecified GLP-1RA; comparators sglt2i, dpp4i, no\_glp1ra (no GLP-1RA),
+other\_antidiabetic, other\_antiobesity \\
+indication\_\ldots{} & study population: t2d = type 2 diabetes, obesity
+= obesity without diabetes, iih = idiopathic intracranial
+hypertension \\
+region\_\ldots{} & study region: us = United States, nordic = Nordic
+countries, uk = United Kingdom \\
+source\_type\_\ldots{} & data source: claims = insurance claims,
+ehr\_network = multi-institution EHR network, ehr\_primary\_care =
+primary-care EHR, national\_registry = national registry, single\_center
+= single-center records, va\_ehr = Veterans Affairs EHR \\
+outcome\_def\_\ldots{} & outcome definition: naion = NAION, ion =
+ischemic optic neuropathy (when NAION was not reported separately) \\
+source\_type & data source (see source\_type\_\ldots) \\
+outcome\_def & outcome definition (see outcome\_def\_\ldots) \\
+case\_control & case-control design \\
+target\_trial & target-trial emulation design \\
+variable\_level & naming pattern of one-hot features: variable name,
+underscore, level \\
+glp1ra\_exposed & 1 if the patient was in a GLP-1RA arm, 0 if in a
+comparator arm \\
+followup\_years & mean study follow-up (years) \\
+mean\_age & mean age of the study arm (years) \\
+pct\_female & percentage of women in the study arm \\
+\ldots\_missing & 1 if the preceding variable was not reported and was
+replaced by the median across studies \\
+semaglutide & semaglutide \\
+sema\_or\_tirz & semaglutide or tirzepatide \\
+glp1ra\_class & any or unspecified GLP-1RA \\
+no\_glp1ra & no GLP-1RA (comparator) \\
+sglt2i & SGLT2 inhibitor \\
+dpp4i & DPP-4 inhibitor \\
+other\_antidiabetic & other glucose-lowering drug \\
+other\_antiobesity & other anti-obesity drug \\
+ehr\_network & multi-institution EHR network \\
+ehr\_primary\_care & primary-care EHR \\
+national\_registry & national registry \\
+single\_center & single-center records \\
+va\_ehr & Veterans Affairs EHR \\
+claims & insurance claims \\
+any\_glp1ra & any GLP-1RA \\
+t2d\_or\_obesity & type 2 diabetes or obesity \\
+exposed\_vs\_\ldots{} & GLP-1RA exposure versus the named comparator
+(within-study contrast) \\
+exposed\_x\_\ldots{} & interaction of GLP-1RA exposure with the named
+study-level covariate \\
+exposed\_\ldots{} & GLP-1RA exposure within the named drug or indication
+subgroup \\
+age\_per\_10y & per 10-year higher mean age \\
+female\_per\_10pct & per 10-percentage-point higher share of women \\
+age\_band & stratum of study mean age \\
+female\_band & stratum of the share of women \\
+fu\_band & stratum of follow-up duration \\
+dataset\_\ldots{} & data source of a published estimate (e.g.~danish =
+Danish registries, trinetx = TriNetX network, medicare = Medicare
+claims) \\
+design\_\ldots{} & study design of a published estimate (cohort,
+target\_trial = target-trial emulation, case\_control, other) \\
+comparator\_cls\_\ldots{} & comparator class of a published estimate
+(sglt2, unexposed, other\_antidiabetic, \ldots) \\
+exposure\_drug\_\ldots{} & exposure drug of a published estimate
+(semaglutide, any\_glp1ra, tirzepatide, \ldots) \\
+followup & reported follow-up of a published estimate (years) \\
+followup\_missing & 1 if follow-up was not reported \\
+population & study population of a published estimate \\
+adjusted\_f & 1 if the estimate was covariate-adjusted \\
+abcd\_\ldots{} & partial ABCD² component derived from study-level data:
+A = age, B = blood pressure (hypertension prevalence), D = diabetes \\
+logreg & L2-penalized logistic regression \\
+rf & random forest \\
+xgb & XGBoost \\
+gnn & graph neural network \\
+cnn1d & one-dimensional convolutional neural network \\
+ensemble & ensemble (mean of member predictions unless stated) \\
+cross\_family & ensemble combining PubMed-only, synthetic and hybrid
+models \\
+focal\_mlp & multilayer perceptron trained with focal loss \\
+poisson\_offset & Poisson regression with log person-time offset \\
+logreg\_kingzeng & logistic regression with King-Zeng rare-event
+correction \\
+xgb\_standard & XGBoost, unweighted \\
+xgb\_balanced\_raw & XGBoost with class-balanced weights, uncorrected \\
+xgb\_balanced\_priorcorrected & XGBoost with class-balanced weights,
+prior-corrected probabilities \\
+xgb\_incidence\_anchored & XGBoost with predictions anchored to
+published incidence \\
+xgb\_continue & XGBoost fine-tuned by continued boosting \\
+isolation\_forest & isolation forest (anomaly detection) \\
+one\_class\_svm & one-class support vector machine (anomaly
+detection) \\
+lof\_novelty & local outlier factor in novelty mode (anomaly
+detection) \\
+gnn\_joint & graph neural network trained jointly on both groups \\
+pooled\_refit & model refitted on pooled source and target data \\
+pretrain\_only & model trained on non-users only, applied unchanged \\
+recal\_intercept & intercept-only recalibration \\
+recal\_logistic & logistic (intercept and slope) recalibration \\
+glp\_only & model trained on GLP-1RA users only \\
+internal\_nonGLP & internal validation in non-users \\
+external\_GLP & external validation in GLP-1RA users \\
+\ldots\_mean & mean across folds or repeats \\
+\ldots\_sd & standard deviation across folds or repeats \\
+auroc & AUROC \\
+pr\_auc & PR-AUC \\
+cal\_slope & calibration slope \\
+o\_e & observed-to-expected event ratio \\
+lr\_pos & positive likelihood ratio \\
+flagged\_frac & fraction of patients flagged as high risk \\
+train\_frac & fraction of patients used for training \\
+T1\_youden & threshold maximizing Youden's J (sensitivity + specificity
+- 1) \\
+T2\_top10pct & threshold flagging the top 10\% of training risk \\
+T3\_top20pct & threshold flagging the top 20\% of training risk \\
+brier & Brier score (mean squared error of predicted risk) \\
+uniform & graph edges all weighted 1 \\
+gauss\ldots{} & graph edges weighted by a Gaussian kernel of feature
+distance with the stated bandwidth \\
+threshold & decision threshold (see T1\_youden, T2\_top10pct,
+T3\_top20pct) \\
+synthetic\_only & 1 for computationally generated synthetic records \\
+research\_prototype & research-prototype flag (not for clinical use) \\
+\end{longtable}
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}
