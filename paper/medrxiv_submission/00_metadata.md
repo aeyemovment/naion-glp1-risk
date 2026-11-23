@@ -1,6 +1,6 @@
 # medRxiv submission metadata
 
-**Title:** A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches
+**Title:** A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Published Evidence
 
 **Article type:** New Results / original research (machine-learning prediction study using published aggregate data and synthetic data)
 

@@ -1,5 +1,5 @@
 ---
-title: "A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches"
+title: "A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Published Evidence"
 subtitle: "Original Article"
 date: "November 23, 2026"
 ---
