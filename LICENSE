@@ -9,8 +9,8 @@ repository ("the Software"). Data files are licensed separately under LICENSE-DA
    academic or scientific research, teaching, and personal study ("Research Purposes").
 
 2. Attribution. Any use, publication, presentation or derivative work must give credit by citing:
-   Green KE. Toward Risk Stratification of GLP-1 Receptor Agonist-Associated NAION: A Foundation Machine Learning
-   Model from PubMed-Indexed Evidence. medRxiv, 2026.
+   Green KE. Toward NAION Risk Stratification in GLP-1 Receptor Agonist Users Using Machine Learning, Graph Neural
+   Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence. medRxiv, 2026.
    https://github.com/aeyemovment/naion-glp1-risk
    Redistributed copies and derivative works must retain this license and the copyright notice above.
 

@@ -222,7 +222,7 @@ TRIPOD = pd.DataFrame([
 ], columns=["TRIPOD+AI domain", "Where addressed"]).to_markdown(index=False)
 
 # ------------------------------------------------------------------ shared text blocks
-title = "Toward Risk Stratification of GLP-1 Receptor Agonist-Associated NAION: A Foundation Machine Learning Model from PubMed-Indexed Evidence"
+title = "Toward NAION Risk Stratification in GLP-1 Receptor Agonist Users Using Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence"
 short_ = "GLP-1 RA and NAION: ML on published evidence"
 s3_text = (f"Across the full factorial grid ({S3['n_configs_tested']:,} configurations), {S3['n_significant_bh05']} hybrid or synthetic configurations improved "
            "discrimination over PubMed-only training after Benjamini-Hochberg correction." if S3 else PENDING("the full-factorial digital-twin experiment (Stage 3)"))

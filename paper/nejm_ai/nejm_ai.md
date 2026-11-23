@@ -1,5 +1,5 @@
 ---
-title: "Toward Risk Stratification of GLP-1 Receptor Agonist-Associated NAION: A Foundation Machine Learning Model from PubMed-Indexed Evidence"
+title: "Toward NAION Risk Stratification in GLP-1 Receptor Agonist Users Using Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence"
 subtitle: "Original Article"
 date: "November 23, 2026"
 ---
