@@ -9,7 +9,7 @@ Done
 
 To do at upload
 - [ ] Make the GitHub repository public (cited in the manuscript)
-- [ ] Log in at medrxiv.org > Submit; category Ophthalmology; licence CC BY 4.0
+- [ ] Log in at medrxiv.org > Submit; category Ophthalmology; licence CC BY-NC 4.0
 - [ ] Upload `01_manuscript_IEEE.pdf` (main), `02_Supplementary_Workbook_S1.xlsx` and `03_TRIPOD_AI_checklist.docx` (supplementary)
 - [ ] Paste title, abstract and keywords from `00_metadata.md` and statements from `00_statements.md`
 - [ ] Note: a posted medRxiv preprint cannot be removed; screening usually takes a few days

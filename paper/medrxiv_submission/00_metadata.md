@@ -15,7 +15,7 @@ Methods. We extracted data from 73 of 169 PubMed publications and reconstructed 
 Results. Within studies, GLP-1RA exposure was associated with NAION (odds ratio 1.59 (95% CI, 1.42 to 1.77)); semaglutide 1.73 (95% CI, 1.44 to 2.08); obesity indication 2.70 (95% CI, 1.64 to 4.44). XGBoost discriminated modestly (AUROC 0.656 ± 0.011; observed/expected 1.00) but fell to 0.534 in unseen studies. At the top-10% threshold, PPV was 0.087% against a prevalence of 0.044%. Neither graph or convolutional networks, ensembles nor added vascular-score features outperformed PubMed-only XGBoost; synthetic digital twins mainly regularized weaker learners, and the best hybrid XGBoost gained 0.0015 AUROC. Simulated addition of optic-disc imaging raised AUROC to about 0.82 to 0.84.
 Conclusions. Published evidence supports a reproducible exposure signal but only modest, setting-dependent risk discrimination. The score suits research enrichment, not treatment selection; patient-level prospective data are required.
 
-**Licence:** CC BY 4.0
+**Licence (choose on medRxiv):** CC BY-NC 4.0 (non-commercial)
 
 **Files to upload**
 1. `01_manuscript_IEEE.pdf` — MAIN manuscript, IEEE two-column format

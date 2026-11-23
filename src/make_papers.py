@@ -246,6 +246,12 @@ AI_USE = ("**Use of AI tools.** Literature retrieval, data extraction, analysis 
           "AI assistant (Claude, Anthropic) working under the direction of the authors. Every extracted value carries a source PMID and evidence quote. "
           "The authors are responsible for verifying all content before submission. AI tools are not authors.")
 
+AVAIL = ("Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data "
+         "and synthetic digital-twin datasets are available at https://github.com/aeyemovment/naion-glp1-risk (release v1.0.0). A research-only web calculator is at "
+         "https://naion-glp1-calculator.vercel.app. Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. All materials are released for non-commercial research "
+         "use only, with attribution (citation of this article): code and model weights under the NAION-GLP1 Research-Only Non-Commercial License, data under CC BY-NC 4.0. "
+         "Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).")
+
 def abstract():
     CLAIM = "No model architecture, ensemble or added vascular score outperformed PubMed-only XGBoost.\n\n"
     if S3:
@@ -402,8 +408,7 @@ def nejm():
           "rare-event and anomaly models; ABCD2 features and the with/without-ABCD ablation; all 511 feature combinations (Supplementary Workbook S1); compute and energy "
           "accounting; the imaging what-if simulation; and the TRIPOD+AI checklist.",
           "## Data and code availability",
-          "Extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data, synthetic digital-twin datasets, analysis code and result "
-          "files are provided in the data release accompanying the preprint [repository DOI to be added].",
+          AVAIL,
           "## References"]
     return "\n\n".join(md)
 
@@ -469,7 +474,7 @@ def preprint():
             open("paper/discussion_notes_metrics.md").read().split("\n", 3)[3] if os.path.exists("paper/discussion_notes_metrics.md") else "",
             discussion(), AI_USE,
             "## Data and code availability",
-            "Extraction files (JSON with PMID and evidence quote per value), reconstructed patient-level counts, analysis code and all result files are in the project repository and will be deposited with the preprint.",
+            AVAIL,
             "## References"]
     out = "\n\n".join(s for s in secs if s)
     for a, b in XREF_PREPRINT.items(): out = out.replace(a, b)

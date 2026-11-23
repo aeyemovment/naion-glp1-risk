@@ -14,6 +14,8 @@ AFFILS = ["Whiting School of Engineering, Johns Hopkins University, Baltimore, M
 EMAIL = "kemarearlgreen@neuroagentai.org"
 KEYWORDS = ("Nonarteritic anterior ischemic optic neuropathy, GLP-1 receptor agonists, semaglutide, machine learning, "
             "synthetic data, digital twins, graph neural networks, risk prediction, explainable AI")
+AVAIL_TEX = (MP.AVAIL.replace("https://github.com/aeyemovment/naion-glp1-risk", "\\url{https://github.com/aeyemovment/naion-glp1-risk}")
+             .replace("https://naion-glp1-calculator.vercel.app", "\\url{https://naion-glp1-calculator.vercel.app}").replace("(c)", "\\copyright"))
 ACK = ("\\section*{Acknowledgment}\n"
        "Use of AI tools: this study was carried out with Claude (model Claude Opus 5.5, Anthropic, accessed through the Claude Code agentic "
        "command-line tool) acting as an agentic research tool under the direction of the author. The AI system performed PubMed and PubMed Central "
@@ -24,8 +26,7 @@ ACK = ("\\section*{Acknowledgment}\n"
        "\\textit{Funding:} this work received no specific funding. \\textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. "
        "and HazyEyes AI; the author declares no other competing interests. \\textit{Ethics:} only published aggregate data and computationally generated "
        "synthetic records were used; no human participants were involved, so institutional review board approval was not required.\n\n"
-       "Data and code availability: extraction files (with PMID and evidence quotation per value), reconstructed count-weighted patient-level data, "
-       "synthetic digital-twin datasets, model weights, analysis code and all result files are available at \\url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator running the PubMed-only XGBoost model in the browser is at \\url{https://naion-glp1-calculator.vercel.app}.\n")
+       "\\textit{Data and code availability:} " + AVAIL_TEX + "\n")
 
 def build():
     MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "(Figure 1)": "(Fig.\\ \\ref{fig:flow})", "(Figure 2)": "(Fig.\\ \\ref{fig:roc})",
@@ -72,7 +73,7 @@ def build():
     thanks = (f"K.~E.~Green is with the {AFFILS[0]}; the {AFFILS[1]}; and {AFFILS[2]} (e-mail: {EMAIL}). "
               "Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
               "compliance reference Addendum 5, DT\\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. "
-              "This preprint has not been peer reviewed.")
+              "This preprint has not been peer reviewed. \\copyright\\ 2026 Kemar E. Green and NeuroAgent AI, Inc.; code, model weights and data are licensed for non-commercial research use only, with attribution.")
     meta = {"title": MP.title, "author": f"{AUTHOR_NAME}\\thanks{{{thanks}}}", "shorttitle": "Green: GLP-1 receptor agonists and NAION --- ML on published evidence",
             "abstract": tolatex(abstract_md), "keywords": KEYWORDS}
     args = ["pandoc", f"{d}/ieee.md", "-f", "markdown+pipe_tables+implicit_figures+raw_attribute", "-t", "latex", "-s", "--natbib",

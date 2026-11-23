@@ -1,16 +1,32 @@
-MIT License
+NAION-GLP1 Research-Only Non-Commercial License, Version 1.0
 
-Copyright (c) 2026 Kemar Green
+Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. All rights reserved except as granted below.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
-(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+Covered material: the source code, trained model weights and model files, documentation, and the web calculator in this
+repository ("the Software"). Data files are licensed separately under LICENSE-DATA.md (CC BY-NC 4.0, research use only).
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+1. Grant. Subject to the conditions below, you may use, copy, modify and share the Software solely for non-commercial
+   academic or scientific research, teaching, and personal study ("Research Purposes").
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. THE SOFTWARE AND MODELS ARE RESEARCH PROTOTYPES AND MUST NOT BE USED FOR CLINICAL,
-DIAGNOSTIC, TREATMENT-SELECTION OR REGULATORY PURPOSES.
+2. Attribution. Any use, publication, presentation or derivative work must give credit by citing:
+   Green KE. Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic
+   Optic Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches. medRxiv, 2026.
+   https://github.com/aeyemovment/naion-glp1-risk
+   Redistributed copies and derivative works must retain this license and the copyright notice above.
+
+3. No commercial use. You may not use the Software, the model weights, or any derivative of them for commercial purposes,
+   including selling, licensing, offering as or within a paid product or service, use by or on behalf of a for-profit
+   entity for its business operations, product development, marketing, or regulatory submissions, without prior written
+   permission from the copyright holders.
+
+4. No clinical use. The Software is a research prototype. It must not be used for clinical, diagnostic, screening,
+   treatment-selection (including antiplatelet decisions) or regulatory purposes.
+
+5. Commercial and other licensing. Requests for uses not covered by this license: kemarearlgreen@neuroagentai.org.
+
+6. Termination. Any breach of these conditions terminates the rights granted here automatically.
+
+7. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+   LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT
+   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+   OR ITS USE.

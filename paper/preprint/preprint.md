@@ -1043,6 +1043,6 @@ In conclusion, ML on published evidence confirms a modest, reproducible associat
 
 ## Data and code availability
 
-Extraction files (JSON with PMID and evidence quote per value), reconstructed patient-level counts, analysis code and all result files are in the project repository and will be deposited with the preprint.
+Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data and synthetic digital-twin datasets are available at https://github.com/aeyemovment/naion-glp1-risk (release v1.0.0). A research-only web calculator is at https://naion-glp1-calculator.vercel.app. Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. All materials are released for non-commercial research use only, with attribution (citation of this article): code and model weights under the NAION-GLP1 Research-Only Non-Commercial License, data under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).
 
 ## References

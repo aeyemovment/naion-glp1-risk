@@ -1,5 +1,7 @@
 # NAION risk with GLP-1 receptor agonists — machine learning on published evidence
 
+> Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. Research use only, with attribution; no commercial use without written permission.
+>
 > **Research prototype. Not for clinical, diagnostic, treatment-selection or regulatory use.**
 > `research_prototype=true` · `compliance_ref=Addendum_5_DT9` · synthetic digital twins carry `synthetic_only=true`.
 
@@ -42,5 +44,11 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt   # plus torch
 The analysis was carried out with Claude (Claude Opus 5.5, Anthropic) via Claude Code as an agentic research tool under the
 direction of the author, who reviewed all results and takes responsibility for the content. AI tools are not authors.
 
-## Licence
-Code: MIT (`LICENSE`). Derived and synthetic data: CC BY 4.0 (`LICENSE-DATA.md`). Please also cite the original studies (PMIDs in each file).
+## Copyright and licence
+Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc.
+
+**Research use only, with credit. No commercial use.**
+- Code and model weights: NAION-GLP1 Research-Only Non-Commercial License (`LICENSE`).
+- Derived and synthetic data: CC BY-NC 4.0, research use only (`LICENSE-DATA.md`).
+- Cite: Green KE, medRxiv 2026, and this repository; also cite the original studies (PMIDs in each file).
+- Commercial or other licensing: kemarearlgreen@neuroagentai.org.

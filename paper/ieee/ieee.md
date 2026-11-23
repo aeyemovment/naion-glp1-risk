@@ -1043,7 +1043,7 @@ Use of AI tools: this study was carried out with Claude (model Claude Opus 5.5, 
 
 \textit{Funding:} this work received no specific funding. \textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. and HazyEyes AI; the author declares no other competing interests. \textit{Ethics:} only published aggregate data and computationally generated synthetic records were used; no human participants were involved, so institutional review board approval was not required.
 
-Data and code availability: extraction files (with PMID and evidence quotation per value), reconstructed count-weighted patient-level data, synthetic digital-twin datasets, model weights, analysis code and all result files are available at \url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator running the PubMed-only XGBoost model in the browser is at \url{https://naion-glp1-calculator.vercel.app}.
+\textit{Data and code availability:} Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data and synthetic digital-twin datasets are available at \url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator is at \url{https://naion-glp1-calculator.vercel.app}. Copyright \copyright 2026 Kemar E. Green and NeuroAgent AI, Inc. All materials are released for non-commercial research use only, with attribution (citation of this article): code and model weights under the NAION-GLP1 Research-Only Non-Commercial License, data under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).
 
 ```
 
