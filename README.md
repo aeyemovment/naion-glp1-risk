@@ -7,7 +7,7 @@
 
 Code, model weights, derived data, synthetic data and manuscript for:
 
-**Green KE.** *Toward NAION Risk Stratification in GLP-1 Receptor Agonist Users: A Foundation Machine Learning Model with Graph and Digital-Twin Methods Built from PubMed-Indexed Evidence.* medRxiv preprint (not peer reviewed), 2026.
+**Green KE.** *Toward Risk Stratification of GLP-1 Receptor Agonist-Associated NAION: A Foundation Machine Learning Model from PubMed-Indexed Evidence.* medRxiv preprint (not peer reviewed), 2026.
 
 **Research calculator:** https://naion-glp1-calculator.vercel.app (client-side; research use only)
 
