@@ -1,11 +1,12 @@
 ---
 title: "Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches"
-subtitle: "Full preprint with all experiments and results — draft for author review"
-date: "November 22, 2026"
+subtitle: "Preprint with all experiments and results"
+date: "November 23, 2026"
 ---
 
-[Author list — to be completed and approved by Dr. Kemar Green before submission]  
-Corresponding author: Dr. Kemar Green, [affiliation, address, e-mail]
+**Kemar E. Green**^1,2,3^  
+^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; ^3^NeuroAgent AI, Inc., Baltimore, MD, USA  
+Correspondence: kemarearlgreen@neuroagentai.org
 
 **Research-prototype notice.** This work uses only published aggregate data and computationally generated synthetic records (synthetic_only twins; research_prototype=true; compliance reference Addendum 5, DT#9). The models are not validated for clinical, diagnostic, treatment-selection or regulatory use, and no patient-level health information was accessed.
 
@@ -43,7 +44,7 @@ We searched PubMed for GLP-1RA or GIP/GLP-1RA terms combined with optic neuropat
 
 ### Reconstruction of patient-level data
 
-For each of 11 cohorts with event counts in both arms we selected one primary, non-overlapping contrast (Table 1); overlapping Danish registry analyses and a case-control study were excluded from reconstruction. Each arm became two rows (events, non-events) weighted by their counts, carrying arm-level therapy and exposure and study-level indication, region, data source, outcome definition, follow-up, mean age and percentage female (study medians imputed with missingness indicators). Because splitting patients uniformly at random is equivalent to binomial or multinomial thinning of these counts, every split below operates on individual patients without enumerating millions of rows.
+For each of 11 cohorts with event counts in both arms we selected one primary, non-overlapping contrast (Reconstructed cohorts table, Section A); overlapping Danish registry analyses and a case-control study were excluded from reconstruction. Each arm became two rows (events, non-events) weighted by their counts, carrying arm-level therapy and exposure and study-level indication, region, data source, outcome definition, follow-up, mean age and percentage female (study medians imputed with missingness indicators). Because splitting patients uniformly at random is equivalent to binomial or multinomial thinning of these counts, every split below operates on individual patients without enumerating millions of rows.
 
 ### Models and validation
 
@@ -115,15 +116,15 @@ Within-study effects were estimated with count-weighted logistic regression with
 
 ### Evidence base
 
-Of 169 records, 73 publications contributed data: 29 observational studies, 17 case reports or series (18 NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports (Figure 1). Reconstruction yielded 3,271,499 patients and 1,425 events (prevalence 0.044%) from 11 cohorts in the United States, the Nordic countries and the United Kingdom (Table 1). No source provided patient-level imaging or video; case reports described fundus photography and optical coherence tomography only as figures.
+Of 169 records, 73 publications contributed data: 29 observational studies, 17 case reports or series (18 NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports (study flow figure, Section A). Reconstruction yielded 3,271,499 patients and 1,425 events (prevalence 0.044%) from 11 cohorts in the United States, the Nordic countries and the United Kingdom (Reconstructed cohorts table, Section A). No source provided patient-level imaging or video; case reports described fundus photography and optical coherence tomography only as figures.
 
 ### Associations
 
-With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio 1.59 (95% CI, 1.42 to 1.77); q<0.001). Estimates were 1.73 (95% CI, 1.44 to 2.08) for semaglutide, 2.70 (95% CI, 1.64 to 4.44) when the indication was obesity and 1.62 (95% CI, 1.45 to 1.82) for type 2 diabetes. The association depended on the comparator: 1.81 (95% CI, 1.54 to 2.11) against SGLT2 inhibitors and 2.35 (95% CI, 1.74 to 3.16) against other antidiabetic drugs, but 1.03 (95% CI, 0.57 to 1.85) against DPP-4 inhibitors and 1.14 (95% CI, 0.94 to 1.39) against untreated comparators. In patients with idiopathic intracranial hypertension the direction reversed (0.43 (95% CI, 0.22 to 0.84)). The exposure effect was larger in studies with older participants (interaction odds ratio 1.99 (95% CI, 1.30 to 3.04) per 10 years; q=0.002) and did not vary with the percentage of women (q=0.943). Random-effects pooling of published estimates gave a ratio of 1.34 (95% CI, 1.16 to 1.55; I² = 87%) (Figure 3). Patients in case reports were younger than exposed cohort participants (median 47 vs 60 years; q=0.016); the excess of men was not significant (q=0.274).
+With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio 1.59 (95% CI, 1.42 to 1.77); q<0.001). Estimates were 1.73 (95% CI, 1.44 to 2.08) for semaglutide, 2.70 (95% CI, 1.64 to 4.44) when the indication was obesity and 1.62 (95% CI, 1.45 to 1.82) for type 2 diabetes. The association depended on the comparator: 1.81 (95% CI, 1.54 to 2.11) against SGLT2 inhibitors and 2.35 (95% CI, 1.74 to 3.16) against other antidiabetic drugs, but 1.03 (95% CI, 0.57 to 1.85) against DPP-4 inhibitors and 1.14 (95% CI, 0.94 to 1.39) against untreated comparators. In patients with idiopathic intracranial hypertension the direction reversed (0.43 (95% CI, 0.22 to 0.84)). The exposure effect was larger in studies with older participants (interaction odds ratio 1.99 (95% CI, 1.30 to 3.04) per 10 years; q=0.002) and did not vary with the percentage of women (q=0.943). Random-effects pooling of published estimates gave a ratio of 1.34 (95% CI, 1.16 to 1.55; I² = 87%) (published-estimate forest plot, Section C). Patients in case reports were younger than exposed cohort participants (median 47 vs 60 years; q=0.016); the excess of men was not significant (q=0.274).
 
 ### Discrimination, calibration and explainability
 
-Trained on 10% of patients, XGBoost reached an AUROC of 0.657 on the remaining 90% with calibration slope 0.97; across ten disjoint 10% training folds the AUROC was 0.656 ± 0.011 and O/E 1.00 (Figure 2). Logistic regression (0.616) and random forest (0.646) did not differ significantly from XGBoost (all corrected q≥0.27). AUROC rose with training fraction to a plateau near 0.67 at 40% to 60%. In unseen studies, AUROC fell to 0.534. SHAP rankings were stable across folds; permutation tests confirmed signal for exposure (q=0.004) and therapy (q=0.015), while data source and region — markers of setting rather than patient risk — carried the largest attributions.
+Trained on 10% of patients, XGBoost reached an AUROC of 0.657 on the remaining 90% with calibration slope 0.97; across ten disjoint 10% training folds the AUROC was 0.656 ± 0.011 and O/E 1.00 (hold-out ROC, precision-recall and calibration figure, Section B). Logistic regression (0.616) and random forest (0.646) did not differ significantly from XGBoost (all corrected q≥0.27). AUROC rose with training fraction to a plateau near 0.67 at 40% to 60%. In unseen studies, AUROC fell to 0.534. SHAP rankings were stable across folds; permutation tests confirmed signal for exposure (q=0.004) and therapy (q=0.015), while data source and region — markers of setting rather than patient risk — carried the largest attributions.
 
 ### Threshold performance
 
@@ -141,7 +142,7 @@ In the XGBoost lattice (5,310 fits), no hybrid cell improved AUROC over PubMed-o
 
 Across the full factorial grid (45,360 configurations), 4452 hybrid or synthetic configurations improved discrimination over PubMed-only training after Benjamini-Hochberg correction.
 
-Table 2 summarizes the main model families.
+The model-summary table (Section I) summarizes the main model families.
 
 ### Transport, fine-tuning and convolutional networks
 
@@ -983,7 +984,7 @@ Table: TRIPOD+AI items.
 | Title/abstract         | Identifies prediction-model development with ML on published aggregate evidence; structured abstract               |
 | Background/objectives  | Introduction: intended use = research risk stratification; future use = antiplatelet selection (not yet supported) |
 | Data source            | Methods: PubMed search, extraction schema, pseudo-IPD reconstruction                                               |
-| Participants           | Table 1: 11 non-overlapping cohorts; eligibility = exposed/comparator counts for both arms                         |
+| Participants           | Reconstructed cohorts table: 11 non-overlapping cohorts; eligibility = exposed/comparator counts for both arms                         |
 | Outcome                | NAION (or ischemic optic neuropathy where only ION reported; flagged as a feature)                                 |
 | Predictors             | Therapy, exposure, indication, region, data source, follow-up, study mean age, % female                            |
 | Sample size            | 3,271,499 reconstructed patients, 1,425 events                                                                     |
@@ -998,7 +999,7 @@ Table: TRIPOD+AI items.
 
 ### K. Threshold metrics: advantages and limitations of the best model
 
-(train 10% / test 90%), mean ± SD, unless stated. Stage 3/4 models will be added when those runs finish.
+(train 10% / test 90%), mean ± SD, unless stated.
 
 | Metric | Best model (XGBoost) | vs chance | Reads as |
 |---|---|---|---|
@@ -1017,7 +1018,7 @@ Table: TRIPOD+AI items.
 
 ## Implication for the intended use (antiplatelet selection)
 - At PPV < 0.1%, an antiplatelet given to everyone flagged would treat about 1,000 people per NAION event that occurs, before any treatment effect is considered. Antiplatelet benefit for NAION is unproven.
-- The score in its current form supports research enrichment (choosing whom to examine or enrol), not treatment selection. Prospective, patient-level validation plus a risk-stratified trial are required (see memory: naion-glp1-risk-project).
+- The score in its current form supports research enrichment (choosing whom to examine or enrol), not treatment selection. Prospective, patient-level validation plus a risk-stratified trial are required.
 
 
 ## Discussion

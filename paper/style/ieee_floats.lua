@@ -12,7 +12,7 @@ local function float_table(tbl, onecol)
   if onecol then env = 'table' end
   local spec = string.rep('l', ncol)
   local cap = tex(tbl.caption.long)
-  local s = '\\begin{' .. env .. '}[!htbp]\\centering\\caption{' .. cap .. '}\\scriptsize\n\\begin{adjustbox}{max width=' .. width .. '}\n\\begin{tabular}{' .. spec .. '}\\toprule\n' ..
+  local s = '\\begin{' .. env .. '}[!htbp]\\centering\\caption{' .. cap .. '}' .. (tbl.identifier ~= '' and ('\\label{' .. tbl.identifier .. '}') or '') .. '\\scriptsize\n\\begin{adjustbox}{max width=' .. width .. '}\n\\begin{tabular}{' .. spec .. '}\\toprule\n' ..
     table.concat(head, '\n') .. '\n\\midrule\n' .. table.concat(rows, '\n') .. '\n\\bottomrule\\end{tabular}\n\\end{adjustbox}\n\\end{' .. env .. '}'
   return pandoc.RawBlock('latex', s)
 end

@@ -51,3 +51,6 @@ __pycache__/
 /results/stage3/factorial_tf40.csv
 /results/stage3/factorial_tf30.csv
 /results/stage3/factorial_tf20.csv
+!/paper/overleaf_ieee/
+!/paper/medrxiv_submission/
+/paper/medrxiv_submission/*.zip

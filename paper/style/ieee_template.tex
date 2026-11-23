@@ -1,6 +1,7 @@
 \documentclass[journal]{IEEEtran}
 \usepackage{fontspec}
 \setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\edef\termesid{\rmdefault}\DeclareFontFamilySubstitution{TU}{ptm}{\termesid}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx,longtable,booktabs,array,calc,adjustbox,cite,url}
 \usepackage{newunicodechar}
@@ -16,6 +17,7 @@
 \newcommand*\pandocbounded[1]{\sbox\pandoc@box{#1}\ifdim\wd\pandoc@box>\linewidth\resizebox{\linewidth}{!}{\usebox{\pandoc@box}}\else\usebox{\pandoc@box}\fi}\makeatother
 \setlength{\LTcapwidth}{\textwidth}\setlength{\tabcolsep}{4pt}
 \begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
 \title{$title$}
 \author{$author$}
 \markboth{medRxiv preprint --- not peer reviewed}{$shorttitle$}

@@ -22,7 +22,7 @@ We searched PubMed for GLP-1RA or GIP/GLP-1RA terms combined with optic neuropat
 
 ### Reconstruction of patient-level data
 
-For each of 11 cohorts with event counts in both arms we selected one primary, non-overlapping contrast (Table 1); overlapping Danish registry analyses and a case-control study were excluded from reconstruction. Each arm became two rows (events, non-events) weighted by their counts, carrying arm-level therapy and exposure and study-level indication, region, data source, outcome definition, follow-up, mean age and percentage female (study medians imputed with missingness indicators). Because splitting patients uniformly at random is equivalent to binomial or multinomial thinning of these counts, every split below operates on individual patients without enumerating millions of rows.
+For each of 11 cohorts with event counts in both arms we selected one primary, non-overlapping contrast (Table\ \ref{tbl:cohorts}); overlapping Danish registry analyses and a case-control study were excluded from reconstruction. Each arm became two rows (events, non-events) weighted by their counts, carrying arm-level therapy and exposure and study-level indication, region, data source, outcome definition, follow-up, mean age and percentage female (study medians imputed with missingness indicators). Because splitting patients uniformly at random is equivalent to binomial or multinomial thinning of these counts, every split below operates on individual patients without enumerating millions of rows.
 
 ### Models and validation
 
@@ -94,15 +94,19 @@ Within-study effects were estimated with count-weighted logistic regression with
 
 ### Evidence base
 
-Of 169 records, 73 publications contributed data: 29 observational studies, 17 case reports or series (18 NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports (Figure 1). Reconstruction yielded 3,271,499 patients and 1,425 events (prevalence 0.044%) from 11 cohorts in the United States, the Nordic countries and the United Kingdom (Table 1). No source provided patient-level imaging or video; case reports described fundus photography and optical coherence tomography only as figures.
+Of 169 records, 73 publications contributed data: 29 observational studies, 17 case reports or series (18 NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports (Fig.\ \ref{fig:flow}). Reconstruction yielded 3,271,499 patients and 1,425 events (prevalence 0.044%) from 11 cohorts in the United States, the Nordic countries and the United Kingdom (Table\ \ref{tbl:cohorts}). No source provided patient-level imaging or video; case reports described fundus photography and optical coherence tomography only as figures.
+
+![Study flow and validation design.](paper/figures/fig1_study_flow.png){#fig:flow width=100%}
 
 ### Associations
 
-With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio 1.59 (95% CI, 1.42 to 1.77); q<0.001). Estimates were 1.73 (95% CI, 1.44 to 2.08) for semaglutide, 2.70 (95% CI, 1.64 to 4.44) when the indication was obesity and 1.62 (95% CI, 1.45 to 1.82) for type 2 diabetes. The association depended on the comparator: 1.81 (95% CI, 1.54 to 2.11) against SGLT2 inhibitors and 2.35 (95% CI, 1.74 to 3.16) against other antidiabetic drugs, but 1.03 (95% CI, 0.57 to 1.85) against DPP-4 inhibitors and 1.14 (95% CI, 0.94 to 1.39) against untreated comparators. In patients with idiopathic intracranial hypertension the direction reversed (0.43 (95% CI, 0.22 to 0.84)). The exposure effect was larger in studies with older participants (interaction odds ratio 1.99 (95% CI, 1.30 to 3.04) per 10 years; q=0.002) and did not vary with the percentage of women (q=0.943). Random-effects pooling of published estimates gave a ratio of 1.34 (95% CI, 1.16 to 1.55; I² = 87%) (Figure 3). Patients in case reports were younger than exposed cohort participants (median 47 vs 60 years; q=0.016); the excess of men was not significant (q=0.274).
+With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio 1.59 (95% CI, 1.42 to 1.77); q<0.001). Estimates were 1.73 (95% CI, 1.44 to 2.08) for semaglutide, 2.70 (95% CI, 1.64 to 4.44) when the indication was obesity and 1.62 (95% CI, 1.45 to 1.82) for type 2 diabetes. The association depended on the comparator: 1.81 (95% CI, 1.54 to 2.11) against SGLT2 inhibitors and 2.35 (95% CI, 1.74 to 3.16) against other antidiabetic drugs, but 1.03 (95% CI, 0.57 to 1.85) against DPP-4 inhibitors and 1.14 (95% CI, 0.94 to 1.39) against untreated comparators. In patients with idiopathic intracranial hypertension the direction reversed (0.43 (95% CI, 0.22 to 0.84)). The exposure effect was larger in studies with older participants (interaction odds ratio 1.99 (95% CI, 1.30 to 3.04) per 10 years; q=0.002) and did not vary with the percentage of women (q=0.943). Random-effects pooling of published estimates gave a ratio of 1.34 (95% CI, 1.16 to 1.55; I² = 87%) (Fig.\ \ref{fig:forestpub}). Patients in case reports were younger than exposed cohort participants (median 47 vs 60 years; q=0.016); the excess of men was not significant (q=0.274).
 
 ### Discrimination, calibration and explainability
 
-Trained on 10% of patients, XGBoost reached an AUROC of 0.657 on the remaining 90% with calibration slope 0.97; across ten disjoint 10% training folds the AUROC was 0.656 ± 0.011 and O/E 1.00 (Figure 2). Logistic regression (0.616) and random forest (0.646) did not differ significantly from XGBoost (all corrected q≥0.27). AUROC rose with training fraction to a plateau near 0.67 at 40% to 60%. In unseen studies, AUROC fell to 0.534. SHAP rankings were stable across folds; permutation tests confirmed signal for exposure (q=0.004) and therapy (q=0.015), while data source and region — markers of setting rather than patient risk — carried the largest attributions.
+Trained on 10% of patients, XGBoost reached an AUROC of 0.657 on the remaining 90% with calibration slope 0.97; across ten disjoint 10% training folds the AUROC was 0.656 ± 0.011 and O/E 1.00 (Fig.\ \ref{fig:roc}). Logistic regression (0.616) and random forest (0.646) did not differ significantly from XGBoost (all corrected q≥0.27). AUROC rose with training fraction to a plateau near 0.67 at 40% to 60%. In unseen studies, AUROC fell to 0.534. SHAP rankings were stable across folds; permutation tests confirmed signal for exposure (q=0.004) and therapy (q=0.015), while data source and region — markers of setting rather than patient risk — carried the largest attributions.
+
+![ROC, precision-recall and calibration on the 90% hold-out.](results/stage1/fig_holdout_roc_pr_cal.png){#fig:roc width=100%}
 
 ### Threshold performance
 
@@ -120,7 +124,7 @@ In the XGBoost lattice (5,310 fits), no hybrid cell improved AUROC over PubMed-o
 
 Across the full factorial grid (45,360 configurations), 4452 hybrid or synthetic configurations improved discrimination over PubMed-only training after Benjamini-Hochberg correction.
 
-Table 2 summarizes the main model families.
+Table\ \ref{tbl:models} summarizes the main model families.
 
 ### Transport, fine-tuning and convolutional networks
 
@@ -709,7 +713,7 @@ Table: Data sources by type and modality. Structured tabular data (categorical a
 | RCT-pooled analyses and meta-analyses                                 | structured tabular (pooled estimates)                    | categorical, numeric                  |                   2 |        44 | —          | external priors for synthetic-only (h=100%) generators            |
 | Video                                                                 | -                                                        | none located                          |                   0 |         0 | 0          | -                                                                 |
 
-Table: Reconstructed cohorts.
+Table: Reconstructed cohorts.\label{tbl:cohorts}
 
 | Study                       | Setting           | Region   | Population   | Exposure                   | Comparator         | Exposed, events/N   | Comparator, events/N   |
 |:----------------------------|:------------------|:---------|:-------------|:---------------------------|:-------------------|:--------------------|:-----------------------|
@@ -725,11 +729,9 @@ Table: Reconstructed cohorts.
 | Al-Harbi 2026 [@p41994958]  | EHR network       | US       | IIH          | GLP-1RA class              | No GLP-1RA         | 12/15,559           | 28/15,560              |
 | Ueda 2026 [@p42441962]      | National registry | Nordic   | T2D          | GLP-1RA class              | SGLT2i             | 62/107,518          | 64/185,898             |
 
-![Study flow and validation design.](paper/figures/fig1_study_flow.png){width=100%}
 
 ## PubMed-only supervised models
 
-![ROC, precision-recall and calibration on the 90% hold-out.](results/stage1/fig_holdout_roc_pr_cal.png){width=100%}
 
 ![AUROC and PR-AUC across ten disjoint 10% training folds.](results/stage1/fig_kfold.png){width=100%}
 
@@ -875,7 +877,7 @@ Table: Tests of ML experiments.
 
 ![Within-study odds ratios.](paper/figures/fig_forest_within_study.png){width=100%}
 
-![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){width=80%}
+![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){#fig:forestpub width=80%}
 
 ## Threshold metrics (hold-out; P values against chance)
 
@@ -949,7 +951,7 @@ Across the full factorial grid (45,360 configurations), 4452 hybrid or synthetic
 
 ## Model summary
 
-Table: Model performance by family.
+Table: Model performance by family.\label{tbl:models}
 
 | Model                                                           | Training data         | AUROC 10/90   | AUROC 10×10% folds            | AUROC LOSO   | O/E   | Sens/Spec top 10%   | PPV/NPV top 10%   |
 |:----------------------------------------------------------------|:----------------------|:--------------|:------------------------------|:-------------|:------|:--------------------|:------------------|
@@ -991,7 +993,7 @@ Table: TRIPOD+AI items.
 | Title/abstract         | Identifies prediction-model development with ML on published aggregate evidence; structured abstract               |
 | Background/objectives  | Introduction: intended use = research risk stratification; future use = antiplatelet selection (not yet supported) |
 | Data source            | Methods: PubMed search, extraction schema, pseudo-IPD reconstruction                                               |
-| Participants           | Table 1: 11 non-overlapping cohorts; eligibility = exposed/comparator counts for both arms                         |
+| Participants           | Table\ \ref{tbl:cohorts}: 11 non-overlapping cohorts; eligibility = exposed/comparator counts for both arms                         |
 | Outcome                | NAION (or ischemic optic neuropathy where only ION reported; flagged as a feature)                                 |
 | Predictors             | Therapy, exposure, indication, region, data source, follow-up, study mean age, % female                            |
 | Sample size            | 3,271,499 reconstructed patients, 1,425 events                                                                     |
@@ -1006,7 +1008,7 @@ Table: TRIPOD+AI items.
 
 ## Threshold metrics: advantages and limitations of the best model
 
-(train 10% / test 90%), mean ± SD, unless stated. Stage 3/4 models will be added when those runs finish.
+(train 10% / test 90%), mean ± SD, unless stated.
 
 | Metric | Best model (XGBoost) | vs chance | Reads as |
 |---|---|---|---|
@@ -1039,9 +1041,7 @@ Table: TRIPOD+AI items.
 \section*{Acknowledgment}
 Use of AI tools: this study was carried out with Claude (model Claude Opus 5.5, Anthropic, accessed through the Claude Code agentic command-line tool) acting as an agentic research tool under the direction of the author. The AI system performed PubMed and PubMed Central retrieval, structured data extraction (every extracted value carries its source PMID and a verbatim evidence quotation), analysis code, model training and evaluation, figures and the first draft of the manuscript. The author designed the study, directed every experiment, reviewed the results and the manuscript, and takes full responsibility for the content. In line with medRxiv and ICMJE policy, AI tools are not listed as authors. Approximately 0.25 kWh of local compute and at least 764{,}000 metered language-model tokens were used (see Methods).
 
-Funding: none declared.\,\textsuperscript{\dag}\quad Competing interests: the author is the founder of NeuroAgent AI and HazyEyes AI; no relationship with manufacturers of GLP-1 receptor agonists.\,\textsuperscript{\dag}\quad Ethics: only published aggregate data and synthetic records were used; no human participants were involved and IRB approval was not required.\,\textsuperscript{\dag}
-
-\textsuperscript{\dag}\,To be confirmed by the author before posting.
+\textit{Funding:} this work received no specific funding. \textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. and HazyEyes AI; the author declares no other competing interests. \textit{Ethics:} only published aggregate data and computationally generated synthetic records were used; no human participants were involved, so institutional review board approval was not required.
 
 Data and code availability: extraction files (with PMID and evidence quotation per value), reconstructed count-weighted patient-level data, synthetic digital-twin datasets, model weights, analysis code and all result files are available at \url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator running the PubMed-only XGBoost model in the browser is at \url{https://naion-glp1-calculator.vercel.app}.
 

@@ -1,11 +1,12 @@
 ---
 title: "Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches"
-subtitle: "Original Article — draft for author review (NEJM AI format)"
-date: "November 22, 2026"
+subtitle: "Original Article"
+date: "November 23, 2026"
 ---
 
-[Author list — to be completed and approved by Dr. Kemar Green before submission]  
-Corresponding author: Dr. Kemar Green, [affiliation, address, e-mail]
+**Kemar E. Green**^1,2,3^  
+^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; ^3^NeuroAgent AI, Inc., Baltimore, MD, USA  
+Correspondence: kemarearlgreen@neuroagentai.org
 
 **Research-prototype notice.** This work uses only published aggregate data and computationally generated synthetic records (synthetic_only twins; research_prototype=true; compliance reference Addendum 5, DT#9). The models are not validated for clinical, diagnostic, treatment-selection or regulatory use, and no patient-level health information was accessed.
 

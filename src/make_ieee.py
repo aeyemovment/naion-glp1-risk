@@ -7,10 +7,11 @@ import os, re, shutil, subprocess, sys
 sys.path.insert(0, "src")
 import make_papers as MP
 
-AUTHOR_NAME = "Kemar Green"
-AFFIL = "NeuroAgent AI"                                   # TODO author to confirm affiliation / address
-EMAIL = "kemarearlgreen@neuroagentai.org"                 # TODO author to confirm corresponding e-mail
-ORCID = ""                                                # optional
+# credentials as on the author's 2026 arXiv paper (arXiv:2606.09681v2)
+AUTHOR_NAME = "Kemar E. Green"
+AFFILS = ["Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA",
+          "Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA", "NeuroAgent AI, Inc., Baltimore, MD, USA"]
+EMAIL = "kemarearlgreen@neuroagentai.org"
 KEYWORDS = ("Nonarteritic anterior ischemic optic neuropathy, GLP-1 receptor agonists, semaglutide, machine learning, "
             "synthetic data, digital twins, graph neural networks, risk prediction, explainable AI")
 ACK = ("\\section*{Acknowledgment}\n"
@@ -20,14 +21,21 @@ ACK = ("\\section*{Acknowledgment}\n"
        "model training and evaluation, figures and the first draft of the manuscript. The author designed the study, directed every experiment, "
        "reviewed the results and the manuscript, and takes full responsibility for the content. In line with medRxiv and ICMJE policy, AI tools "
        "are not listed as authors. Approximately 0.25 kWh of local compute and at least 764{,}000 metered language-model tokens were used (see Methods).\n\n"
-       "Funding: none declared.\\,\\textsuperscript{\\dag}\\quad Competing interests: the author is the founder of NeuroAgent AI and HazyEyes AI; no relationship "
-       "with manufacturers of GLP-1 receptor agonists.\\,\\textsuperscript{\\dag}\\quad Ethics: only published aggregate data and synthetic records were used; "
-       "no human participants were involved and IRB approval was not required.\\,\\textsuperscript{\\dag}\n\n"
-       "\\textsuperscript{\\dag}\\,To be confirmed by the author before posting.\n\n"
+       "\\textit{Funding:} this work received no specific funding. \\textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. "
+       "and HazyEyes AI; the author declares no other competing interests. \\textit{Ethics:} only published aggregate data and computationally generated "
+       "synthetic records were used; no human participants were involved, so institutional review board approval was not required.\n\n"
        "Data and code availability: extraction files (with PMID and evidence quotation per value), reconstructed count-weighted patient-level data, "
        "synthetic digital-twin datasets, model weights, analysis code and all result files are available at \\url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator running the PubMed-only XGBoost model in the browser is at \\url{https://naion-glp1-calculator.vercel.app}.\n")
 
 def build():
+    MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "(Figure 1)": "(Fig.\\ \\ref{fig:flow})", "(Figure 2)": "(Fig.\\ \\ref{fig:roc})",
+                        "(Figure 3)": "(Fig.\\ \\ref{fig:forestpub})", "Table 2 summarizes": "Table\\ \\ref{tbl:models} summarizes",
+                        "| Table 1: 11 non-overlapping": "| Table\\ \\ref{tbl:cohorts}: 11 non-overlapping",
+                        "Table: Reconstructed cohorts.": "Table: Reconstructed cohorts.\\label{tbl:cohorts}",
+                        "Table: Model performance by family.": "Table: Model performance by family.\\label{tbl:models}",
+                        "(paper/figures/fig1_study_flow.png){width=100%}": "(paper/figures/fig1_study_flow.png){#fig:flow width=100%}",
+                        "(results/stage1/fig_holdout_roc_pr_cal.png){width=100%}": "(results/stage1/fig_holdout_roc_pr_cal.png){#fig:roc width=100%}",
+                        "(results/stage1b/fig_forest.png){width=80%}": "(results/stage1b/fig_forest.png){#fig:forestpub width=80%}"}
     md = MP.preprint()
     md = re.sub(r"\A---.*?---\s*", "", md, flags=re.S)
     for s in (MP.AUTH, MP.DISCL, MP.AI_USE): md = md.replace(s, "")
@@ -51,10 +59,17 @@ def build():
     md_ieee = re.sub(r"```\{=latex\}\n\\section\*\{Acknowledgment\}.*?```", "", md_ieee, flags=re.S)
     md_ieee = md_ieee.replace(raw("\\clearpage\\twocolumn"), raw("\\clearpage\\twocolumn\n" + ACK))
 
+    # move key figures from the appendix into the body, right after the paragraph that first cites them (IEEE: figures near first mention)
+    for fid in ("fig:flow", "fig:roc"):
+        m = re.search(r"\n!\[[^\n]*\{#" + re.escape(fid) + r"[^\n]*\}\n", md_ieee)
+        if not m: continue
+        fig = m.group(0); md_ieee = md_ieee.replace(fig, "\n")
+        i = md_ieee.find("\\ref{" + fid + "}"); j = md_ieee.find("\n\n", i)
+        md_ieee = md_ieee[:j] + "\n\n" + fig.strip() + md_ieee[j:]
     d = "paper/ieee"; os.makedirs(f"{d}/figures", exist_ok=True)
     open(f"{d}/ieee.md", "w").write(md_ieee)
     tolatex = lambda s: subprocess.run(["pandoc", "-f", "markdown", "-t", "latex"], input=s, capture_output=True, text=True, check=True).stdout.strip()
-    thanks = (f"{AUTHOR_NAME} is with {AFFIL} (e-mail: {EMAIL}){'; ORCID ' + ORCID if ORCID else ''}. "
+    thanks = (f"K.~E.~Green is with the {AFFILS[0]}; the {AFFILS[1]}; and {AFFILS[2]} (e-mail: {EMAIL}). "
               "Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
               "compliance reference Addendum 5, DT\\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. "
               "This preprint has not been peer reviewed.")
@@ -72,12 +87,36 @@ def build():
         if os.path.exists(src):
             dst = f"figures/{os.path.basename(src)}"; shutil.copy(src, f"{d}/{dst}"); t = t.replace("{" + pth + "}", "{" + dst + "}")
     open(f"{d}/naion_glp1_ieee.tex", "w").write(t)
-    MP.bibtex(); shutil.copy(f"{MP.P}/references.bib", f"{d}/references.bib")
+    MP.ensure_refs([md_ieee]); MP.bibtex()
+    bst = '@IEEEtranBSTCTL{IEEEexample:BSTcontrol, CTLuse_forced_etal = "yes", CTLmax_names_forced_etal = "6", CTLnames_show_etal = "1", CTLdash_repeated_names = "no"}\n'
+    open(f"{d}/references.bib", "w").write(bst + open(f"{MP.P}/references.bib").read())
     r = subprocess.run(["tectonic", "-X", "compile", "naion_glp1_ieee.tex"], cwd=d, capture_output=True, text=True)
     print(r.stderr[-4000:] if r.returncode else "compiled")
     miss = sorted(set(re.findall(r"Missing character: There is no (\S+)", r.stderr)))
     print("missing glyphs:", miss)
+    overleaf(d, r.stderr)
     return d
+
+def overleaf(d, log):
+    """Self-contained Overleaf project: main.tex + references.bib + figures/ + latexmkrc (XeLaTeX), zipped for New Project > Upload Project."""
+    o = "paper/overleaf_ieee"; shutil.rmtree(o, ignore_errors=True); os.makedirs(o)
+    shutil.copytree(f"{d}/figures", f"{o}/figures")
+    t = open(f"{d}/naion_glp1_ieee.tex").read()
+    used = set(re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{figures/([^}]+)\}", t))
+    for f in os.listdir(f"{o}/figures"):
+        if f not in used: os.remove(f"{o}/figures/{f}")
+    open(f"{o}/main.tex", "w").write("% Compile with XeLaTeX (set automatically by latexmkrc; or Menu > Compiler > XeLaTeX). IEEEtran journal format.\n" + t)
+    shutil.copy(f"{d}/references.bib", f"{o}/references.bib")
+    open(f"{o}/latexmkrc", "w").write("$pdf_mode = 5;  # XeLaTeX\n$bibtex_use = 2;\n")
+    open(f"{o}/README.md", "w").write(
+        "# Overleaf project - IEEE (IEEEtran) manuscript\n\n"
+        "1. Overleaf > New Project > Upload Project > select `naion_glp1_ieee_overleaf.zip`.\n"
+        "2. Compiler is XeLaTeX (set by `latexmkrc`; check Menu > Compiler). Main document: `main.tex`. IEEEtran.cls/.bst are built into Overleaf.\n"
+        "3. References: `references.bib` (BibTeX, IEEEtran style; >6 authors shown as et al.). Figures: `figures/`.\n\n"
+        "Generated by `src/make_ieee.py`; edits made in Overleaf do not flow back into the generator.\n")
+    zp = "paper/naion_glp1_ieee_overleaf.zip"
+    shutil.make_archive(zp[:-4], "zip", o)
+    print("overleaf:", o, zp, len(used), "figures")
 
 if __name__ == "__main__":
     build()

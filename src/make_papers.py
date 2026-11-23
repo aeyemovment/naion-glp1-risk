@@ -95,10 +95,11 @@ def bib_name(a):
 def bibtex():
     out = [METHOD_BIB]
     for pm, r in refs.items():
-        au = " and ".join(bib_name(a) for a in r["authors"][:20]) + (" and others" if len(r["authors"]) > 20 else "") if r["authors"] else "Anonymous"
+        au = " and ".join(bib_name(a) for a in r["authors"][:20]) + (" and others" if len(r["authors"]) > 20 else "") if r["authors"] else ""
         esc = lambda s: s.replace("{", "").replace("}", "").replace("&", r"\&")
-        out.append(f"@article{{p{pm}, author={{{au}}}, title={{{{{esc(r['title'])}}}}}, journal={{{esc(r['journal'])}}}, year={{{r['year']}}}, "
-                   f"volume={{{r['volume']}}}, number={{{r['issue']}}}, pages={{{r['pages']}}}, doi={{{r['doi']}}}, note={{PMID: {pm}}}}}")
+        aufield = f"author={{{au}}}, " if au else ""
+        out.append(f"@article{{p{pm}, {aufield}title={{{{{esc(r['title'])}}}}}, journal={{{esc(r['journal'])}}}, year={{{r['year']}}}, "
+                   f"volume={{{r['volume']}}}, number={{{r['issue']}}}, pages={{{r['pages'].replace('-', '--')}}}, doi={{{r['doi']}}}, note={{{{PMID}}: {pm}}}}}")
     open(f"{P}/references.bib", "w").write("\n".join(out))
 def first_author(pm):
     r = refs.get(str(pm)); return (r["authors"][0].split()[0] if r and r["authors"] else "NA"), (r["year"] if r else "")
@@ -234,8 +235,10 @@ gnn_tune_text = (f"Nested tuning over {S6c['n_configs']} GNN configurations sele
 ens_text = (f"Among {len(SUBSETS_LABEL) if False else 11} member combinations × 3 combiners, the best ensemble ({S4['top10'][0]['ensemble']}, {S4['top10'][0]['method']}) reached AUROC {f(S4['top10'][0]['auroc'])}, "
             f"a difference of {f(S4['top10'][0]['diff_vs_best_single'],4)} from the best single model (q={pq(S4['top10'][0]['q_bh'])})." if S4 else PENDING("the ensemble experiment including the GNN (Stage 4)"))
 
-AUTH = ("[Author list — to be completed and approved by Dr. Kemar Green before submission]  \n"
-        "Corresponding author: Dr. Kemar Green, [affiliation, address, e-mail]")
+AUTH = ("**Kemar E. Green**^1,2,3^  \n"
+        "^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; "
+        "^3^NeuroAgent AI, Inc., Baltimore, MD, USA  \n"
+        "Correspondence: kemarearlgreen@neuroagentai.org")
 DISCL = ("**Research-prototype notice.** This work uses only published aggregate data and computationally generated synthetic records "
          "(synthetic_only twins; research_prototype=true; compliance reference Addendum 5, DT#9). The models are not validated for clinical, diagnostic, "
          "treatment-selection or regulatory use, and no patient-level health information was accessed.")
@@ -385,7 +388,7 @@ def intro():
         "which features matter, with explicit statistical testing at every step."])
 
 def nejm():
-    md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article — draft for author review (NEJM AI format)\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
+    md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
           AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
@@ -405,7 +408,7 @@ def nejm():
     return "\n\n".join(md)
 
 def preprint():
-    secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Full preprint with all experiments and results — draft for author review\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
+    secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
             AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
             (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
@@ -468,7 +471,14 @@ def preprint():
             "## Data and code availability",
             "Extraction files (JSON with PMID and evidence quote per value), reconstructed patient-level counts, analysis code and all result files are in the project repository and will be deposited with the preprint.",
             "## References"]
-    return "\n\n".join(s for s in secs if s)
+    out = "\n\n".join(s for s in secs if s)
+    for a, b in XREF_PREPRINT.items(): out = out.replace(a, b)
+    return out
+
+XREF_PREPRINT = {"(Table 1)": "(Reconstructed cohorts table, Section A)", "(Figure 1)": "(study flow figure, Section A)",
+                 "(Figure 2)": "(hold-out ROC, precision-recall and calibration figure, Section B)",
+                 "(Figure 3)": "(published-estimate forest plot, Section C)", "Table 2 summarizes": "The model-summary table (Section I) summarizes",
+                 "| Table 1: 11 non-overlapping": "| Reconstructed cohorts table: 11 non-overlapping"}
 
 # ------------------------------------------------------------------ render
 HEADER = r"""
