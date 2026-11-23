@@ -896,6 +896,44 @@ differed after Benjamini-Hochberg correction.
 
 \emph{(Full table in Appendix, "Long result tables".)}
 
+\subsection{Restriction to cohorts reporting vascular risk
+factors}\label{restriction-to-cohorts-reporting-vascular-risk-factors}
+
+No study reported medical history for individual patients, so
+hypertension, sleep apnea and other NAION risk factors could not be
+modelled per patient. As a sensitivity analysis we restricted the
+within-study analysis to cohorts that reported these risk factors at
+study level (hypertension prevalence 48-86\%, sleep apnea 13-42\%), in
+which users and comparators were matched on them by design. The
+association persisted and was, if anything, stronger: OR 1.79 (95\% CI,
+1.55 to 2.07) in the 5 cohorts reporting hypertension (1,846,211
+patients, 786 events), OR 2.02 (95\% CI, 1.70 to 2.38) in the 4 also
+reporting sleep apnea, and OR 1.67 (95\% CI, 1.45 to 1.92) in the 6
+cohorts with 1:1 or 1:2 propensity-score matching, compared with OR 1.59
+(95\% CI, 1.42 to 1.77) overall (all P\textless0.001; Mantel-Haenszel
+estimates agreed within 0.03). Discrimination was not better in these
+subsets (XGBoost AUROC 0.613 to 0.631), because study-level prevalences
+are balanced between arms and carry no information about which patient
+develops NAION.
+
+\begin{table*}[!htbp]\centering\caption{Sensitivity analysis restricted to cohorts reporting NAION risk-factor
+prevalence at study level (hypertension; hypertension and obstructive
+sleep apnea; 1:1 or 1:2 propensity-score matching). OR = within-study
+odds ratio for GLP-1RA exposure (count-weighted logistic regression with
+study fixed effects) with 95\% CI; MH OR = Mantel-Haenszel odds ratio;
+I2 = between-study heterogeneity; XGBoost AUROC = mean over ten disjoint
+10\% training folds. Remaining abbreviations and variable names:
+Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{llllllllll}\toprule
+Cohorts included & Cohorts & Patients & Events & OR & 95\% CI low & 95\% CI high & MH OR & I2 (\%) & XGBoost AUROC \\
+\midrule
+All cohorts & 11 & 3,271,499 & 1425 & 1.59 & 1.42 & 1.77 & 1.59 & 75 & 0.654 \\
+Reported hypertension prevalence & 5 & 1,846,211 & 786 & 1.79 & 1.55 & 2.07 & 1.78 & 79 & 0.613 \\
+Reported hypertension and sleep apnea prevalence & 4 & 1,476,079 & 611 & 2.02 & 1.7 & 2.38 & 1.99 & 72 & 0.631 \\
+1:1 or 1:2 propensity-score matched & 6 & 1,877,330 & 826 & 1.67 & 1.45 & 1.92 & 1.66 & 86 & 0.618 \\
+\bottomrule\end{tabular}}
+\end{table*}
+
 \subsection{Feature combinations and the compounding
 hypothesis}\label{feature-combinations-and-the-compounding-hypothesis}
 

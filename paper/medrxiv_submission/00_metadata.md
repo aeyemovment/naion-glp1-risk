@@ -25,4 +25,4 @@ Conclusions. Published evidence supports a reproducible exposure signal but only
 4. Data/code: https://github.com/aeyemovment/naion-glp1-risk (release v1.0.0) — cited in the data-availability statement
 5. `04_IEEE_LaTeX_Overleaf.zip` — LaTeX source (not uploaded to medRxiv; for Overleaf editing)
 
-**Author:** Kemar Earl Green, DO, FANA — 1 Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; 2 NeuroAgent AI, Inc., Baltimore, MD, USA. Corresponding: kemarearlgreen@neuroagentai.org
+**Author:** Kemar Earl Green, DO, FANA — 1 Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; 2 NeuroAgentAI, Inc., Baltimore, MD, USA. Corresponding: kemarearlgreen@neuroagentai.org

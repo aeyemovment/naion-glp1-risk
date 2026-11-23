@@ -125,6 +125,10 @@ Table 2 summarizes the main model families.
 
 **With versus without ABCD features across all experiments.** Over 455 paired comparisons using identical splits and seeds, adding the partial ABCD items changed AUROC by 0.0016 on average; 0 comparisons differed after Benjamini-Hochberg correction.
 
+### Restriction to cohorts reporting vascular risk factors
+
+No study reported medical history for individual patients, so hypertension, sleep apnea and other NAION risk factors could not be modelled per patient. As a sensitivity analysis we restricted the within-study analysis to cohorts that reported these risk factors at study level (hypertension prevalence 48-86%, sleep apnea 13-42%), in which users and comparators were matched on them by design. The association persisted and was, if anything, stronger: OR 1.79 (95% CI, 1.55 to 2.07) in the 5 cohorts reporting hypertension (1,846,211 patients, 786 events), OR 2.02 (95% CI, 1.70 to 2.38) in the 4 also reporting sleep apnea, and OR 1.67 (95% CI, 1.45 to 1.92) in the 6 cohorts with 1:1 or 1:2 propensity-score matching, compared with OR 1.59 (95% CI, 1.42 to 1.77) overall (all P<0.001; Mantel-Haenszel estimates agreed within 0.03). Discrimination was not better in these subsets (XGBoost AUROC 0.613 to 0.631), because study-level prevalences are balanced between arms and carry no information about which patient develops NAION.
+
 ### Feature combinations and the compounding hypothesis
 
 **Feature combinations and the compounding hypothesis.** Across all 511 combinations of nine feature groups, the largest Shapley contributions to XGBoost AUROC came from setting (0.0350), duration (0.0290), sex (0.0270), drug (0.0212). For the hypothesis that individually negligible features contribute in combination, no feature group met the prespecified criteria; no pair showed significant positive interaction. For an optional-input calculator, a single XGBoost trained with random feature-group dropout differed from a bank of dedicated sub-models by -0.0121 AUROC on average across input patterns.

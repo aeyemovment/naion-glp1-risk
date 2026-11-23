@@ -473,9 +473,30 @@ def plain_terms(md):
 
 import nomenclature as NOM, captions as CAP
 
+def results_sensitivity(table=True):
+    """Stage 17: robustness of the exposure effect in cohorts that reported vascular / NAION risk-factor prevalence."""
+    if not os.path.exists("results/stage17/sensitivity_comorbidity.csv"): return ""
+    R = pd.read_csv("results/stage17/sensitivity_comorbidity.csv").set_index("subset")
+    a, h, ho, ps = (R.loc[k] for k in ["All cohorts", "Reported hypertension prevalence", "Reported hypertension and sleep apnea prevalence", "1:1 or 1:2 propensity-score matched"])
+    o = lambda r: f"OR {r.OR:.2f} (95% CI, {r.ci_lo:.2f} to {r.ci_hi:.2f})"
+    txt = (f"No study reported medical history for individual patients, so hypertension, sleep apnea and other NAION risk factors could not be modelled per "
+           f"patient. As a sensitivity analysis we restricted the within-study analysis to cohorts that reported these risk factors at study level "
+           f"(hypertension prevalence {h.htn_range}, sleep apnea {ho.osa_range}), in which users and comparators were matched on them by design. "
+           f"The association persisted and was, if anything, stronger: {o(h)} in the {int(h.cohorts)} cohorts reporting hypertension "
+           f"({int(h.patients):,} patients, {int(h.events)} events), {o(ho)} in the {int(ho.cohorts)} also reporting sleep apnea, and {o(ps)} in the "
+           f"{int(ps.cohorts)} cohorts with 1:1 or 1:2 propensity-score matching, compared with {o(a)} overall (all P<0.001; Mantel-Haenszel estimates "
+           f"agreed within 0.03). Discrimination was not better in these subsets (XGBoost AUROC {h.xgb_auroc:.3f} to {ho.xgb_auroc:.3f}), because "
+           "study-level prevalences are balanced between arms and carry no information about which patient develops NAION.")
+    if not table: return txt
+    T = R.reset_index()[["subset", "cohorts", "patients", "events", "OR", "ci_lo", "ci_hi", "MH_OR", "I2", "xgb_auroc"]].copy()
+    T["patients"] = T.patients.map(lambda v: f"{int(v):,}")
+    T = T.round({"OR": 2, "ci_lo": 2, "ci_hi": 2, "MH_OR": 2, "I2": 0, "xgb_auroc": 3})
+    T.columns = ["Cohorts included", "Cohorts", "Patients", "Events", "OR", "95% CI low", "95% CI high", "MH OR", "I2 (%)", "XGBoost AUROC"]
+    return txt + "\n\nTable: Sensitivity analysis restricted to cohorts reporting NAION risk-factor prevalence.\n\n" + T.to_markdown(index=False)
+
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
+          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
           "Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.\n\n" + t_models(),
@@ -496,7 +517,7 @@ def nejm():
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
+            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
             (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
             (f"![AUROC and PPV of each model within non-users and within GLP-1RA users (mean ± SD over ten folds).](results/stage11/fig_subgroups.png){{width=100%}}" if os.path.exists("results/stage11/fig_subgroups.png") else ""),

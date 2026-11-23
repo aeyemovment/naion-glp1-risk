@@ -114,6 +114,11 @@ FIG = {
 }
 
 TAB = {
+    "Sensitivity analysis restricted to cohorts reporting NAION risk-factor prevalence":
+        "Sensitivity analysis restricted to cohorts reporting NAION risk-factor prevalence at study level (hypertension; hypertension and obstructive "
+        "sleep apnea; 1:1 or 1:2 propensity-score matching). OR = within-study odds ratio for GLP-1RA exposure (count-weighted logistic regression with "
+        "study fixed effects) with 95% CI; MH OR = Mantel-Haenszel odds ratio; I2 = between-study heterogeneity; XGBoost AUROC = mean over ten "
+        "disjoint 10% training folds.",
     "NAION incidence per 100,000 person-years":
         "NAION incidence per 100,000 person-years (rate) in GLP-1RA users and comparators by stratum. Events = NAION events; IRR = incidence "
         "rate ratio (GLP-1RA / comparator) with exact conditional binomial 95% CI; MH IRR = Mantel-Haenszel IRR pooled within studies; q = "
