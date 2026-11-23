@@ -1,6 +1,6 @@
 # medRxiv submission metadata
 
-**Title:** A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Evidence in PubMed-Indexed Publications
+**Title:** Development of a Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification Using Reconstructed Evidence in PubMed-Indexed Publications
 
 **Article type:** New Results / original research (machine-learning prediction study using published aggregate data and synthetic data)
 
