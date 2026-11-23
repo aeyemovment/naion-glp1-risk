@@ -7,7 +7,7 @@
 
 Code, model weights, derived data, synthetic data and manuscript for:
 
-**Green KE.** *A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Published Evidence.* medRxiv preprint (not peer reviewed), 2026.
+**Green KE.** *A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Evidence in PubMed-Indexed Publications.* medRxiv preprint (not peer reviewed), 2026.
 
 **Research calculator:** https://naion-glp1-calculator.vercel.app (client-side; research use only)
 

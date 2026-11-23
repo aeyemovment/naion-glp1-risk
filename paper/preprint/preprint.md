@@ -1,5 +1,5 @@
 ---
-title: "A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Published Evidence"
+title: "A Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification from Reconstructed Evidence in PubMed-Indexed Publications"
 subtitle: "Preprint with all experiments and results"
 date: "November 23, 2026"
 ---
