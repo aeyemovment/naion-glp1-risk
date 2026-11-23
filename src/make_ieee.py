@@ -8,7 +8,7 @@ sys.path.insert(0, "src")
 import make_papers as MP
 
 # credentials as on the author's 2026 arXiv paper (arXiv:2606.09681v2)
-AUTHOR_NAME = "Kemar E. Green"
+AUTHOR_NAME = "Kemar Earl Green, DO, FANA"
 AFFILS = ["Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA",
           "Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA", "NeuroAgent AI, Inc., Baltimore, MD, USA"]
 EMAIL = "kemarearlgreen@neuroagentai.org"
@@ -49,6 +49,12 @@ def to_ascii_tex(t):
     left = sorted({ch for ch in t if ord(ch) > 127})
     if left: raise SystemExit(f"unmapped non-ASCII characters: {left}")
     return t
+
+def author_block(thanks):
+    """Name with superscript affiliation numbers, then numbered affiliations and e-mail beneath (arXiv-style)."""
+    aff = "\\\\ ".join(f"\\textsuperscript{{{i}}}{a}" for i, a in enumerate(AFFILS, 1))
+    return (f"{AUTHOR_NAME}\\textsuperscript{{{','.join(str(i) for i in range(1, len(AFFILS) + 1))}}}\\thanks{{{thanks}}}"
+            f"\\\\[4pt] {{\\normalsize\\itshape {aff}\\\\[2pt] \\upshape\\texttt{{{EMAIL}}}}}")
 
 def build():
     MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "(Figure 1)": "(Fig.\\ \\ref{fig:flow})", "(Figure 2)": "(Fig.\\ \\ref{fig:roc})",
@@ -92,11 +98,10 @@ def build():
     d = "paper/ieee"; os.makedirs(f"{d}/figures", exist_ok=True)
     open(f"{d}/ieee.md", "w").write(md_ieee)
     tolatex = lambda s: subprocess.run(["pandoc", "-f", "markdown", "-t", "latex"], input=s, capture_output=True, text=True, check=True).stdout.strip()
-    thanks = (f"K.~E.~Green is with the {AFFILS[0]}; the {AFFILS[1]}; and {AFFILS[2]} (e-mail: {EMAIL}). "
-              "Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
+    thanks = ("Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
               "compliance reference Addendum 5, DT\\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. "
               "This preprint has not been peer reviewed. \\copyright\\ 2026 NeuroAgent AI, Inc.; code, model weights and data are licensed for non-commercial research use only, with attribution.")
-    meta = {"title": MP.title, "author": f"{AUTHOR_NAME}\\thanks{{{thanks}}}", "shorttitle": "Green: GLP-1 receptor agonists and NAION --- ML on published evidence",
+    meta = {"title": MP.title, "author": author_block(thanks), "shorttitle": "Green: GLP-1 receptor agonists and NAION --- ML on published evidence",
             "abstract": tolatex(abstract_md), "keywords": KEYWORDS}
     args = ["pandoc", f"{d}/ieee.md", "-f", "markdown+pipe_tables+implicit_figures+raw_attribute", "-t", "latex", "-s", "--natbib",
             "--shift-heading-level-by=-1", "--template", "paper/style/ieee_template.tex", "--lua-filter", "paper/style/ieee_floats.lua",

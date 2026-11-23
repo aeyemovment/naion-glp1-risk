@@ -4,7 +4,7 @@ subtitle: "Original Article"
 date: "November 23, 2026"
 ---
 
-**Kemar E. Green**^1,2,3^  
+**Kemar Earl Green, DO, FANA**^1,2,3^  
 ^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; ^3^NeuroAgent AI, Inc., Baltimore, MD, USA  
 Correspondence: kemarearlgreen@neuroagentai.org
 
