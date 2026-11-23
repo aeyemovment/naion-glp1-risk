@@ -8,6 +8,8 @@ Code, model weights, derived data, synthetic data and manuscript for:
 **Green K.** *Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic
 Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches.* medRxiv preprint (not peer reviewed), 2026.
 
+**Research calculator:** https://naion-glp1-calculator.vercel.app (client-side; research use only)
+
 ## Key results
 - Within-study OR for NAION with GLP-1RA exposure 1.59 (95% CI 1.42–1.77); semaglutide 1.73; obesity indication 2.70.
 - PubMed-only XGBoost AUROC 0.656 ± 0.011 (ten disjoint 10% training folds); ≈0.53 in unseen studies.

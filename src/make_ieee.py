@@ -25,7 +25,7 @@ ACK = ("\\section*{Acknowledgment}\n"
        "no human participants were involved and IRB approval was not required.\\,\\textsuperscript{\\dag}\n\n"
        "\\textsuperscript{\\dag}\\,To be confirmed by the author before posting.\n\n"
        "Data and code availability: extraction files (with PMID and evidence quotation per value), reconstructed count-weighted patient-level data, "
-       "synthetic digital-twin datasets, analysis code and all result files are provided in the accompanying data release.\n")
+       "synthetic digital-twin datasets, model weights, analysis code and all result files are available at \\url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator running the PubMed-only XGBoost model in the browser is at \\url{https://naion-glp1-calculator.vercel.app}.\n")
 
 def build():
     md = MP.preprint()
