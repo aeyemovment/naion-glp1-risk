@@ -67,7 +67,7 @@ def build():
     body = "## Introduction" + md.split("## Introduction", 1)[1]
     body = body.replace("## References", "")
     body = re.sub(r"## Data and code availability\n\n.*?(?=\n## |\Z)", "", body, flags=re.S)
-    disc = MP.discussion()
+    disc = MP.plain_terms(MP.discussion())
     main, appx = body.split("## Complete experimental results", 1)
     appx = appx.replace(disc, "")
     appx = re.sub(r"^## ", "### ", appx, flags=re.M)                     # notes inside section K -> subsections

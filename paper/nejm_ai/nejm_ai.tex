@@ -163,8 +163,8 @@ non-overlapping cohorts (3,271,499 patients; 1,425 events). Logistic
 regression, random forest, XGBoost, graph neural networks and ensembles
 were trained on 10\% and tested on 90\%, across 10 disjoint 10\% folds,
 across training fractions of 10\% to 90\%, and by leave-one-study-out
-validation. Synthetic twins were added in a factorial lattice. SHAP
-values, permutation tests and Benjamini-Hochberg correction were used.
+validation. Synthetic twins were added in a factorial grid. SHAP values,
+permutation tests and Benjamini-Hochberg correction were used.
 
 \textbf{Results.} Within studies, GLP-1RA exposure was associated with
 NAION (odds ratio 1.59 (95\% CI, 1.42 to 1.77)); semaglutide 1.73 (95\%
@@ -281,16 +281,16 @@ Attributions used integrated gradients\textsuperscript{38}.
 
 \subsubsection{Synthetic digital twins}\label{synthetic-digital-twins}
 
-Twins were generated in a lattice adapted from a 3×6×9 design: three
-generators (independent marginals; Gaussian copula preserving feature
-correlations; a structural model on SHAP-stable features) and their
-combinations, three prior sources (fitted to the real training split,
-published external priors only, or a blend), six volumes (1 to 100 times
-the real training size) and synthetic shares of 10\% to 100\%, crossed
-with real training fractions of 0\% to 90\%, four models and 10 repeats.
-Twins were never used for testing, and generators never saw test data.
-Recursive refinement around the best cell continued while AUROC improved
-by at least 0.005.
+Twins were generated in a factorial grid\textsuperscript{39} with local
+refinement\textsuperscript{40}: three generators (independent marginals;
+Gaussian copula preserving feature correlations\textsuperscript{41}; a
+structural model on SHAP-stable features) and their combinations, three
+prior sources (fitted to the real training split, published external
+priors only, or a blend), six volumes (1 to 100 times the real training
+size) and synthetic shares of 10\% to 100\%, crossed with real training
+fractions of 0\% to 90\%, four models and 10 repeats. Twins were never
+used for testing, and generators never saw test data. Local refinement
+around the best cell continued while AUROC improved by at least 0.005.
 
 \subsubsection{Ensembles}\label{ensembles}
 
@@ -304,18 +304,18 @@ best PubMed-only, hybrid and synthetic-only models.
 
 Within-study effects were estimated with count-weighted logistic
 regression with study fixed effects; marginal associations used
-cluster-robust standard errors by study. SHAP values\textsuperscript{39}
+cluster-robust standard errors by study. SHAP values\textsuperscript{42}
 were tested against null distributions from 500 refits with events
 reallocated at random across arms, globally and within studies.
 Published ratio estimates were pooled with DerSimonian-Laird random
-effects\textsuperscript{40}. AUROC was tested against 0.5 with the
-Hanley-McNeil method\textsuperscript{41}; models were compared with the
-Nadeau-Bengio corrected resampled t-test\textsuperscript{42} on paired
+effects\textsuperscript{43}. AUROC was tested against 0.5 with the
+Hanley-McNeil method\textsuperscript{44}; models were compared with the
+Nadeau-Bengio corrected resampled t-test\textsuperscript{45} on paired
 folds and with exact McNemar tests; sensitivity, specificity, PPV, NPV
 and accuracy were tested against chance with exact binomial tests. P
 values within each family were adjusted with the Benjamini-Hochberg
-procedure\textsuperscript{43}. Reporting follows
-TRIPOD+AI\textsuperscript{44}.
+procedure\textsuperscript{46}. Reporting follows
+TRIPOD+AI\textsuperscript{47}.
 
 \textbf{Stage 15 --- compute, energy and token use.} Energy was
 estimated with the Green Algorithms method (runtime × {[}cores ×
@@ -418,7 +418,7 @@ Among 11 member combinations × 3 combiners, the best ensemble
 (cross\_family(pubmed+hybrid+synthetic), mean) reached AUROC 0.657, a
 difference of 0.0010 from the best single model (q=1.000).
 
-In the XGBoost lattice (5,310 fits), no hybrid cell improved AUROC over
+In the XGBoost grid (5,310 fits), no hybrid cell improved AUROC over
 PubMed-only training (0 of 162 cells with a confidence interval above
 zero); the best hybrid changed AUROC by 0.0009 (95\% CI, -0.0004 to
 0.0022), synthetic-only training with twins fitted to real data lost
@@ -520,7 +520,7 @@ only between studies; we therefore report this fit only as a
 demonstration of ecological bias. A literature-informed version assigned
 points from published patient-level ratios (male sex, hypertension,
 hyperlipidemia, diabetes, coronary heart disease and sleep
-apnea\textsuperscript{45}) and from our within-study GLP-1RA estimates
+apnea\textsuperscript{48}) and from our within-study GLP-1RA estimates
 (indication-specific), with age carried from the ABCD2 convention: male
 sex 2 points, hypertension 1 point, hyperlipidemia 1 point, diabetes 2
 points, coronary heart disease 2 points, sleep apnea 5 points, age ge60
@@ -549,7 +549,7 @@ unaffected fellow eyes, found a fellow-eye ratio of 0.20 or less in 54\%
 of patients with NAION versus 9\% of controls (odds ratio 46.3; 95\% CI,
 22.9 to 93.4; ratio 0.21 to 0.40: 6.8; 3.5 to 13.2) and no difference
 between semaglutide users, other GLP-1RA users and unexposed
-patients\textsuperscript{46}. We therefore entered the cup-to-disc ratio
+patients\textsuperscript{49}. We therefore entered the cup-to-disc ratio
 as the highest-weighted item of the proposed score but labelled it a
 post-exposure fellow-eye measurement: disc anatomy is structurally
 stable and the fellow eye is the accepted proxy, yet this is weaker
@@ -557,7 +557,7 @@ evidence than a baseline measured before GLP-1RA initiation, and it
 could not be validated in the cohort data. The same limitation applies
 to NAION without GLP-1RA exposure: the classic and recent disc-at-risk
 studies measured the cup-to-disc ratio after the event, in fellow eyes
-or in affected eyes after edema resolved\textsuperscript{5--7,46}, and
+or in affected eyes after edema resolved\textsuperscript{5--7,49}, and
 none had a measurement taken before NAION. Because both groups share
 this post-event design, the comparison between exposed and unexposed
 NAION is balanced, but no source supports a truly prospective
@@ -603,7 +603,7 @@ included in these totals.
 \textbf{What-if: adding ocular imaging (simulation).} Imaging values
 were simulated for the reconstructed patients conditional on their
 observed outcome. Adding cup-to-disc ratio from fundus photographs, with
-published odds ratios\textsuperscript{46} and 25\% photographic
+published odds ratios\textsuperscript{49} and 25\% photographic
 misclassification, raised AUROC from 0.653 to 0.770; OCT-measured ratio
 reached 0.818. Adding hypothetical effects for optic disc drusen, OCT
 angiography perfusion and serial on-treatment imaging reached 0.840
@@ -681,11 +681,12 @@ reconstructed evidence base, the validation protocol and a benchmark
 which every later module must be judged. It is not a large pretrained
 model. The intended next layers are encoders for optic-disc photography
 and OCT and separately pretrained components such as an oculomotor world
-model (GrokEyeWorld, trained on synthetic eye-movement dynamics and
-sharing no variables with the present data), combined in a multimodal
-neuro-ophthalmic foundation model. No transfer between components was
-performed or evaluated here; it requires patients with linked risk
-factors, imaging and oculomotor recordings.
+model, a learned generative model of eye-movement dynamics adapted from
+Ha and Schmidhuber\textsuperscript{50}, trained on synthetic
+eye-movement data and sharing no variables with the present data,
+combined in a multimodal neuro-ophthalmic foundation model. No transfer
+between components was performed or evaluated here; it requires patients
+with linked risk factors, imaging and oculomotor recordings.
 
 This study has limitations. Predictors were arm- or study-level, so
 associations with age, sex and setting are ecological. Reconstructed
@@ -768,23 +769,23 @@ Hathaway 2024\textsuperscript{18} & Single center & US & T2D &
 Semaglutide & Other antidiabetic & 46/555 & 23/1,134 \\
 Grauslund 2024\textsuperscript{19} & National registry & Nordic & T2D &
 Semaglutide & No GLP-1RA & 67/106,454 & 151/317,698 \\
-Simonsen 2025\textsuperscript{47} & National registry & Nordic & T2D &
+Simonsen 2025\textsuperscript{51} & National registry & Nordic & T2D &
 Semaglutide & SGLT2i & 8/16,860 & 7/34,153 \\
 Hsu 2025\textsuperscript{21} & EHR network & US & T2D & Semaglutide &
 Other antidiabetic & 45/174,584 & 29/174,584 \\
-Wang 2025\textsuperscript{48} & EHR network & US & T2D & Semaglutide or
+Wang 2025\textsuperscript{52} & EHR network & US & T2D & Semaglutide or
 tirzepatide & Other antidiabetic & 35/79,699 & 19/79,699 \\
-Ramsey 2025\textsuperscript{49} & EHR network & US & T2D & GLP-1RA class
+Ramsey 2025\textsuperscript{53} & EHR network & US & T2D & GLP-1RA class
 & No GLP-1RA & 96/185,066 & 79/185,066 \\
-Tesfaye 2026\textsuperscript{50} & Claims & US & T2D & GLP-1RA class &
+Tesfaye 2026\textsuperscript{54} & Claims & US & T2D & GLP-1RA class &
 SGLT2i & 270/482,912 & 144/482,912 \\
 Heberer 2026\textsuperscript{20} & VA EHR & US & T2D & Semaglutide &
 SGLT2i & 30/11,478 & 143/90,883 \\
-Noh 2026\textsuperscript{51} & Primary-care EHR & UK & T2D & GLP-1RA
+Noh 2026\textsuperscript{55} & Primary-care EHR & UK & T2D & GLP-1RA
 class & DPP-4i & 14/106,858 & 53/416,369 \\
-Al-Harbi 2026\textsuperscript{52} & EHR network & US & IIH & GLP-1RA
+Al-Harbi 2026\textsuperscript{56} & EHR network & US & IIH & GLP-1RA
 class & No GLP-1RA & 12/15,559 & 28/15,560 \\
-Ueda 2026\textsuperscript{53} & National registry & Nordic & T2D &
+Ueda 2026\textsuperscript{57} & National registry & Nordic & T2D &
 GLP-1RA class & SGLT2i & 62/107,518 & 64/185,898 \\
 \end{longtable}
 
@@ -857,12 +858,15 @@ GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only
 & --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
 xgb --- pubmed only & PubMed only & --- & 0.667 (all fractions) & --- &
 1.00 & --- & --- \\
-xgb --- hybrid (P2+P3, prior priors, 100×, 10\% synthetic) & Hybrid &
---- & 0.669 (all fractions) & --- & 1.01 & --- & --- \\
-ensemble --- synthetic only (P2, real priors, 9×, 100\% synthetic) &
-Synthetic only & --- & 0.664 (all fractions) & --- & 1.01 & --- & --- \\
-ensemble --- synthetic only, 0\% real (P2, 100×) & Published priors only
-& --- & 0.569 (all real data as test) & --- & 1.11 & --- & --- \\
+xgb --- hybrid (copula + structural generators, published priors, 100×,
+10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- & 1.01 &
+--- & --- \\
+ensemble --- synthetic only (copula generator, real-data priors, 9×,
+100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) & --- &
+1.01 & --- & --- \\
+ensemble --- synthetic only, 0\% real (copula generator, 100×) &
+Published priors only & --- & 0.569 (all real data as test) & --- & 1.11
+& --- & --- \\
 Ensemble cross\_family(pubmed+hybrid+synthetic) (mean) & PubMed only &
 --- & 0.657 ± 0.010 & --- & 1.01 & --- & --- \\
 Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 ± 0.008 & --- &
@@ -918,10 +922,10 @@ research-only web calculator is at
 https://naion-glp1-calculator.vercel.app. Copyright (c) 2026 NeuroAgent
 AI, Inc.~All materials are released for non-commercial research use
 only, with attribution (citation of this article): code and model
-weights under the NAION-GLP1 Research-Only Non-Commercial License, data
-under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or
-treatment-selection use, are not permitted without prior written
-permission (kemarearlgreen@neuroagentai.org).
+weights under a research-only, non-commercial licence included in the
+repository, data under CC BY-NC 4.0. Commercial use, and clinical,
+diagnostic or treatment-selection use, are not permitted without prior
+written permission (kemarearlgreen@neuroagentai.org).
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}
@@ -1198,78 +1202,100 @@ learning representations. 2018. }
 deep networks. In: Proceedings of the 34th international conference on
 machine learning. 2017. }
 
-\bibitem[\citeproctext]{ref-lundberg2017}
+\bibitem[\citeproctext]{ref-montgomery2017}
 \CSLLeftMargin{39. }%
+\CSLRightInline{Montgomery DC. Design and analysis of experiments. 9th
+ed. Hoboken, NJ: Wiley; 2017. }
+
+\bibitem[\citeproctext]{ref-bergstra2012}
+\CSLLeftMargin{40. }%
+\CSLRightInline{Bergstra J, Bengio Y. Random search for hyper-parameter
+optimization. Journal of Machine Learning Research 2012;13:281--305. }
+
+\bibitem[\citeproctext]{ref-patki2016}
+\CSLLeftMargin{41. }%
+\CSLRightInline{Patki N, Wedge R, Veeramachaneni K. The synthetic data
+vault. In: 2016 IEEE international conference on data science and
+advanced analytics (DSAA). 2016. p. 399--410.}
+
+\bibitem[\citeproctext]{ref-lundberg2017}
+\CSLLeftMargin{42. }%
 \CSLRightInline{Lundberg SM, Lee S-I. A unified approach to interpreting
 model predictions. In: Advances in neural information processing
 systems. 2017. }
 
 \bibitem[\citeproctext]{ref-dersimonian1986}
-\CSLLeftMargin{40. }%
+\CSLLeftMargin{43. }%
 \CSLRightInline{DerSimonian R, Laird N. Meta-analysis in clinical
 trials. Controlled Clinical Trials 1986;7:177--88. }
 
 \bibitem[\citeproctext]{ref-hanley1982}
-\CSLLeftMargin{41. }%
+\CSLLeftMargin{44. }%
 \CSLRightInline{Hanley JA, McNeil BJ. The meaning and use of the area
 under a receiver operating characteristic (ROC) curve. Radiology
 1982;143:29--36. }
 
 \bibitem[\citeproctext]{ref-nadeau2003}
-\CSLLeftMargin{42. }%
+\CSLLeftMargin{45. }%
 \CSLRightInline{Nadeau C, Bengio Y. Inference for the generalization
 error. Machine Learning 2003;52:239--81. }
 
 \bibitem[\citeproctext]{ref-benjamini1995}
-\CSLLeftMargin{43. }%
+\CSLLeftMargin{46. }%
 \CSLRightInline{Benjamini Y, Hochberg Y. Controlling the false discovery
 rate: A practical and powerful approach to multiple testing. Journal of
 the Royal Statistical Society: Series B 1995;57:289--300. }
 
 \bibitem[\citeproctext]{ref-collins2024}
-\CSLLeftMargin{44. }%
+\CSLLeftMargin{47. }%
 \CSLRightInline{Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI
 statement: Updated guidance for reporting clinical prediction models
 that use regression or machine learning methods. BMJ 2024;385:e078378. }
 
 \bibitem[\citeproctext]{ref-p34671609}
-\CSLLeftMargin{45. }%
+\CSLLeftMargin{48. }%
 \CSLRightInline{Liu B, Yu Y, Liu W, Deng T, Xiang D.
 \href{https://doi.org/10.3389/fmed.2021.618353}{{Risk Factors for
 Non-arteritic Anterior Ischemic Optic Neuropathy: A Large Scale
 Meta-Analysis.}} Front Med (Lausanne) 2021;8:618353. }
 
 \bibitem[\citeproctext]{ref-p42556433}
-\CSLLeftMargin{46. }%
+\CSLLeftMargin{49. }%
 \CSLRightInline{Robertson CM, Fung DS, Smith KH, et al.
 \href{https://doi.org/10.1016/j.ophtha.2026.07.036}{{Cup-To-Disc Ratio
 in Glucagon-Like Peptide 1 Receptor Agonist-Associated Nonarteritic
 Anterior Ischemic Optic Neuropathy.}} Ophthalmology
 2026;133(11):1296--305. }
 
+\bibitem[\citeproctext]{ref-ha2018}
+\CSLLeftMargin{50. }%
+\CSLRightInline{Ha D, Schmidhuber J. Recurrent world models facilitate
+policy evolution. In: Advances in neural information processing systems.
+2018. }
+
 \bibitem[\citeproctext]{ref-p40098249}
-\CSLLeftMargin{47. }%
+\CSLLeftMargin{51. }%
 \CSLRightInline{Simonsen E, Lund LC, Ernst MT, et al.
 \href{https://doi.org/10.1111/dom.16316}{{Use of semaglutide and risk of
 non-arteritic anterior ischemic optic neuropathy: A Danish-Norwegian
 cohort study}}. Diabetes Obes Metab 2025;27(6):3094--103. }
 
 \bibitem[\citeproctext]{ref-p40788646}
-\CSLLeftMargin{48. }%
+\CSLLeftMargin{52. }%
 \CSLRightInline{Wang L, Volkow ND, Kaelber DC, Xu R.
 \href{https://doi.org/10.1001/jamanetworkopen.2025.26327}{{Semaglutide
 or Tirzepatide and Optic Nerve and Visual Pathway Disorders in Type 2
 Diabetes}}. JAMA Netw Open 2025;8(8):e2526327. }
 
 \bibitem[\citeproctext]{ref-p40788647}
-\CSLLeftMargin{49. }%
+\CSLLeftMargin{53. }%
 \CSLRightInline{Ramsey DJ, Makwana B, Dani SS, et al.
 \href{https://doi.org/10.1001/jamanetworkopen.2025.26321}{{GLP-1
 Receptor Agonists and Sight-Threatening Ophthalmic Complications in
 Patients With Type 2 Diabetes}}. JAMA Netw Open 2025;8(8):e2526321. }
 
 \bibitem[\citeproctext]{ref-p41104517}
-\CSLLeftMargin{50. }%
+\CSLLeftMargin{54. }%
 \CSLRightInline{Tesfaye H, Paik JM, Wexler DJ, et al.
 \href{https://doi.org/10.1111/dom.70200}{{GLP-1RA and the risk of
 non-arteritic anterior ischaemic optic neuropathy in patients with type
@@ -1277,7 +1303,7 @@ non-arteritic anterior ischaemic optic neuropathy in patients with type
 2026;28(2):1517--28. }
 
 \bibitem[\citeproctext]{ref-p41701611}
-\CSLLeftMargin{51. }%
+\CSLLeftMargin{55. }%
 \CSLRightInline{Noh Y, Yin H, Ben Ghezala I, Yu OHY, Suissa S, Azoulay
 L. \href{https://doi.org/10.2337/dc25-2577}{{Glucagon-Like Peptide 1
 Receptor Agonists and Risk of Nonarteritic Anterior Ischemic Optic
@@ -1285,7 +1311,7 @@ Neuropathy in Patients With Type 2 Diabetes}}. Diabetes Care
 2026;49(5):763--71. }
 
 \bibitem[\citeproctext]{ref-p41994958}
-\CSLLeftMargin{52. }%
+\CSLLeftMargin{56. }%
 \CSLRightInline{Al-Harbi FA, Alkuwaiti MA, Alaql YB, et al.
 \href{https://doi.org/10.1002/acn3.70406}{{Risk of Non-Arteritic
 Anterior Ischemic Optic Neuropathy in Idiopathic Intracranial
@@ -1293,7 +1319,7 @@ Hypertension Patients Treated with GLP-1 Receptor Agonists}}. Ann Clin
 Transl Neurol 2026;13(11):2289--302. }
 
 \bibitem[\citeproctext]{ref-p42441962}
-\CSLLeftMargin{53. }%
+\CSLLeftMargin{57. }%
 \CSLRightInline{Ueda P, Svanström H, Söderling J, et al.
 \href{https://doi.org/10.7326/ANNALS-25-02096}{{Glucagon-like Peptide-1
 Receptor Agonists and Risk for Anterior Ischemic Optic Neuropathy : A

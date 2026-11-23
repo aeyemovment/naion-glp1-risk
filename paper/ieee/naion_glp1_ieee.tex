@@ -33,8 +33,8 @@ non-overlapping cohorts (3,271,499 patients; 1,425 events). Logistic
 regression, random forest, XGBoost, graph neural networks and ensembles
 were trained on 10\% and tested on 90\%, across 10 disjoint 10\% folds,
 across training fractions of 10\% to 90\%, and by leave-one-study-out
-validation. Synthetic twins were added in a factorial lattice. SHAP
-values, permutation tests and Benjamini-Hochberg correction were used.
+validation. Synthetic twins were added in a factorial grid. SHAP values,
+permutation tests and Benjamini-Hochberg correction were used.
 \emph{Results:} Within studies, GLP-1RA exposure was associated with
 NAION (odds ratio 1.59 (95\% CI, 1.42 to 1.77)); semaglutide 1.73 (95\%
 CI, 1.44 to 2.08); obesity indication 2.70 (95\% CI, 1.64 to 4.44).
@@ -297,16 +297,17 @@ integrated gradients \cite{sundararajan2017}.
 
 \subsection{Synthetic digital twins}\label{synthetic-digital-twins}
 
-Twins were generated in a lattice adapted from a 3\ensuremath{\times}6\ensuremath{\times}9 design: three
-generators (independent marginals; Gaussian copula preserving feature
-correlations; a structural model on SHAP-stable features) and their
+Twins were generated in a factorial grid \cite{montgomery2017} with
+local refinement \cite{bergstra2012}: three generators (independent
+marginals; Gaussian copula preserving feature correlations
+\cite{patki2016}; a structural model on SHAP-stable features) and their
 combinations, three prior sources (fitted to the real training split,
 published external priors only, or a blend), six volumes (1 to 100 times
 the real training size) and synthetic shares of 10\% to 100\%, crossed
 with real training fractions of 0\% to 90\%, four models and 10 repeats.
 Twins were never used for testing, and generators never saw test data.
-Recursive refinement around the best cell continued while AUROC improved
-by at least 0.005.
+Local refinement around the best cell continued while AUROC improved by
+at least 0.005.
 
 \subsection{Ensembles}\label{ensembles}
 
@@ -378,20 +379,21 @@ reconstructed data were divided into comparator-arm patients (no
 GLP-1RA) and exposed-arm patients. Background-risk models used only
 features defined in both populations (exposure and therapy excluded).
 
-\textbf{Synthetic datasets (digital twins).} Three generators produced
-twin profiles: P1 sampled each feature independently from training
-marginals with risk equal to the therapy-stratum rate; P2 sampled joint
-covariate patterns with Gaussian-copula jitter on numeric features and
-drew each twin's risk from the Beta posterior of its source pattern; P3
-used P2 features with risk from a logistic model restricted to
-SHAP-stable features. Generators were fitted to the real training split
-only (source = real), to published priors only (source = prior: a
-non-user baseline of about 1.35 per 10,000 person-years derived from a
-pooled incidence of 85 per 100,000 GLP-1RA users and a pooled ratio of
-2.52 \cite{p42060879}, with drug-specific ratios of 1.93 and 1.70
-\cite{p42612051, p41498755}), or to a 50/50 blend. Twin counts were
-distributed over a bank of 5,000 profiles by multinomial sampling and
-outcomes drawn binomially.
+\textbf{Synthetic datasets (digital twins \cite{kamelboulos2021}).}
+Three generators produced twin profiles: a marginal generator sampled
+each feature independently from training marginals with risk equal to
+the therapy-stratum rate; a Gaussian-copula generator \cite{patki2016}
+sampled joint covariate patterns with copula jitter on numeric features
+and drew each twin's risk from the Beta posterior of its source pattern;
+a structural generator used the copula generator's features with risk
+from a logistic model restricted to SHAP-stable features. Generators
+were fitted to the real training split only (source = real), to
+published priors only (source = prior: a non-user baseline of about 1.35
+per 10,000 person-years derived from a pooled incidence of 85 per
+100,000 GLP-1RA users and a pooled ratio of 2.52 \cite{p42060879}, with
+drug-specific ratios of 1.93 and 1.70 \cite{p42612051, p41498755}), or
+to a 50/50 blend. Twin counts were distributed over a bank of 5,000
+profiles by multinomial sampling and outcomes drawn binomially.
 
 \textbf{Released datasets.} The search records, the four extraction
 tables, the reconstructed counts, an exact 1\% patient-level expansion,
@@ -414,24 +416,26 @@ cross-validation. \textbf{Stage 1c} repeated Stage 1 at training
 fractions of 10\% to 90\% (10 repeats each) and measured SHAP-rank
 agreement with Kendall's W.
 
-\textbf{Stage 2 --- 3\ensuremath{\times}6\ensuremath{\times}9 twin lattice.} XGBoost was trained on mixtures
-defined by three generators, six volumes (1, 3, 6, 9, 27 and 100 times
-the real training size) and synthetic shares of 10\% to 100\%, crossed
-with real held-out fractions of 10\% to 100\% and three seeds (5,310
-fits). The training set of size V\ensuremath{\times}R contained (1\ensuremath{-}s)\ensuremath{\times}V\ensuremath{\times}R real patients
-(sampled without replacement when available, otherwise bootstrapped) and
-s\ensuremath{\times}V\ensuremath{\times}R twins. Refinement recursed around the best cell with halving steps
-while AUROC improved by \ensuremath{\geq}0.005 (maximum depth 3).
+\textbf{Stage 2 --- synthetic-data grid with local refinement.} XGBoost
+was trained on mixtures defined by three generators, six volumes (1, 3,
+6, 9, 27 and 100 times the real training size) and synthetic shares of
+10\% to 100\%, crossed with real held-out fractions of 10\% to 100\% and
+three seeds (5,310 fits). The training set of size V\ensuremath{\times}R contained
+(1\ensuremath{-}s)\ensuremath{\times}V\ensuremath{\times}R real patients (sampled without replacement when available,
+otherwise bootstrapped) and s\ensuremath{\times}V\ensuremath{\times}R twins. The grid was refined around the
+best cell with halving steps while AUROC improved by \ensuremath{\geq}0.005 (maximum
+depth 3).
 
 \textbf{Stage 3 --- full factorial.} Four models (logistic regression,
 random forest, XGBoost and their mean) trained on identical data per
 cell; real training fractions 0\% to 90\%; seven generator sets (every
-non-empty combination of P1, P2, P3); three prior sources; six volumes;
-ten shares; ten repeats. Differences from PubMed-only training on the
-same split were tested per configuration (one-sided paired t) with
-Benjamini-Hochberg correction; robust configurations were ranked across
-all training fractions under a calibration constraint
-(\textbar O/E\ensuremath{-}1\textbar\textless0.10, slope 0.9 to 1.1).
+non-empty combination of the marginal, copula and structural
+generators); three prior sources; six volumes; ten shares; ten repeats.
+Differences from PubMed-only training on the same split were tested per
+configuration (one-sided paired t) with Benjamini-Hochberg correction;
+robust configurations were ranked across all training fractions under a
+calibration constraint (\textbar O/E\ensuremath{-}1\textbar\textless0.10, slope 0.9
+to 1.1).
 
 \textbf{Stage 4 --- ensembles.} Eleven member subsets of logistic
 regression, random forest, XGBoost and the GNN, three combiners (mean,
@@ -650,7 +654,7 @@ Among 11 member combinations \ensuremath{\times} 3 combiners, the best ensemble
 (cross\_family(pubmed+hybrid+synthetic), mean) reached AUROC 0.657, a
 difference of 0.0010 from the best single model (q=1.000).
 
-In the XGBoost lattice (5,310 fits), no hybrid cell improved AUROC over
+In the XGBoost grid (5,310 fits), no hybrid cell improved AUROC over
 PubMed-only training (0 of 162 cells with a confidence interval above
 zero); the best hybrid changed AUROC by 0.0009 (95\% CI, -0.0004 to
 0.0022), synthetic-only training with twins fitted to real data lost
@@ -1072,11 +1076,12 @@ reconstructed evidence base, the validation protocol and a benchmark
 which every later module must be judged. It is not a large pretrained
 model. The intended next layers are encoders for optic-disc photography
 and OCT and separately pretrained components such as an oculomotor world
-model (GrokEyeWorld, trained on synthetic eye-movement dynamics and
-sharing no variables with the present data), combined in a multimodal
-neuro-ophthalmic foundation model. No transfer between components was
-performed or evaluated here; it requires patients with linked risk
-factors, imaging and oculomotor recordings.
+model, a learned generative model of eye-movement dynamics adapted from
+Ha and Schmidhuber \cite{ha2018}, trained on synthetic eye-movement
+data and sharing no variables with the present data, combined in a
+multimodal neuro-ophthalmic foundation model. No transfer between
+components was performed or evaluated here; it requires patients with
+linked risk factors, imaging and oculomotor recordings.
 
 This study has limitations. Predictors were arm- or study-level, so
 associations with age, sex and setting are ecological. Reconstructed
@@ -2261,10 +2266,10 @@ Among 11 member combinations \ensuremath{\times} 3 combiners, the best ensemble
 (cross\_family(pubmed+hybrid+synthetic), mean) reached AUROC 0.657, a
 difference of 0.0010 from the best single model (q=1.000).
 
-\section{Synthetic digital twins (3\ensuremath{\times}6\ensuremath{\times}9\ensuremath{\rightarrow}\ensuremath{\infty}
-lattice)}\label{synthetic-digital-twins-369-lattice}
+\section{Synthetic digital twins (factorial grid with local
+refinement)}\label{synthetic-digital-twins-factorial-grid-with-local-refinement}
 
-In the XGBoost lattice (5,310 fits), no hybrid cell improved AUROC over
+In the XGBoost grid (5,310 fits), no hybrid cell improved AUROC over
 PubMed-only training (0 of 162 cells with a confidence interval above
 zero); the best hybrid changed AUROC by 0.0009 (95\% CI, -0.0004 to
 0.0022), synthetic-only training with twins fitted to real data lost
@@ -2274,9 +2279,9 @@ size reduced performance.
 
 \begin{figure}
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Stage 2 XGBoost lattice: effect of twin volume and synthetic share (\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}]{figures/fig_volume_share_response.png}
-\caption{Stage 2 XGBoost lattice: effect of twin volume and synthetic
-share (\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Stage 2 XGBoost grid: effect of twin volume and synthetic share (\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}]{figures/fig_volume_share_response.png}
+\caption{Stage 2 XGBoost grid: effect of twin volume and synthetic share
+(\ensuremath{\Delta}AUROC vs PubMed-only, 95\% CI).}
 \end{figure}
 
 \begin{figure}
@@ -2305,24 +2310,88 @@ volume and share.}
 
 \section{Model summary}\label{model-summary}
 
-\begin{table}[!htbp]\centering\caption{Model performance by family.\label{tbl:models}}\scriptsize
-\maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
-Model & Training data & AUROC 10/90 & AUROC 10\ensuremath{\times}10\% folds & AUROC LOSO & O/E & Sens/Spec top 10\% & PPV/NPV top 10\% \\
-\midrule
-Logistic regression (L2) & PubMed only & 0.627 & 0.616 \ensuremath{\pm} 0.010 & 0.528 & 1.01 & 0.26/0.85 & 0.075\%/99.96\% \\
-Random forest & PubMed only & 0.642 & 0.646 \ensuremath{\pm} 0.014 & 0.531 & 1.00 & 0.31/0.85 & 0.096\%/99.96\% \\
-XGBoost & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & 0.534 & 1.00 & 0.35/0.82 & 0.087\%/99.97\% \\
-Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & --- & --- & 0.31/0.86 & 0.101\%/99.97\% \\
-GNN (GraphSAGE, 2 layers) & PubMed only & 0.647 & 0.649 \ensuremath{\pm} 0.014 & 0.531 & 1.01 & 0.35/0.82 & 0.086\%/99.97\% \\
-GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only & --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
-xgb --- pubmed only & PubMed only & --- & 0.667 (all fractions) & --- & 1.00 & --- & --- \\
-xgb --- hybrid (P2+P3, prior priors, 100\ensuremath{\times}, 10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- & 1.01 & --- & --- \\
-ensemble --- synthetic only (P2, real priors, 9\ensuremath{\times}, 100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) & --- & 1.01 & --- & --- \\
-ensemble --- synthetic only, 0\% real (P2, 100\ensuremath{\times}) & Published priors only & --- & 0.569 (all real data as test) & --- & 1.11 & --- & --- \\
-Ensemble cross\_family(pubmed+hybrid+synthetic) (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.010 & --- & 1.01 & --- & --- \\
-Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.008 & --- & 1.00 & --- & --- \\
-\bottomrule\end{tabular}}
-\end{table}
+{\footnotesize
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1179}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0769}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1590}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0718}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0359}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1077}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0974}}@{}}
+\caption{Model performance by family.\label{tbl:models}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Training data
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10/90
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10\ensuremath{\times}10\% folds
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC LOSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+O/E
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sens/Spec top 10\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PPV/NPV top 10\%
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Training data
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10/90
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC 10\ensuremath{\times}10\% folds
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AUROC LOSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+O/E
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sens/Spec top 10\%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PPV/NPV top 10\%
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Logistic regression (L2) & PubMed only & 0.627 & 0.616 \ensuremath{\pm} 0.010 & 0.528 &
+1.01 & 0.26/0.85 & 0.075\%/99.96\% \\
+Random forest & PubMed only & 0.642 & 0.646 \ensuremath{\pm} 0.014 & 0.531 & 1.00 &
+0.31/0.85 & 0.096\%/99.96\% \\
+XGBoost & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & 0.534 & 1.00 & 0.35/0.82
+& 0.087\%/99.97\% \\
+Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & --- &
+--- & 0.31/0.86 & 0.101\%/99.97\% \\
+GNN (GraphSAGE, 2 layers) & PubMed only & 0.647 & 0.649 \ensuremath{\pm} 0.014 & 0.531
+& 1.01 & 0.35/0.82 & 0.086\%/99.97\% \\
+GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only
+& --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
+xgb --- pubmed only & PubMed only & --- & 0.667 (all fractions) & --- &
+1.00 & --- & --- \\
+xgb --- hybrid (copula + structural generators, published priors, 100\ensuremath{\times},
+10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- & 1.01 &
+--- & --- \\
+ensemble --- synthetic only (copula generator, real-data priors, 9\ensuremath{\times},
+100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) & --- &
+1.01 & --- & --- \\
+ensemble --- synthetic only, 0\% real (copula generator, 100\ensuremath{\times}) &
+Published priors only & --- & 0.569 (all real data as test) & --- & 1.11
+& --- & --- \\
+Ensemble cross\_family(pubmed+hybrid+synthetic) (mean) & PubMed only &
+--- & 0.657 \ensuremath{\pm} 0.010 & --- & 1.01 & --- & --- \\
+Ensemble logreg+xgb (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.008 & --- &
+1.00 & --- & --- \\
+\end{longtable}
+}
 
 \section{Data modalities and multimodal
 feasibility}\label{data-modalities-and-multimodal-feasibility}
@@ -2507,7 +2576,7 @@ selection)}\label{implication-for-the-intended-use-antiplatelet-selection}
 
 \textit{Funding:} this work received no specific funding. \textit{Competing interests:} K.~E.~Green is the founder of NeuroAgent AI, Inc. and HazyEyes AI; the author declares no other competing interests. \textit{Ethics:} only published aggregate data and computationally generated synthetic records were used; no human participants were involved, so institutional review board approval was not required.
 
-\textit{Data and code availability:} Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data and synthetic digital-twin datasets are available at \url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator is at \url{https://naion-glp1-calculator.vercel.app}. Copyright \copyright 2026 NeuroAgent AI, Inc. All materials are released for non-commercial research use only, with attribution (citation of this article): code and model weights under the NAION-GLP1 Research-Only Non-Commercial License, data under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).
+\textit{Data and code availability:} Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data and synthetic digital-twin datasets are available at \url{https://github.com/aeyemovment/naion-glp1-risk} (release v1.0.0). A research-only web calculator is at \url{https://naion-glp1-calculator.vercel.app}. Copyright \copyright 2026 NeuroAgent AI, Inc. All materials are released for non-commercial research use only, with attribution (citation of this article): code and model weights under a research-only, non-commercial licence included in the repository, data under CC BY-NC 4.0. Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

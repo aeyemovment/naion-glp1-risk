@@ -52,6 +52,11 @@ prev = float(S5h.prevalence.iloc[0])
 
 # ------------------------------------------------------------------ bibliography
 METHOD_BIB = r"""
+@inproceedings{patki2016, author={Patki, Neha and Wedge, Roy and Veeramachaneni, Kalyan}, title={The Synthetic Data Vault}, booktitle={2016 IEEE International Conference on Data Science and Advanced Analytics (DSAA)}, pages={399--410}, year={2016}}
+@book{montgomery2017, author={Montgomery, Douglas C.}, title={Design and Analysis of Experiments}, edition={9th}, publisher={Wiley}, address={Hoboken, NJ}, year={2017}}
+@article{bergstra2012, author={Bergstra, James and Bengio, Yoshua}, title={Random search for hyper-parameter optimization}, journal={Journal of Machine Learning Research}, volume={13}, pages={281--305}, year={2012}}
+@article{kamelboulos2021, author={Kamel Boulos, Maged N. and Zhang, Peng}, title={Digital twins: from personalized medicine to precision public health}, journal={Journal of Personalized Medicine}, volume={11}, number={8}, pages={745}, year={2021}}
+@inproceedings{ha2018, author={Ha, David and Schmidhuber, J{\"u}rgen}, title={Recurrent world models facilitate policy evolution}, booktitle={Advances in Neural Information Processing Systems}, volume={31}, year={2018}}
 @inproceedings{lundberg2017, author={Lundberg, Scott M. and Lee, Su-In}, title={A unified approach to interpreting model predictions}, booktitle={Advances in Neural Information Processing Systems}, volume={30}, year={2017}}
 @inproceedings{chen2016, author={Chen, Tianqi and Guestrin, Carlos}, title={XGBoost: a scalable tree boosting system}, booktitle={Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, pages={785--794}, year={2016}}
 @inproceedings{hamilton2017, author={Hamilton, William L. and Ying, Rex and Leskovec, Jure}, title={Inductive representation learning on large graphs}, booktitle={Advances in Neural Information Processing Systems}, volume={30}, year={2017}}
@@ -249,7 +254,7 @@ AI_USE = ("**Use of AI tools.** Literature retrieval, data extraction, analysis 
 AVAIL = ("Code, trained model weights, extraction files (every value with PMID and evidence quotation), reconstructed count-weighted patient-level data "
          "and synthetic digital-twin datasets are available at https://github.com/aeyemovment/naion-glp1-risk (release v1.0.0). A research-only web calculator is at "
          "https://naion-glp1-calculator.vercel.app. Copyright (c) 2026 NeuroAgent AI, Inc. All materials are released for non-commercial research "
-         "use only, with attribution (citation of this article): code and model weights under the NAION-GLP1 Research-Only Non-Commercial License, data under CC BY-NC 4.0. "
+         "use only, with attribution (citation of this article): code and model weights under a research-only, non-commercial licence included in the repository, data under CC BY-NC 4.0. "
          "Commercial use, and clinical, diagnostic or treatment-selection use, are not permitted without prior written permission (kemarearlgreen@neuroagentai.org).")
 
 def abstract():
@@ -394,6 +399,35 @@ def intro():
         "applied to reconstructed published evidence can stratify NAION risk among GLP-1RA users, whether graph neural networks, ensembles or synthetic digital twins add to it, and "
         "which features matter, with explicit statistical testing at every step."])
 
+
+# Unpublished in-house names are not used as proper nouns; methods are described and the adapted published method is cited.
+TERMS = [
+    ("Twins were generated in a lattice adapted from a 3×6×9 design:", "Twins were generated in a factorial grid [@montgomery2017] with local refinement [@bergstra2012]:"),
+    ("Gaussian copula preserving feature correlations;", "Gaussian copula preserving feature correlations [@patki2016];"),
+    ("Recursive refinement around the best cell continued", "Local refinement around the best cell continued"),
+    ("**Stage 2 — 3×6×9 twin lattice.**", "**Stage 2 — synthetic-data grid with local refinement.**"),
+    ("Refinement recursed around the best cell with halving steps", "The grid was refined around the best cell with halving steps"),
+    ("(3×6×9→∞ lattice)", "(factorial grid with local refinement)"),
+    ("factorial lattice", "factorial grid"), ("XGBoost lattice", "XGBoost grid"), ("twin lattice", "twin grid"), ("lattice", "grid"),
+    ("**Synthetic datasets (digital twins).**", "**Synthetic datasets (digital twins [@kamelboulos2021]).**"),
+    ("P1 sampled each feature", "a marginal generator sampled each feature"),
+    ("; P2 sampled joint covariate patterns with Gaussian-copula jitter", "; a Gaussian-copula generator [@patki2016] sampled joint covariate patterns with copula jitter"),
+    ("; P3 used P2 features", "; a structural generator used the copula generator's features"),
+    ("every non-empty combination of P1, P2, P3", "every non-empty combination of the marginal, copula and structural generators"),
+    ("(P2+P3, prior priors,", "(copula + structural generators, published priors,"),
+    ("(P2, real priors,", "(copula generator, real-data priors,"), ("(P2, 100×)", "(copula generator, 100×)"),
+    ("P2+P3", "copula + structural generators"),
+    ("such as an oculomotor world model (GrokEyeWorld, trained on synthetic eye-movement dynamics and sharing no variables with the present data)",
+     "such as an oculomotor world model, a learned generative model of eye-movement dynamics adapted from Ha and Schmidhuber [@ha2018], trained on synthetic eye-movement data and sharing no variables with the present data"),
+    ("under the NAION-GLP1 Research-Only Non-Commercial License", "under a research-only, non-commercial licence included in the repository"),
+]
+def plain_terms(md):
+    for a, b in TERMS: md = md.replace(a, b)
+    import re
+    left = [t for t in ("3×6×9", "Grok", "lattice", "NAION-GLP1 Research-Only") if t in md] + re.findall(r"\bP[123]\b(?!MID)", md)
+    if left: print("WARNING remaining in-house terms:", sorted(set(left)))
+    return md
+
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
           AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
@@ -411,7 +445,7 @@ def nejm():
           "## Data and code availability",
           AVAIL,
           "## References"]
-    return "\n\n".join(md)
+    return plain_terms("\n\n".join(md))
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
@@ -479,7 +513,7 @@ def preprint():
             "## References"]
     out = "\n\n".join(s for s in secs if s)
     for a, b in XREF_PREPRINT.items(): out = out.replace(a, b)
-    return out
+    return plain_terms(out)
 
 XREF_PREPRINT = {"(Table 1)": "(Reconstructed cohorts table, Section A)", "(Figure 1)": "(study flow figure, Section A)",
                  "(Figure 2)": "(hold-out ROC, precision-recall and calibration figure, Section B)",

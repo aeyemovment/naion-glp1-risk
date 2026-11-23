@@ -5,6 +5,7 @@ import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
 OUT = "results/stage2"
+GEN_LABEL = {"P1_marginal": "Marginal generator", "P2_copula": "Gaussian-copula generator", "P3_structural": "Structural (logistic) generator"}
 d = pd.read_csv(f"{OUT}/lattice_results.csv")
 d = d[d.depth.isna()] if "depth" in d else d
 ref = d[(d.parent == "real_only") & (d.V == 1)].set_index(["h", "seed"])
@@ -52,7 +53,7 @@ for i, p in enumerate(["P1_marginal", "P2_copula", "P3_structural"]):
     im = ax[i].imshow(pv.values, cmap="RdBu", vmin=-0.12, vmax=0.12, aspect="auto", origin="lower")
     ax[i].set_xticks(range(pv.shape[1]), [f"{int(s*100)}" for s in pv.columns], fontsize=7)
     ax[i].set_yticks(range(pv.shape[0]), [f"{int(h*100)}" for h in pv.index], fontsize=7)
-    ax[i].set_title(p.replace("_", " "), fontsize=9); ax[i].set_xlabel("Synthetic share of training set (%)")
+    ax[i].set_title(GEN_LABEL[p], fontsize=9); ax[i].set_xlabel("Synthetic share of training set (%)")
 ax[0].set_ylabel("Real PubMed held out for testing (%)")
 cb = fig.colorbar(im, ax=ax, fraction=0.02); cb.set_label("ΔAUROC vs PubMed-only")
 fig.savefig(f"{OUT}/fig_heatmap_share_heldout_V9.png", dpi=300, bbox_inches="tight"); plt.close(fig)
@@ -62,7 +63,7 @@ fig, ax = plt.subplots(1, 2, figsize=(9, 3.2))
 C = {"P1_marginal": "#2a78d6", "P2_copula": "#eb6834", "P3_structural": "#1baf7a"}
 for p, c in C.items():
     v = d[(d.parent == p) & (d.family == "hybrid")].groupby("V").d_auroc.apply(ci)
-    ax[0].errorbar(range(len(v)), [x[0] for x in v], yerr=[[x[0] - x[1] for x in v], [x[2] - x[0] for x in v]], color=c, marker="o", ms=5, lw=2, capsize=2, label=p.replace("_", " "))
+    ax[0].errorbar(range(len(v)), [x[0] for x in v], yerr=[[x[0] - x[1] for x in v], [x[2] - x[0] for x in v]], color=c, marker="o", ms=5, lw=2, capsize=2, label=GEN_LABEL[p] if True else p.replace("_", " "))
     s = d[(d.parent == p) & (d.family != "pubmed_only")].groupby("s").d_auroc.apply(ci)
     ax[1].errorbar([x * 100 for x in s.index], [x[0] for x in s], yerr=[[x[0] - x[1] for x in s], [x[2] - x[0] for x in s]], color=c, marker="o", ms=5, lw=2, capsize=2)
 ax[0].set_xticks(range(6), ["1×", "3×", "6×", "9×", "27×", "100×"]); ax[0].set_xlabel("Twin volume level (× real training size)")
