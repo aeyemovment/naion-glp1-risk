@@ -1,6 +1,6 @@
 -- IEEE two-column: small tables -> table/table* floats (tabular in adjustbox); big tables -> one-column longtable sandwich;
 -- figures in the two-column body -> figure*. After the \appendices marker everything is one-column and left to pandoc.
-local function tex(blocks) local s = pandoc.write(pandoc.Pandoc(blocks), 'latex'); return (s:gsub('%s+$', '')) end
+local function tex(blocks) local s = pandoc.write(pandoc.Pandoc(blocks), 'latex', {cite_method = 'natbib'}); return (s:gsub('%s+$', '')) end
 local function cell(c) return tex(c.contents):gsub('\n\n', ' ') end
 local function row_tex(r) local t = {} for _, c in ipairs(r.cells) do t[#t+1] = cell(c) end return table.concat(t, ' & ') .. ' \\\\' end
 local function float_table(tbl, onecol)
