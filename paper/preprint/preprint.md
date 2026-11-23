@@ -1,5 +1,5 @@
 ---
-title: "Development of a Foundation Model for GLP-1 Receptor Agonist-Associated NAION Risk Stratification Using Reconstructed Evidence in PubMed-Indexed Publications"
+title: "A Foundation Machine Learning Model Built from PubMed-Indexed Evidence Reproduces the Association of GLP-1 Receptor Agonists with NAION but Stratifies Individual Risk Only Modestly"
 subtitle: "Preprint with all experiments and results"
 date: "November 23, 2026"
 ---
