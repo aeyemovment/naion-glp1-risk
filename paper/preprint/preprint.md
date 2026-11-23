@@ -4,9 +4,11 @@ subtitle: "Preprint with all experiments and results"
 date: "November 23, 2026"
 ---
 
-**Kemar Earl Green, DO, FANA**^1,2,3^  
-^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; ^3^NeuroAgent AI, Inc., Baltimore, MD, USA  
-Correspondence: kemarearlgreen@neuroagentai.org
+| **Kemar Earl Green, DO, FANA**^1,2,3^
+| *^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA*
+| *^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA*
+| *^3^NeuroAgent AI, Inc., Baltimore, MD, USA*
+| kemarearlgreen@neuroagentai.org
 
 **Research-prototype notice.** This work uses only published aggregate data and computationally generated synthetic records (synthetic_only twins; research_prototype=true; compliance reference Addendum 5, DT#9). The models are not validated for clinical, diagnostic, treatment-selection or regulatory use, and no patient-level health information was accessed.
 

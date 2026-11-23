@@ -239,10 +239,11 @@ gnn_tune_text = (f"Nested tuning over {S6c['n_configs']} GNN configurations sele
 ens_text = (f"Among {len(SUBSETS_LABEL) if False else 11} member combinations × 3 combiners, the best ensemble ({S4['top10'][0]['ensemble']}, {S4['top10'][0]['method']}) reached AUROC {f(S4['top10'][0]['auroc'])}, "
             f"a difference of {f(S4['top10'][0]['diff_vs_best_single'],4)} from the best single model (q={pq(S4['top10'][0]['q_bh'])})." if S4 else PENDING("the ensemble experiment including the GNN (Stage 4)"))
 
-AUTH = ("**Kemar Earl Green, DO, FANA**^1,2,3^  \n"
-        "^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA; ^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA; "
-        "^3^NeuroAgent AI, Inc., Baltimore, MD, USA  \n"
-        "Correspondence: kemarearlgreen@neuroagentai.org")
+AUTH = ("| **Kemar Earl Green, DO, FANA**^1,2,3^\n"
+        "| *^1^Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA*\n"
+        "| *^2^Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA*\n"
+        "| *^3^NeuroAgent AI, Inc., Baltimore, MD, USA*\n"
+        "| kemarearlgreen@neuroagentai.org")
 DISCL = ("**Research-prototype notice.** This work uses only published aggregate data and computationally generated synthetic records "
          "(synthetic_only twins; research_prototype=true; compliance reference Addendum 5, DT#9). The models are not validated for clinical, diagnostic, "
          "treatment-selection or regulatory use, and no patient-level health information was accessed.")
