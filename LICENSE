@@ -1,6 +1,6 @@
 NAION-GLP1 Research-Only Non-Commercial License, Version 1.0
 
-Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. All rights reserved except as granted below.
+Copyright (c) 2026 NeuroAgent AI, Inc. All rights reserved except as granted below.
 
 Covered material: the source code, trained model weights and model files, documentation, and the web calculator in this
 repository ("the Software"). Data files are licensed separately under LICENSE-DATA.md (CC BY-NC 4.0, research use only).
@@ -17,7 +17,7 @@ repository ("the Software"). Data files are licensed separately under LICENSE-DA
 3. No commercial use. You may not use the Software, the model weights, or any derivative of them for commercial purposes,
    including selling, licensing, offering as or within a paid product or service, use by or on behalf of a for-profit
    entity for its business operations, product development, marketing, or regulatory submissions, without prior written
-   permission from the copyright holders.
+   permission from the copyright holder.
 
 4. No clinical use. The Software is a research prototype. It must not be used for clinical, diagnostic, screening,
    treatment-selection (including antiplatelet decisions) or regulatory purposes.

@@ -14,7 +14,7 @@ Release date: 2026-11-22  ·  research_prototype=true  ·  compliance_ref=Addend
 
 ## Provenance and reuse
 Counts and estimates are reproduced from the cited publications; please cite the original studies (PMIDs in each file) and this release.
-Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc. Licence: CC BY-NC 4.0 - research use only, with attribution (cite Green KE, medRxiv 2026, and https://github.com/aeyemovment/naion-glp1-risk); no commercial use without written permission.
+Copyright (c) 2026 NeuroAgent AI, Inc. Licence: CC BY-NC 4.0 - research use only, with attribution (cite Green KE, medRxiv 2026, and https://github.com/aeyemovment/naion-glp1-risk); no commercial use without written permission.
 Case-report rows describe patients already published in de-identified form; no attempt should be made to re-identify them.
 
 ## Reproducibility

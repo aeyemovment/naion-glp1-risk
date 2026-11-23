@@ -1,6 +1,6 @@
 # Data licence
 
-Copyright (c) 2026 Kemar E. Green and NeuroAgent AI, Inc.
+Copyright (c) 2026 NeuroAgent AI, Inc.
 
 The derived data (`paper/data_release/real`, `data/extracted`, `data/processed`) and the synthetic digital-twin datasets
 (release asset `naion_glp1_data_release_*.zip`) are licensed under **Creative Commons Attribution-NonCommercial 4.0
