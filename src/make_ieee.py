@@ -125,7 +125,28 @@ def build():
     miss = sorted(set(re.findall(r"Missing character: There is no (\S+)", r.stderr)))
     print("missing glyphs:", miss)
     overleaf(d, r.stderr)
+    medrxiv(abstract_md)
     return d
+
+def medrxiv(abstract_md):
+    """medRxiv package = exactly the Overleaf project: compile the zipped sources and sync title/abstract/keywords into 00_metadata.md."""
+    import tempfile, zipfile
+    M = "paper/medrxiv_submission"; os.makedirs(M, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        zipfile.ZipFile("paper/naion_glp1_ieee_overleaf.zip").extractall(tmp)
+        r = subprocess.run(["tectonic", "-X", "compile", "main.tex"], cwd=tmp, capture_output=True, text=True)
+        if r.returncode: raise SystemExit("Overleaf package failed to compile:\n" + r.stderr[-2000:])
+        shutil.copy(f"{tmp}/main.pdf", f"{M}/01_manuscript_IEEE.pdf")
+    shutil.copy("paper/naion_glp1_ieee_overleaf.zip", f"{M}/04_IEEE_LaTeX_Overleaf.zip")
+    plain = subprocess.run(["pandoc", "-f", "markdown", "-t", "plain", "--wrap=none"], input=abstract_md.replace("*", ""), capture_output=True, text=True).stdout.strip()
+    plain = re.sub(r"(Background|Methods|Results|Conclusions): ", r"\n\1. ", plain).strip()
+    meta = open(f"{M}/00_metadata.md").read()
+    meta = re.sub(r"\*\*Title:\*\* .*", "**Title:** " + MP.title, meta)
+    meta = re.sub(r"\*\*Keywords:\*\* .*", "**Keywords:** " + KEYWORDS.replace(", ", "; "), meta)
+    meta = re.sub(r"\*\*Abstract \(\d+ words; paste as plain text\):\*\*\n\n.*?\n\n\*\*Licence",
+                  lambda m: f"**Abstract ({len(plain.split())} words; paste as plain text):**\n\n{plain}\n\n**Licence", meta, flags=re.S)
+    open(f"{M}/00_metadata.md", "w").write(meta)
+    print("medRxiv package synced from Overleaf build")
 
 def overleaf(d, log):
     """Self-contained Overleaf project: main.tex + references.bib + figures/ (pdfLaTeX or XeLaTeX), zipped for New Project > Upload Project."""

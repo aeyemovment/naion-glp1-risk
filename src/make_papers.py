@@ -425,7 +425,7 @@ def conclusion():
         f"**Best architecture.** PubMed-only XGBoost discriminated best (AUROC 0.656 ± 0.011 over ten folds), but its advantage over random "
         f"forest ({xr.estimate:+.3f} AUROC, P{eq(xr.p)}) and logistic regression ({xl.estimate:+.3f}, P{eq(xl.p)}) was not significant, and graph, "
         f"convolutional, ensemble, anomaly-detection and synthetic digital-twin variants did not improve on it. In studies the model had not "
-        f"seen, AUROC fell to {lo.estimate:.3f} (P{eq(lo.p)} versus chance).",
+        f"seen, AUROC fell to {f(S1['loso_summary']['xgb']['auroc'])} (P{eq(lo.p)} versus chance).",
         "**Answer.** Published evidence supports a reproducible association between GLP-1RA exposure and NAION, strongest with obesity "
         "indications, but it does not support individual risk prediction good enough to select patients for treatment, including "
         "antiplatelet therapy. The model is a research tool for enriching cohorts, and its main product is a benchmark and protocol for the "
