@@ -34,6 +34,22 @@ ACK = ("\\section*{Acknowledgment}\n"
        "synthetic records were used; no human participants were involved, so institutional review board approval was not required.\n\n"
        "\\textit{Data and code availability:} " + AVAIL_TEX + "\n")
 
+UMAP = {"×": r"\ensuremath{\times}", "±": r"\ensuremath{\pm}", "≥": r"\ensuremath{\geq}", "≤": r"\ensuremath{\leq}", "≈": r"\ensuremath{\approx}",
+        "−": r"\ensuremath{-}", "Δ": r"\ensuremath{\Delta}", "→": r"\ensuremath{\rightarrow}", "∞": r"\ensuremath{\infty}", "∝": r"\ensuremath{\propto}",
+        "²": r"\textsuperscript{2}", "³": r"\textsuperscript{3}", "χ": r"\ensuremath{\chi}", "α": r"\ensuremath{\alpha}", "β": r"\ensuremath{\beta}",
+        "κ": r"\ensuremath{\kappa}", "λ": r"\ensuremath{\lambda}", "μ": r"\ensuremath{\mu}", "σ": r"\ensuremath{\sigma}", "·": r"\ensuremath{\cdot}",
+        "≠": r"\ensuremath{\neq}", "↑": r"\ensuremath{\uparrow}", "↓": r"\ensuremath{\downarrow}", "⁻": r"\textsuperscript{-}", "–": "--", "—": "---",
+        "‘": "`", "’": "'", "“": "``", "”": "''", "…": r"\ldots{}", "°": r"\ensuremath{^\circ}", "®": r"\textregistered{}", "©": r"\copyright{}",
+        "É": r"\'E", "Ø": r"{\O}", "á": r"\'a", "ä": r'\"a', "å": r"{\aa}", "ç": r"\c{c}", "é": r"\'e", "í": r"\'{\i}", "ó": r"\'o", "ö": r'\"o',
+        "ø": r"{\o}", "ü": r'\"u', "ć": r"\'c", "ń": r"\'n", "ś": r"\'s", "š": r"\v{s}", "è": r"\`e", "ñ": r"\~n", "ï": r'\"\i', "Å": r"{\AA}", "æ": r"{\ae}",
+        "\u00a0": "~", "\u2009": r"\,", "\u202f": r"\,"}
+def to_ascii_tex(t):
+    """Engine-agnostic source: replace every non-ASCII character with a LaTeX macro (works in pdfLaTeX and XeLaTeX)."""
+    t = "".join(UMAP.get(ch, ch) for ch in t)
+    left = sorted({ch for ch in t if ord(ch) > 127})
+    if left: raise SystemExit(f"unmapped non-ASCII characters: {left}")
+    return t
+
 def build():
     MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "(Figure 1)": "(Fig.\\ \\ref{fig:flow})", "(Figure 2)": "(Fig.\\ \\ref{fig:roc})",
                         "(Figure 3)": "(Fig.\\ \\ref{fig:forestpub})", "Table 2 summarizes": "Table\\ \\ref{tbl:models} summarizes",
@@ -89,6 +105,7 @@ def build():
     subprocess.run(args, check=True)
     t = open(f"{d}/naion_glp1_ieee.tex").read()
     t = re.sub(r"\\cite[pt]\{", r"\\cite{", t)
+    t = to_ascii_tex(t)
     for pth in set(re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", t)):
         src = pth if os.path.isabs(pth) else os.path.join(MP.ROOT, pth)
         if os.path.exists(src):
@@ -98,7 +115,7 @@ def build():
     bst = '@IEEEtranBSTCTL{IEEEexample:BSTcontrol, CTLuse_forced_etal = "yes", CTLmax_names_forced_etal = "6", CTLnames_show_etal = "1", CTLdash_repeated_names = "no"}\n'
     tool = ('@misc{anthropic2026claudecode, author = {{Anthropic}}, title = {{Claude Code} with {Claude Opus 5.5} (claude-opus-5-5)}, '
             'howpublished = {Agentic coding tool, \\url{https://claude.com/claude-code}}, note = {Accessed Nov. 21--23, 2026}, year = {2026}}\n')
-    open(f"{d}/references.bib", "w").write(bst + tool + open(f"{MP.P}/references.bib").read())
+    open(f"{d}/references.bib", "w").write(to_ascii_tex(bst + tool + open(f"{MP.P}/references.bib").read()))
     r = subprocess.run(["tectonic", "-X", "compile", "naion_glp1_ieee.tex"], cwd=d, capture_output=True, text=True)
     print(r.stderr[-4000:] if r.returncode else "compiled")
     miss = sorted(set(re.findall(r"Missing character: There is no (\S+)", r.stderr)))
@@ -107,20 +124,19 @@ def build():
     return d
 
 def overleaf(d, log):
-    """Self-contained Overleaf project: main.tex + references.bib + figures/ + latexmkrc (XeLaTeX), zipped for New Project > Upload Project."""
+    """Self-contained Overleaf project: main.tex + references.bib + figures/ (pdfLaTeX or XeLaTeX), zipped for New Project > Upload Project."""
     o = "paper/overleaf_ieee"; shutil.rmtree(o, ignore_errors=True); os.makedirs(o)
     shutil.copytree(f"{d}/figures", f"{o}/figures")
     t = open(f"{d}/naion_glp1_ieee.tex").read()
     used = set(re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{figures/([^}]+)\}", t))
     for f in os.listdir(f"{o}/figures"):
         if f not in used: os.remove(f"{o}/figures/{f}")
-    open(f"{o}/main.tex", "w").write("% Compile with XeLaTeX (set automatically by latexmkrc; or Menu > Compiler > XeLaTeX). IEEEtran journal format.\n" + t)
+    open(f"{o}/main.tex", "w").write("% IEEEtran journal format. Compiles with pdfLaTeX (Overleaf default) or XeLaTeX; BibTeX for references.\n" + t)
     shutil.copy(f"{d}/references.bib", f"{o}/references.bib")
-    open(f"{o}/latexmkrc", "w").write("$pdf_mode = 5;  # XeLaTeX\n$bibtex_use = 2;\n")
     open(f"{o}/README.md", "w").write(
         "# Overleaf project - IEEE (IEEEtran) manuscript\n\n"
         "1. Overleaf > New Project > Upload Project > select `naion_glp1_ieee_overleaf.zip`.\n"
-        "2. Compiler is XeLaTeX (set by `latexmkrc`; check Menu > Compiler). Main document: `main.tex`. IEEEtran.cls/.bst are built into Overleaf.\n"
+        "2. Compiler: pdfLaTeX (Overleaf default) or XeLaTeX both work. Main document: `main.tex`. IEEEtran.cls/.bst are built into Overleaf.\n"
         "3. References: `references.bib` (BibTeX, IEEEtran style; >6 authors shown as et al.). Figures: `figures/`.\n\n"
         "Generated by `src/make_ieee.py`; edits made in Overleaf do not flow back into the generator.\n")
     zp = "paper/naion_glp1_ieee_overleaf.zip"
