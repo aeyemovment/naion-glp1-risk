@@ -9,8 +9,7 @@ import make_papers as MP
 
 # credentials as on the author's 2026 arXiv paper (arXiv:2606.09681v2)
 AUTHOR_NAME = "Kemar Earl Green, DO, FANA"
-AFFILS = ["Whiting School of Engineering, Johns Hopkins University, Baltimore, MD, USA",
-          "Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA", "NeuroAgent AI, Inc., Baltimore, MD, USA"]
+AFFILS = ["Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA", "NeuroAgent AI, Inc., Baltimore, MD, USA"]
 EMAIL = "kemarearlgreen@neuroagentai.org"
 KEYWORDS = ("Nonarteritic anterior ischemic optic neuropathy, GLP-1 receptor agonists, semaglutide, machine learning, "
             "synthetic data, digital twins, graph neural networks, risk prediction, explainable AI")
