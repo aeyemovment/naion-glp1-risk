@@ -1,6 +1,6 @@
 # medRxiv submission metadata
 
-**Title:** Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches
+**Title:** A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches
 
 **Article type:** New Results / original research (machine-learning prediction study using published aggregate data and synthetic data)
 

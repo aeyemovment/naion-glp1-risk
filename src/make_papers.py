@@ -217,8 +217,8 @@ TRIPOD = pd.DataFrame([
 ], columns=["TRIPOD+AI domain", "Where addressed"]).to_markdown(index=False)
 
 # ------------------------------------------------------------------ shared text blocks
-title = ("Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic Neuropathy "
-         "with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches")
+title = ("A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists "
+         "from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches")
 short_ = "GLP-1 RA and NAION: ML on published evidence"
 s3_text = (f"Across the full factorial grid ({S3['n_configs_tested']:,} configurations), {S3['n_significant_bh05']} hybrid or synthetic configurations improved "
            "discrimination over PubMed-only training after Benjamini-Hochberg correction." if S3 else PENDING("the full-factorial digital-twin experiment (Stage 3)"))
@@ -371,10 +371,11 @@ def discussion():
          "AUROC from about 0.65 to 0.77 to 0.82, and plausible additional imaging reached about 0.84; even then positive predictive value stayed below 1%. A prospective cohort of "
          "GLP-1RA initiators with baseline optic-disc imaging, which no published study has reported, is therefore the most informative next step. The entire analysis used about "
          "0.25 kWh of local compute, so the environmental cost of the modelling itself is negligible relative to the data collection it motivates.",
-         "We see this work as one module of a proposed multimodal neuro-ophthalmic foundation model rather than a foundation model itself. Such a system would combine a "
-         "published-evidence risk component like the one developed here, encoders for optic-disc photography and OCT, and separately pretrained components such as an oculomotor "
-         "world model (GrokEyeWorld, which is trained on synthetic eye-movement dynamics and shares no variables with the present data). No transfer between these components was "
-         "performed or evaluated here; it would require patients with linked risk factors, imaging and oculomotor recordings.",
+         "We describe this work as a foundation machine learning model in the sense of a base layer: it fixes the outcome definition, the reconstructed evidence base, "
+         "the validation protocol and a benchmark (AUROC about 0.66 within settings, about 0.53 across settings) against which every later module must be judged. It is not a "
+         "large pretrained model. The intended next layers are encoders for optic-disc photography and OCT and separately pretrained components such as an oculomotor world model "
+         "(GrokEyeWorld, trained on synthetic eye-movement dynamics and sharing no variables with the present data), combined in a multimodal neuro-ophthalmic foundation model. "
+         "No transfer between components was performed or evaluated here; it requires patients with linked risk factors, imaging and oculomotor recordings.",
          "This study has limitations. Predictors were arm- or study-level, so associations with age, sex and setting are ecological. Reconstructed patients share covariate patterns, which "
          "makes thresholds coarse. Outcome definitions differed (one cohort reported ischemic optic neuropathy), TriNetX cells below 10 were masked, several studies were available only as "
          "abstracts, and overlapping registries were handled by selection rather than by individual linkage. No imaging was available, so multimodal and computer-vision models could not be "

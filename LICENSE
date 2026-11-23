@@ -9,8 +9,8 @@ repository ("the Software"). Data files are licensed separately under LICENSE-DA
    academic or scientific research, teaching, and personal study ("Research Purposes").
 
 2. Attribution. Any use, publication, presentation or derivative work must give credit by citing:
-   Green KE. Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic
-   Optic Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches. medRxiv, 2026.
+   Green KE. A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Recep
+   tor Agonists from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches. medRxiv, 2026.
    https://github.com/aeyemovment/naion-glp1-risk
    Redistributed copies and derivative works must retain this license and the copyright notice above.
 

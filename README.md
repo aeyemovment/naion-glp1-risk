@@ -7,8 +7,7 @@
 
 Code, model weights, derived data, synthetic data and manuscript for:
 
-**Green K.** *Machine Learning on Reconstructed Published Evidence to Stratify Risk of Nonarteritic Anterior Ischemic Optic
-Neuropathy with GLP-1 Receptor Agonists: Supervised, Graph, and Digital-Twin Approaches.* medRxiv preprint (not peer reviewed), 2026.
+**Green KE.** *A Foundation Machine Learning Model for Risk of Nonarteritic Anterior Ischemic Optic Neuropathy with GLP-1 Receptor Agonists from Reconstructed Published Evidence: Supervised, Graph, and Digital-Twin Approaches.* medRxiv preprint (not peer reviewed), 2026.
 
 **Research calculator:** https://naion-glp1-calculator.vercel.app (client-side; research use only)
 
