@@ -1,0 +1,88 @@
+{
+ "hardware": "Apple M3 Pro, 11 cores, 18 GB, PUE 1.0",
+ "assumptions": {
+  "package_power_W": "25-45 (central 35)",
+  "memory_W_per_GB": 0.3725,
+  "carbon_intensity_kg_per_kWh": {
+   "low": 0.1,
+   "central": 0.367,
+   "high": 0.7
+  },
+  "method": "Green Algorithms (Lannelongue 2021)"
+ },
+ "compute_hours_total": 7.6175,
+ "core_hours_total": 62.58861111111111,
+ "share_runtime_logged": 0.8665353900010939,
+ "energy_kwh": {
+  "low": 0.19332218093434342,
+  "central": 0.2502209183080808,
+  "high": 0.30711965568181826
+ },
+ "co2e_kg": {
+  "central": 0.09183107701906565,
+  "low": 0.019332218093434342,
+  "high": 0.21498375897727276
+ },
+ "equivalents_central": {
+  "km_driven_passenger_car_(0.17 kg/km)": 0.5401828059945037,
+  "tree_months_(11 kg/yr)": 0.10017935674807162,
+  "smartphone_charges_(0.012 kWh)": 20.851743192340066
+ },
+ "largest_stages": [
+  {
+   "stage": "Stage 3 \u00b7 full-factorial twins",
+   "seconds": 8560,
+   "kwh_central": 0.0992
+  },
+  {
+   "stage": "ABCD rerun \u00b7 stage3_full_factorial",
+   "seconds": 8029,
+   "kwh_central": 0.093
+  },
+  {
+   "stage": "Stage 8 \u00b7 fine-tuning",
+   "seconds": 2284,
+   "kwh_central": 0.0123
+  },
+  {
+   "stage": "ABCD rerun \u00b7 stage8_finetune",
+   "seconds": 2228,
+   "kwh_central": 0.012
+  },
+  {
+   "stage": "Stage 2 v2 (stopped, superseded)",
+   "seconds": 560,
+   "kwh_central": 0.0065
+  }
+ ],
+ "inference": [
+  {
+   "model": "logreg",
+   "seconds_per_1000": 0.00074637,
+   "kwh_per_1000_central": 0.0,
+   "gco2e_per_1000_central": 7.5e-07
+  },
+  {
+   "model": "rf",
+   "seconds_per_1000": 0.02667829,
+   "kwh_per_1000_central": 7e-08,
+   "gco2e_per_1000_central": 2.689e-05
+  },
+  {
+   "model": "xgb",
+   "seconds_per_1000": 0.00168692,
+   "kwh_per_1000_central": 0.0,
+   "gco2e_per_1000_central": 1.7e-06
+  }
+ ],
+ "llm_tokens_subagents_known": {
+  "case extraction agent": 139194,
+  "cohort extraction agent": 248158,
+  "pharmacovigilance/meta extraction agent": 177487,
+  "introduction literature agent": 199723
+ },
+ "llm_tokens_total_known": 764562,
+ "llm_note": "Main-session and some subagent tokens were not metered; LLM inference energy happens in remote data centres and is excluded from the totals.",
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}

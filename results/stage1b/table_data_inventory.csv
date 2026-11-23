@@ -1,0 +1,10 @@
+source,data_type,modalities,n_modalities,records,patients,used_in
+PubMed bibliographic records,"unstructured text (title, abstract) + metadata",text,1,169,,"screening, extraction"
+PMC open-access full texts,unstructured text + embedded tables,"text, tabular",2,60,,extraction
+Cohort / case-control studies (extracted),structured tabular: categorical + numeric counts/effects,"categorical, numeric",2,166,,"pseudo-IPD (Stage 1), meta-regression, twin generators"
+Reconstructed pseudo-IPD,structured tabular (count-weighted patient rows),"categorical, numeric, binary outcome",2,48,3271499.0,"Stage 1 supervised ML, Stage 2 test sets"
+Case reports / series (extracted),structured tabular from narrative text,"categorical, numeric, free-text notes",3,20,20.0,unsupervised phenotyping
+"Case-report ophthalmic imaging (figures only, not analysed as pixels)","image (fundus photo, OCT RNFL/GCIPL, visual fields, MRI)",image,1,17,8.0,inventory only (pre/post pairs counted); insufficient n for CV/DL
+"Pharmacovigilance (FAERS, VigiBase, EudraVigilance)",structured tabular (disproportionality statistics),"categorical, numeric",2,25,,"external priors, discussion"
+RCT-pooled analyses and meta-analyses,structured tabular (pooled estimates),"categorical, numeric",2,44,,external priors for synthetic-only (h=100%) generators
+Video,-,none located,0,0,0.0,-

@@ -1,0 +1,3 @@
+cluster,age,sex_male,tirzepatide,dose_mg_weekly,duration_on_drug_to_onset_weeks,obesity_indication,diabetes,hypertension,crowded_disc_or_small_cdr,bilateral,presenting_va_logmar,n
+0,44.0,0.0,1.0,15.0,2.0,1.0,,1.0,1.0,0.0,1.9,1
+1,47.21,0.79,0.0,1.38,46.5,0.77,0.57,0.62,0.8,0.21,0.31,14

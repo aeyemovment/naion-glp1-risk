@@ -1,0 +1,194 @@
+{
+ "meta": {
+  "research_prototype": true,
+  "synthetic_only": false,
+  "compliance_ref": "Addendum_5_DT9"
+ },
+ "cases": {
+  "n_naion_cases": 18,
+  "n_with_>=50pct_features": 15,
+  "feature_completeness": {
+   "age": 0.83,
+   "sex_male": 0.89,
+   "tirzepatide": 1.0,
+   "dose_mg_weekly": 0.5,
+   "duration_on_drug_to_onset_weeks": 0.67,
+   "obesity_indication": 0.78,
+   "diabetes": 0.83,
+   "hypertension": 0.5,
+   "crowded_disc_or_small_cdr": 0.61,
+   "bilateral": 0.89,
+   "presenting_va_logmar": 0.61
+  },
+  "descriptives": {
+   "age_median": 47.0,
+   "age_iqr": [
+    37.5,
+    55.0
+   ],
+   "male_pct": 68.75,
+   "semaglutide_n": 15,
+   "tirzepatide_n": 2,
+   "liraglutide_n": 1,
+   "onset_weeks_median": 24.0,
+   "bilateral_n": 3,
+   "crowded_disc_n": 9,
+   "crowded_disc_known": 11,
+   "diabetes_n": 9,
+   "diabetes_known": 15,
+   "imaging_pre_post_n": 6
+  },
+  "clustering": {
+   "2": {
+    "silhouette_kmeans": 0.4101530693166217,
+    "bic_gmm": -30.4770876811223,
+    "ari_kmeans_vs_ward": 1.0,
+    "ari_kmeans_vs_gmm": 0.13157894736842105
+   },
+   "3": {
+    "silhouette_kmeans": 0.2277402292712035,
+    "bic_gmm": -229.62847144119618,
+    "ari_kmeans_vs_ward": 1.0,
+    "ari_kmeans_vs_gmm": 0.4316396018858041
+   },
+   "4": {
+    "silhouette_kmeans": 0.1881720710970102,
+    "bic_gmm": -377.59838283086094,
+    "ari_kmeans_vs_ward": 0.7920792079207921,
+    "ari_kmeans_vs_gmm": 1.0
+   }
+  },
+  "best_k": 2,
+  "cluster_profiles": [
+   {
+    "cluster": 0,
+    "age": 44.0,
+    "sex_male": 0.0,
+    "tirzepatide": 1.0,
+    "dose_mg_weekly": 15.0,
+    "duration_on_drug_to_onset_weeks": 2.0,
+    "obesity_indication": 1.0,
+    "diabetes": NaN,
+    "hypertension": 1.0,
+    "crowded_disc_or_small_cdr": 1.0,
+    "bilateral": 0.0,
+    "presenting_va_logmar": 1.9,
+    "n": 1
+   },
+   {
+    "cluster": 1,
+    "age": 47.21,
+    "sex_male": 0.79,
+    "tirzepatide": 0.0,
+    "dose_mg_weekly": 1.38,
+    "duration_on_drug_to_onset_weeks": 46.5,
+    "obesity_indication": 0.77,
+    "diabetes": 0.57,
+    "hypertension": 0.62,
+    "crowded_disc_or_small_cdr": 0.8,
+    "bilateral": 0.21,
+    "presenting_va_logmar": 0.31,
+    "n": 14
+   }
+  ],
+  "bootstrap_within_cluster_coassignment": 0.8534997402044854
+ },
+ "meta_regression": {
+  "n_estimates": 148,
+  "n_studies": 25,
+  "pooled_weighted_ratio": 1.3272161406818372,
+  "grouped_cv_weighted_r2": -0.058746373265930574,
+  "shap_importance_grouped": {
+   "dataset": 0.0907,
+   "comparator_cls": 0.0651,
+   "design": 0.059,
+   "exposure_drug": 0.0357,
+   "followup": 0.0343,
+   "population": 0.0073,
+   "adjusted_f": 0.0006
+  }
+ },
+ "inventory": [
+  {
+   "source": "PubMed bibliographic records",
+   "data_type": "unstructured text (title, abstract) + metadata",
+   "modalities": "text",
+   "n_modalities": 1,
+   "records": 169,
+   "patients": null,
+   "used_in": "screening, extraction"
+  },
+  {
+   "source": "PMC open-access full texts",
+   "data_type": "unstructured text + embedded tables",
+   "modalities": "text, tabular",
+   "n_modalities": 2,
+   "records": 60,
+   "patients": null,
+   "used_in": "extraction"
+  },
+  {
+   "source": "Cohort / case-control studies (extracted)",
+   "data_type": "structured tabular: categorical + numeric counts/effects",
+   "modalities": "categorical, numeric",
+   "n_modalities": 2,
+   "records": 166,
+   "patients": null,
+   "used_in": "pseudo-IPD (Stage 1), meta-regression, twin generators"
+  },
+  {
+   "source": "Reconstructed pseudo-IPD",
+   "data_type": "structured tabular (count-weighted patient rows)",
+   "modalities": "categorical, numeric, binary outcome",
+   "n_modalities": 2,
+   "records": 48,
+   "patients": 3271499,
+   "used_in": "Stage 1 supervised ML, Stage 2 test sets"
+  },
+  {
+   "source": "Case reports / series (extracted)",
+   "data_type": "structured tabular from narrative text",
+   "modalities": "categorical, numeric, free-text notes",
+   "n_modalities": 3,
+   "records": 20,
+   "patients": 20,
+   "used_in": "unsupervised phenotyping"
+  },
+  {
+   "source": "Case-report ophthalmic imaging (figures only, not analysed as pixels)",
+   "data_type": "image (fundus photo, OCT RNFL/GCIPL, visual fields, MRI)",
+   "modalities": "image",
+   "n_modalities": 1,
+   "records": 17,
+   "patients": 8,
+   "used_in": "inventory only (pre/post pairs counted); insufficient n for CV/DL"
+  },
+  {
+   "source": "Pharmacovigilance (FAERS, VigiBase, EudraVigilance)",
+   "data_type": "structured tabular (disproportionality statistics)",
+   "modalities": "categorical, numeric",
+   "n_modalities": 2,
+   "records": 25,
+   "patients": null,
+   "used_in": "external priors, discussion"
+  },
+  {
+   "source": "RCT-pooled analyses and meta-analyses",
+   "data_type": "structured tabular (pooled estimates)",
+   "modalities": "categorical, numeric",
+   "n_modalities": 2,
+   "records": 44,
+   "patients": null,
+   "used_in": "external priors for synthetic-only (h=100%) generators"
+  },
+  {
+   "source": "Video",
+   "data_type": "-",
+   "modalities": "none located",
+   "n_modalities": 0,
+   "records": 0,
+   "patients": 0,
+   "used_in": "-"
+  }
+ ]
+}

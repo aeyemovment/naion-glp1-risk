@@ -1,0 +1,26 @@
+source_pmid,first_author,year,population,exposure_drug,comparator,effect_measure,effect_estimate,ci_low,ci_high
+41217382,Lieberman,2026,t2d,semaglutide,non_glp1_antidiabetic,aOR,0.36,0.25,0.51
+41994958,,2026,iih,any_glp1ra,unexposed,RR,0.429,0.218,0.843
+41655764,Hong,2026,t2d,tirzepatide,other glp1ra (non-GIP GLP-1RA),HR,0.45,0.27,0.86
+42025665,Shah,2026,t2d,any_glp1ra,unexposed,HR,0.88,0.54,1.44
+40015592,,2025,t2d,any_glp1ra,non_glp1_antidiabetic,RR,0.887,0.735,1.071
+41907810,Jarrett,2026,t2d,any_glp1ra,unexposed,HR,0.978,0.789,1.211
+41884702,,2026,liver_tx,any_glp1ra,unexposed,HR,0.986,0.062,15.76
+40788647,,2025,t2d,any_glp1ra,unexposed (no GLP1RA prescription),HR,1.1,0.92,1.32
+40705351,Nagdeve,2025,other,any_glp1ra,no GLP1RA,aOR,1.19,1.02,1.39
+39491755,Chou,2025,t2d_or_obesity,semaglutide,non_glp1 glucose-lowering/weight-loss,HR,1.19,0.78,1.82
+40742732,Fung,2025,t2d,any_glp1ra,all non-GLP1RA antidiabetic users,aHR,1.23,1.14,1.32
+39976940,Cai,2025,t2d,semaglutide,unexposed time (SCCS),IRR,1.32,1.14,1.54
+41687959,Chen,2026,t2d,any_glp1ra,non_glp1_antidiabetic,HR,1.3800000000000001,1.23,1.55
+40788646,,2025,t2d,semaglutide_or_tirzepatide,non_glp1_antidiabetic (other antidiabetic medications),HR,1.65,1.18,2.31
+42441962,Ueda,2026,t2d,any_glp1ra,sglt2i,RR,1.69,0.9500000000000001,3.01
+41104517,,2026,t2d,any_glp1ra,sglt2i,HR,1.76,1.46,2.12
+41678180,,2026,t2d,semaglutide,sglt2i,HR,1.84,1.24,2.73
+42692107,Lee,2026,t2d,any_glp1ra,sglt2i_or_dpp4i,aHR,1.86,0.84,4.09
+42126975,,2026,t2d,any_glp1ra,never GLP1RA (other 2nd-line therapy users),aHR,2.13,1.43,3.18
+40098249,,2025,t2d,semaglutide,sglt2i,HR,2.14,1.31,3.52
+40146102,Hsu,2025,t2d,semaglutide,non_glp1_antidiabetic,HR,2.22,1.37,3.6
+41701611,Noh,2026,t2d,any_glp1ra,dpp4i,RR,2.56,1.44,4.86
+39696569,Grauslund,2024,t2d,semaglutide,unexposed,HR,2.57,1.92,3.45
+39080859,Klonoff,2024,t2d_or_obesity,any_glp1ra,non_glp1_antiobesity (non-GLP-1 weight-loss drugs),HR,2.95,1.82,4.79
+38958939,Hathaway,2024,t2d,semaglutide,non_glp1_antidiabetic,HR,4.28,1.62,11.29

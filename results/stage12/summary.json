@@ -1,0 +1,200 @@
+{
+ "derivability": {
+  "A_age_ge60": "7/11 studies (expected share from mean age, SD 12 assumed)",
+  "B_bp_ge140_90": "5/11 studies (% hypertension proxy)",
+  "D_diabetes": "11/11 (population)",
+  "C_clinical, D_duration, dual_TIA, imaging": "not derivable / not applicable to NAION"
+ },
+ "kfold": [
+  {
+   "model": "abcd2_partial_alone_complete_studies",
+   "auroc_mean": 0.54532,
+   "auroc_std": 0.00381,
+   "o_e_mean": NaN,
+   "o_e_std": NaN,
+   "cal_slope_mean": NaN,
+   "cal_slope_std": NaN,
+   "brier_mean": 0.00039,
+   "brier_std": 0.0
+  },
+  {
+   "model": "proposed_literature_score",
+   "auroc_mean": 0.41678,
+   "auroc_std": 0.00315,
+   "o_e_mean": 0.91209,
+   "o_e_std": 0.05429,
+   "cal_slope_mean": 0.98304,
+   "cal_slope_std": 0.00826,
+   "brier_mean": 0.00044,
+   "brier_std": 0.0
+  },
+  {
+   "model": "proposed_points_score",
+   "auroc_mean": 0.48749,
+   "auroc_std": 0.05765,
+   "o_e_mean": 0.99925,
+   "o_e_std": 0.06558,
+   "cal_slope_mean": 0.98351,
+   "cal_slope_std": 0.00889,
+   "brier_mean": 0.00044,
+   "brier_std": 0.0
+  },
+  {
+   "model": "xgb_base",
+   "auroc_mean": 0.65646,
+   "auroc_std": 0.01057,
+   "o_e_mean": 1.00246,
+   "o_e_std": 0.07013,
+   "cal_slope_mean": 0.98044,
+   "cal_slope_std": 0.0103,
+   "brier_mean": 0.00043,
+   "brier_std": 0.0
+  },
+  {
+   "model": "xgb_plus_abcd",
+   "auroc_mean": 0.65452,
+   "auroc_std": 0.01276,
+   "o_e_mean": 1.00233,
+   "o_e_std": 0.06981,
+   "cal_slope_mean": 0.98044,
+   "cal_slope_std": 0.01029,
+   "brier_mean": 0.00043,
+   "brier_std": 0.0
+  }
+ ],
+ "abcd_added_to_xgb": {
+  "diff": -0.0019345160688468365,
+  "p": 0.9166748959772331
+ },
+ "points_score_vs_xgb": {
+  "diff": -0.16896948930677508,
+  "p": 0.34854790279149267
+ },
+ "loso_auroc": {
+  "abcd2_partial_alone_complete_studies": 0.5,
+  "proposed_literature_score": 0.4386,
+  "proposed_points_score": 0.4819,
+  "xgb_base": 0.5353,
+  "xgb_plus_abcd": 0.5441
+ },
+ "data_fitted_score_points": {
+  "age_ge60_expected": -8,
+  "hypertension": -14,
+  "diabetes": -17,
+  "glp1ra": -4,
+  "semaglutide": -1,
+  "obesity_indication": 0
+ },
+ "data_fitted_score_betas": {
+  "age_ge60_expected": -1.2412,
+  "hypertension": -2.1032,
+  "diabetes": -2.538,
+  "glp1ra": -0.5327,
+  "semaglutide": -0.1509,
+  "obesity_indication": 0.0137
+ },
+ "data_fitted_score_note": "coefficients carry implausible signs because items are study-level (ecological fallacy); shown as a negative example",
+ "literature_score_points": {
+  "male_sex": 2,
+  "hypertension": 1,
+  "hyperlipidemia": 1,
+  "diabetes": 2,
+  "coronary_heart_disease": 2,
+  "sleep_apnea": 5,
+  "age_ge60": 1,
+  "cdr_le_0.20_post_exposure_fellow_eye": 16,
+  "cdr_0.21_0.40_post_exposure_fellow_eye": 8,
+  "glp1ra_t2d": 2,
+  "glp1ra_obesity": 4
+ },
+ "literature_score_sources": {
+  "male_sex": "PMID 34671609",
+  "hypertension": "PMID 34671609",
+  "hyperlipidemia": "PMID 34671609",
+  "diabetes": "PMID 34671609",
+  "coronary_heart_disease": "PMID 34671609",
+  "sleep_apnea": "PMID 34671609",
+  "age_ge60": "ABCD2 convention, 1 point (no verified age ratio)",
+  "cdr_le_0.20_post_exposure_fellow_eye": "PMID 42556433 (fellow eye, post-exposure; case-control OR vs CDR > 0.40)",
+  "cdr_0.21_0.40_post_exposure_fellow_eye": "PMID 42556433 (fellow eye, post-exposure; case-control OR vs CDR > 0.40)",
+  "glp1ra_t2d": "this study, within-study OR",
+  "glp1ra_obesity": "this study, within-study OR"
+ },
+ "literature_score_ratios": {
+  "male_sex": 1.67,
+  "hypertension": 1.28,
+  "hyperlipidemia": 1.43,
+  "diabetes": 1.53,
+  "coronary_heart_disease": 1.68,
+  "sleep_apnea": 3.28,
+  "age_ge60": null,
+  "cdr_le_0.20_post_exposure_fellow_eye": 46.3,
+  "cdr_0.21_0.40_post_exposure_fellow_eye": 6.8,
+  "glp1ra_t2d": 1.6220638671223815,
+  "glp1ra_obesity": 2.6966981261144234
+ },
+ "literature_score_vs_xgb": {
+  "diff": -0.2396776134443844,
+  "p": 3.3212812639057405e-05
+ },
+ "literature_score_threshold_kfold": {
+  "T2_top10pct_sensitivity": 0.1663,
+  "T2_top10pct_p_sens_vs_chance": 1.0,
+  "T2_top10pct_specificity": 0.76493,
+  "T2_top10pct_accuracy": 0.76467,
+  "T2_top10pct_ppv": 0.00031,
+  "T2_top10pct_p_ppv_vs_prevalence": 1.0,
+  "T2_top10pct_npv": 0.99953,
+  "T2_top10pct_lr_pos": 0.70747,
+  "T2_top10pct_net_benefit": -7e-05
+ },
+ "cdr_evidence": {
+  "pre_glp1ra_baseline_cdr_available": false,
+  "pre_naion_cdr_available_in_unexposed_naion": false,
+  "unexposed_naion_note": "classic (PMIDs 6514298, 3684223) and recent (38211825, 42556433) studies all measured CDR after the event (fellow eye, or affected eye after edema); limitation is symmetric between exposed and unexposed NAION",
+  "source": "Disc-at-Risk Study, PMID 42556433: unaffected fellow eyes of 2,169 NAION patients (117 semaglutide, 83 other GLP-1RA, 1,612 unexposed) vs 465 controls",
+  "timing": "measured at/after NAION diagnosis (post-exposure for GLP-1RA users); disc anatomy assumed stable but this is weaker than a pre-treatment baseline",
+  "odds_ratios": {
+   "CDR<=0.20": "46.3 (22.9-93.4)",
+   "CDR 0.21-0.40": "6.8 (3.5-13.2)",
+   "reference": "CDR>0.40"
+  },
+  "glp1ra_difference": "no significant difference in fellow-eye CDR between semaglutide, other GLP-1RA and unexposed NAION",
+  "use_here": "literature-weighted item in the proposed score; cannot be validated in cohort data (not reported)"
+ },
+ "partial_score_limitations": [
+  "only A, B and D of ABCD2/ABCD3-I are derivable; C, duration, dual-TIA and imaging items are TIA-specific",
+  "A and B are study-level proxies (age from study mean with assumed SD 12; hypertension diagnosis for BP >= 140/90)",
+  "A available for 7/11 and B for 5/11 studies; remaining values imputed and flagged",
+  "both arms of a study share the same A and B, so the score cannot separate exposed from unexposed patients within a study",
+  "any apparent importance reflects between-setting differences, not individual patient risk"
+ ],
+ "proposed_score_threshold_kfold": {
+  "T2_top10pct_sensitivity": 0.22179,
+  "T2_top10pct_p_sens_vs_chance": 0.59856,
+  "T2_top10pct_specificity": 0.75659,
+  "T2_top10pct_accuracy": 0.75636,
+  "T2_top10pct_ppv": 0.00044,
+  "T2_top10pct_p_ppv_vs_prevalence": 0.59781,
+  "T2_top10pct_npv": 0.99955,
+  "T2_top10pct_lr_pos": 1.01426,
+  "T2_top10pct_net_benefit": -2e-05
+ },
+ "shap_with_abcd": {
+  "followup_years": 0.19164,
+  "glp1ra_exposed": 0.13164,
+  "region_uk": 0.12703,
+  "therapy_glp1ra_class": 0.09559,
+  "therapy_sglt2i": 0.08747,
+  "pct_female": 0.08081,
+  "mean_age": 0.07865,
+  "abcd_B": 0.07571,
+  "pct_female_missing": 0.0732,
+  "source_type_va_ehr": 0.05966,
+  "source_type_ehr_network": 0.05499,
+  "outcome_def_ion": 0.04914
+ },
+ "note": "Proposed points score is a research prototype derived from study-level data; crowded disc/cup-to-disc ratio to be added prospectively.",
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}

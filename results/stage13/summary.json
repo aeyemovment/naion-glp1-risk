@@ -1,0 +1,7 @@
+{
+ "n_comparisons": 455,
+ "auroc_mean_diff": 0.0015648094645109873,
+ "significant_q05": [],
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}

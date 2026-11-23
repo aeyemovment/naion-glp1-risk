@@ -1,0 +1,53 @@
+# whitelist approach: ignore everything, then include what is released
+/*
+!/src/
+!/app/
+!/models/
+!/data/
+!/paper/
+!/results/
+!/README.md
+!/LICENSE
+!/LICENSE-DATA.md
+!/requirements.txt
+!/.gitignore
+!/DESIGN_synthetic_3x6x9.md
+# raw downloads: full texts and abstracts are not redistributed (PMIDs + refs only)
+/data/raw/fulltext/
+/data/raw/pubmed_records.json
+# paper: keep IEEE source+PDF, PDFs of other versions, release docs; drop working copies
+/paper/*
+!/paper/ieee/
+!/paper/preprint/
+!/paper/nejm_ai/
+!/paper/data_release/
+!/paper/style/
+/paper/preprint/*.docx
+/paper/nejm_ai/*.docx
+/paper/data_release/synthetic/
+/paper/ieee/*.aux
+/paper/ieee/*.log
+/paper/ieee/*.bbl
+/paper/ieee/*.blg
+/paper/ieee/*.out
+# results: summaries, tables, figures only (<5 MB); big factorial grids are reproducible from code
+/results/**/*.log
+/results/stage3/factorial_tf*.csv
+/results/stage3/paired_tests_all_configs.csv
+*.pkl
+*.pt
+__pycache__/
+.DS_Store
+~$*
+/results/stage14/combination_performance.csv
+/results/stage14/subset_folds.csv
+/results/stage3/paired_tests_all_configs.csv
+/results/stage3/factorial_tf10.csv
+/results/stage3/factorial_tf70.csv
+/results/stage3/factorial_tf60.csv
+/results/stage3/factorial_tf50.csv
+/results/stage3/factorial_tf90.csv
+/results/stage3/factorial_tf80.csv
+/results/stage3/factorial_tf40.csv
+/results/stage3/factorial_tf30.csv
+/results/stage3/factorial_tf20.csv

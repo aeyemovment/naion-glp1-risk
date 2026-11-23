@@ -1,0 +1,976 @@
+{
+ "n_subsets": 511,
+ "groups": {
+  "exposure": [
+   "glp1ra_exposed"
+  ],
+  "drug": [
+   "therapy_dpp4i",
+   "therapy_glp1ra_class",
+   "therapy_no_glp1ra",
+   "therapy_other_antidiabetic",
+   "therapy_other_antiobesity",
+   "therapy_sema_or_tirz",
+   "therapy_semaglutide",
+   "therapy_sglt2i"
+  ],
+  "indication": [
+   "indication_iih",
+   "indication_obesity",
+   "indication_t2d"
+  ],
+  "age": [
+   "mean_age",
+   "mean_age_missing",
+   "abcd_A",
+   "abcd_A_missing"
+  ],
+  "sex": [
+   "pct_female",
+   "pct_female_missing"
+  ],
+  "duration": [
+   "followup_years",
+   "followup_years_missing"
+  ],
+  "hypertension": [
+   "abcd_B",
+   "abcd_B_missing"
+  ],
+  "diabetes": [
+   "abcd_D"
+  ],
+  "setting": [
+   "region_nordic",
+   "region_uk",
+   "region_us",
+   "source_type_claims",
+   "source_type_ehr_network",
+   "source_type_ehr_primary_care",
+   "source_type_national_registry",
+   "source_type_single_center",
+   "source_type_va_ehr",
+   "outcome_def_ion",
+   "outcome_def_naion"
+  ]
+ },
+ "shapley": [
+  {
+   "model": "cnn1d",
+   "group": "exposure",
+   "standalone_gain": 0.0434,
+   "p_standalone": 0.00269,
+   "shapley_value": 0.01414,
+   "p_shapley": 0.10067,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.01542,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "drug",
+   "standalone_gain": 0.06083,
+   "p_standalone": 0.38276,
+   "shapley_value": 0.01334,
+   "p_shapley": 0.02168,
+   "folds": 3,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.53587,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "indication",
+   "standalone_gain": -0.0007,
+   "p_standalone": 0.99257,
+   "shapley_value": -0.00261,
+   "p_shapley": 0.9345,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "age",
+   "standalone_gain": 0.05695,
+   "p_standalone": 0.22048,
+   "shapley_value": 0.01209,
+   "p_shapley": 0.32182,
+   "folds": 3,
+   "q_shapley": 0.50687,
+   "q_standalone": 0.39687,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "sex",
+   "standalone_gain": 0.09543,
+   "p_standalone": 0.08865,
+   "shapley_value": 0.02456,
+   "p_shapley": 0.08945,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.20685,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "duration",
+   "standalone_gain": 0.11346,
+   "p_standalone": 0.2297,
+   "shapley_value": 0.02493,
+   "p_shapley": 0.09908,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.40198,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "hypertension",
+   "standalone_gain": 0.0432,
+   "p_standalone": 0.30045,
+   "shapley_value": 0.01455,
+   "p_shapley": 0.10409,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.45067,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "diabetes",
+   "standalone_gain": 0.0063,
+   "p_standalone": 0.94214,
+   "shapley_value": 0.00263,
+   "p_shapley": 0.90229,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "cnn1d",
+   "group": "setting",
+   "standalone_gain": 0.11997,
+   "p_standalone": 0.01517,
+   "shapley_value": 0.0417,
+   "p_shapley": 0.11229,
+   "folds": 3,
+   "q_shapley": 0.24395,
+   "q_standalone": 0.04778,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "exposure",
+   "standalone_gain": 0.0434,
+   "p_standalone": 0.00269,
+   "shapley_value": 0.01311,
+   "p_shapley": 0.13706,
+   "folds": 3,
+   "q_shapley": 0.26984,
+   "q_standalone": 0.01542,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "drug",
+   "standalone_gain": 0.05993,
+   "p_standalone": 0.26836,
+   "shapley_value": 0.01854,
+   "p_shapley": 0.3303,
+   "folds": 3,
+   "q_shapley": 0.50753,
+   "q_standalone": 0.42267,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "indication",
+   "standalone_gain": 0.00633,
+   "p_standalone": 0.94216,
+   "shapley_value": 0.00183,
+   "p_shapley": 0.93958,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "age",
+   "standalone_gain": 0.06507,
+   "p_standalone": 0.0701,
+   "shapley_value": 0.01434,
+   "p_shapley": 0.0871,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.18334,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "sex",
+   "standalone_gain": 0.10485,
+   "p_standalone": 0.05137,
+   "shapley_value": 0.02318,
+   "p_shapley": 0.14367,
+   "folds": 3,
+   "q_shapley": 0.27428,
+   "q_standalone": 0.14709,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "duration",
+   "standalone_gain": 0.12802,
+   "p_standalone": 0.00056,
+   "shapley_value": 0.02835,
+   "p_shapley": 0.04462,
+   "folds": 3,
+   "q_shapley": 0.17571,
+   "q_standalone": 0.00442,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "hypertension",
+   "standalone_gain": 0.03836,
+   "p_standalone": 0.24333,
+   "shapley_value": 0.00938,
+   "p_shapley": 0.22453,
+   "folds": 3,
+   "q_shapley": 0.38231,
+   "q_standalone": 0.41342,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "diabetes",
+   "standalone_gain": 0.0063,
+   "p_standalone": 0.94214,
+   "shapley_value": 0.00201,
+   "p_shapley": 0.92616,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "ensemble",
+   "group": "setting",
+   "standalone_gain": 0.11997,
+   "p_standalone": 0.01517,
+   "shapley_value": 0.03412,
+   "p_shapley": 0.10315,
+   "folds": 3,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.04778,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "exposure",
+   "standalone_gain": 0.0434,
+   "p_standalone": 0.00269,
+   "shapley_value": 0.01328,
+   "p_shapley": 0.02814,
+   "folds": 3,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.01542,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "drug",
+   "standalone_gain": 0.05849,
+   "p_standalone": 0.32136,
+   "shapley_value": 0.01726,
+   "p_shapley": 0.16078,
+   "folds": 3,
+   "q_shapley": 0.29791,
+   "q_standalone": 0.47083,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "indication",
+   "standalone_gain": -0.0007,
+   "p_standalone": 0.99257,
+   "shapley_value": -0.00172,
+   "p_shapley": 0.95584,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "age",
+   "standalone_gain": 0.07401,
+   "p_standalone": 0.10128,
+   "shapley_value": 0.0159,
+   "p_shapley": 0.02797,
+   "folds": 3,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.22002,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "sex",
+   "standalone_gain": 0.09986,
+   "p_standalone": 0.21364,
+   "shapley_value": 0.02337,
+   "p_shapley": 0.12336,
+   "folds": 3,
+   "q_shapley": 0.25906,
+   "q_standalone": 0.39587,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "duration",
+   "standalone_gain": 0.13219,
+   "p_standalone": 0.02409,
+   "shapley_value": 0.0275,
+   "p_shapley": 0.034,
+   "folds": 3,
+   "q_shapley": 0.16478,
+   "q_standalone": 0.07226,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "hypertension",
+   "standalone_gain": 0.04834,
+   "p_standalone": 0.264,
+   "shapley_value": 0.01147,
+   "p_shapley": 0.028,
+   "folds": 3,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.42267,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "diabetes",
+   "standalone_gain": 0.0063,
+   "p_standalone": 0.94214,
+   "shapley_value": 0.00025,
+   "p_shapley": 0.99117,
+   "folds": 3,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "gnn",
+   "group": "setting",
+   "standalone_gain": 0.11997,
+   "p_standalone": 0.01517,
+   "shapley_value": 0.03377,
+   "p_shapley": 0.05303,
+   "folds": 3,
+   "q_shapley": 0.18016,
+   "q_standalone": 0.04778,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "exposure",
+   "standalone_gain": 0.03406,
+   "p_standalone": 0.70374,
+   "shapley_value": 0.01274,
+   "p_shapley": 0.57968,
+   "folds": 10,
+   "q_shapley": 0.77702,
+   "q_standalone": 0.89285,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "drug",
+   "standalone_gain": 0.06019,
+   "p_standalone": 0.24937,
+   "shapley_value": 0.01646,
+   "p_shapley": 0.43194,
+   "folds": 10,
+   "q_shapley": 0.60472,
+   "q_standalone": 0.41342,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "indication",
+   "standalone_gain": 0.01823,
+   "p_standalone": 0.32951,
+   "shapley_value": 0.00493,
+   "p_shapley": 0.68307,
+   "folds": 10,
+   "q_shapley": 0.89653,
+   "q_standalone": 0.47179,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "age",
+   "standalone_gain": 0.00513,
+   "p_standalone": 0.95046,
+   "shapley_value": -0.00342,
+   "p_shapley": 0.81341,
+   "folds": 10,
+   "q_shapley": 0.98548,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "sex",
+   "standalone_gain": 0.08453,
+   "p_standalone": 0.00016,
+   "shapley_value": 0.02313,
+   "p_shapley": 0.01821,
+   "folds": 10,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.00248,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "duration",
+   "standalone_gain": -0.00075,
+   "p_standalone": 0.99528,
+   "shapley_value": -0.0001,
+   "p_shapley": 0.99575,
+   "folds": 10,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "hypertension",
+   "standalone_gain": 0.03887,
+   "p_standalone": 0.16084,
+   "shapley_value": 0.01854,
+   "p_shapley": 0.2328,
+   "folds": 10,
+   "q_shapley": 0.38596,
+   "q_standalone": 0.31472,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "diabetes",
+   "standalone_gain": 0.01581,
+   "p_standalone": 0.70861,
+   "shapley_value": 0.004,
+   "p_shapley": 0.70817,
+   "folds": 10,
+   "q_shapley": 0.91051,
+   "q_standalone": 0.89285,
+   "H_compound_supported": false
+  },
+  {
+   "model": "logreg",
+   "group": "setting",
+   "standalone_gain": 0.10186,
+   "p_standalone": 0.00869,
+   "shapley_value": 0.04805,
+   "p_shapley": 0.00884,
+   "folds": 10,
+   "q_shapley": 0.11138,
+   "q_standalone": 0.03648,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "exposure",
+   "standalone_gain": 0.04359,
+   "p_standalone": 0.00011,
+   "shapley_value": 0.01343,
+   "p_shapley": 0.03129,
+   "folds": 10,
+   "q_shapley": 0.16429,
+   "q_standalone": 0.00222,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "drug",
+   "standalone_gain": 0.06619,
+   "p_standalone": 0.06059,
+   "shapley_value": 0.02111,
+   "p_shapley": 0.05099,
+   "folds": 10,
+   "q_shapley": 0.18016,
+   "q_standalone": 0.16598,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "indication",
+   "standalone_gain": 0.00208,
+   "p_standalone": 0.91881,
+   "shapley_value": 0.00026,
+   "p_shapley": 0.97699,
+   "folds": 10,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "age",
+   "standalone_gain": 0.06794,
+   "p_standalone": 0.07275,
+   "shapley_value": 0.01562,
+   "p_shapley": 0.38851,
+   "folds": 10,
+   "q_shapley": 0.56395,
+   "q_standalone": 0.18334,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "sex",
+   "standalone_gain": 0.08364,
+   "p_standalone": 0.00547,
+   "shapley_value": 0.01864,
+   "p_shapley": 0.06638,
+   "folds": 10,
+   "q_shapley": 0.20911,
+   "q_standalone": 0.02651,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "duration",
+   "standalone_gain": 0.12949,
+   "p_standalone": 0.00047,
+   "shapley_value": 0.03431,
+   "p_shapley": 0.00032,
+   "folds": 10,
+   "q_shapley": 0.01016,
+   "q_standalone": 0.00442,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "hypertension",
+   "standalone_gain": 0.03317,
+   "p_standalone": 0.44758,
+   "shapley_value": 0.01273,
+   "p_shapley": 0.09466,
+   "folds": 10,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.59994,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "diabetes",
+   "standalone_gain": 0.00208,
+   "p_standalone": 0.91881,
+   "shapley_value": 0.00062,
+   "p_shapley": 0.94304,
+   "folds": 10,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.99528,
+   "H_compound_supported": false
+  },
+  {
+   "model": "rf",
+   "group": "setting",
+   "standalone_gain": 0.11509,
+   "p_standalone": 0.00949,
+   "shapley_value": 0.0346,
+   "p_shapley": 0.02264,
+   "folds": 10,
+   "q_shapley": 0.16117,
+   "q_standalone": 0.03737,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "exposure",
+   "standalone_gain": 0.04359,
+   "p_standalone": 0.00011,
+   "shapley_value": 0.01267,
+   "p_shapley": 0.05433,
+   "folds": 10,
+   "q_shapley": 0.18016,
+   "q_standalone": 0.00222,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "drug",
+   "standalone_gain": 0.06842,
+   "p_standalone": 0.09239,
+   "shapley_value": 0.02118,
+   "p_shapley": 0.09475,
+   "folds": 10,
+   "q_shapley": 0.2342,
+   "q_standalone": 0.20788,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "indication",
+   "standalone_gain": 0.01378,
+   "p_standalone": 0.7583,
+   "shapley_value": 0.00271,
+   "p_shapley": 0.78585,
+   "folds": 10,
+   "q_shapley": 0.97076,
+   "q_standalone": 0.91871,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "age",
+   "standalone_gain": 0.07375,
+   "p_standalone": 0.08247,
+   "shapley_value": 0.01706,
+   "p_shapley": 0.04239,
+   "folds": 10,
+   "q_shapley": 0.17571,
+   "q_standalone": 0.19984,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "sex",
+   "standalone_gain": 0.11565,
+   "p_standalone": 0.00317,
+   "shapley_value": 0.02695,
+   "p_shapley": 0.00301,
+   "folds": 10,
+   "q_shapley": 0.05887,
+   "q_standalone": 0.01665,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "duration",
+   "standalone_gain": 0.13059,
+   "p_standalone": 0.00028,
+   "shapley_value": 0.029,
+   "p_shapley": 9e-05,
+   "folds": 10,
+   "q_shapley": 0.00565,
+   "q_standalone": 0.0035,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "hypertension",
+   "standalone_gain": 0.03317,
+   "p_standalone": 0.44758,
+   "shapley_value": 0.00766,
+   "p_shapley": 0.34902,
+   "folds": 10,
+   "q_shapley": 0.52353,
+   "q_standalone": 0.59994,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "diabetes",
+   "standalone_gain": 0.01581,
+   "p_standalone": 0.70861,
+   "shapley_value": 0.00283,
+   "p_shapley": 0.77286,
+   "folds": 10,
+   "q_shapley": 0.97076,
+   "q_standalone": 0.89285,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb",
+   "group": "setting",
+   "standalone_gain": 0.11808,
+   "p_standalone": 0.00793,
+   "shapley_value": 0.035,
+   "p_shapley": 0.00374,
+   "folds": 10,
+   "q_shapley": 0.05887,
+   "q_standalone": 0.03569,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "exposure",
+   "standalone_gain": 0.04359,
+   "p_standalone": 0.00011,
+   "shapley_value": 0.01377,
+   "p_shapley": 0.21345,
+   "folds": 10,
+   "q_shapley": 0.37971,
+   "q_standalone": 0.00222,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "drug",
+   "standalone_gain": 0.06329,
+   "p_standalone": 0.28034,
+   "shapley_value": 0.01847,
+   "p_shapley": 0.52003,
+   "folds": 10,
+   "q_shapley": 0.71221,
+   "q_standalone": 0.43077,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "indication",
+   "standalone_gain": 0.01489,
+   "p_standalone": 0.72482,
+   "shapley_value": 0.00256,
+   "p_shapley": 0.89658,
+   "folds": 10,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.89537,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "age",
+   "standalone_gain": 0.06161,
+   "p_standalone": 0.1421,
+   "shapley_value": 0.01235,
+   "p_shapley": 0.39387,
+   "folds": 10,
+   "q_shapley": 0.56395,
+   "q_standalone": 0.28879,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "sex",
+   "standalone_gain": 0.10204,
+   "p_standalone": 0.16485,
+   "shapley_value": 0.02715,
+   "p_shapley": 0.13104,
+   "folds": 10,
+   "q_shapley": 0.2663,
+   "q_standalone": 0.31472,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "duration",
+   "standalone_gain": 0.10881,
+   "p_standalone": 0.11098,
+   "shapley_value": 0.0259,
+   "p_shapley": 0.21698,
+   "folds": 10,
+   "q_shapley": 0.37971,
+   "q_standalone": 0.23306,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "hypertension",
+   "standalone_gain": 0.04703,
+   "p_standalone": 0.01244,
+   "shapley_value": 0.01182,
+   "p_shapley": 0.314,
+   "folds": 10,
+   "q_shapley": 0.50687,
+   "q_standalone": 0.04612,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "diabetes",
+   "standalone_gain": 0.01162,
+   "p_standalone": 0.83233,
+   "shapley_value": 0.00242,
+   "p_shapley": 0.90869,
+   "folds": 10,
+   "q_shapley": 0.99575,
+   "q_standalone": 0.98937,
+   "H_compound_supported": false
+  },
+  {
+   "model": "xgb_dropout_single",
+   "group": "setting",
+   "standalone_gain": 0.11628,
+   "p_standalone": 0.0005,
+   "shapley_value": 0.03856,
+   "p_shapley": 0.0431,
+   "folds": 10,
+   "q_shapley": 0.17571,
+   "q_standalone": 0.00442,
+   "H_compound_supported": false
+  }
+ ],
+ "synergistic_pairs_q05": [],
+ "H_compound_supported": [],
+ "calculator_top_by_k": [
+  {
+   "subset": "duration",
+   "best_model": "gnn",
+   "best_auroc": 0.6322,
+   "dropout_single_auroc": 0.6088,
+   "k": 1
+  },
+  {
+   "subset": "sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6156,
+   "dropout_single_auroc": 0.602,
+   "k": 1
+  },
+  {
+   "subset": "age",
+   "best_model": "gnn",
+   "best_auroc": 0.574,
+   "dropout_single_auroc": 0.5616,
+   "k": 1
+  },
+  {
+   "subset": "drug|duration",
+   "best_model": "xgb",
+   "best_auroc": 0.6482,
+   "dropout_single_auroc": 0.6188,
+   "k": 2
+  },
+  {
+   "subset": "drug|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6481,
+   "dropout_single_auroc": 0.6267,
+   "k": 2
+  },
+  {
+   "subset": "duration|exposure",
+   "best_model": "xgb",
+   "best_auroc": 0.6466,
+   "dropout_single_auroc": 0.6272,
+   "k": 2
+  },
+  {
+   "subset": "duration|exposure|hypertension",
+   "best_model": "rf",
+   "best_auroc": 0.6492,
+   "dropout_single_auroc": 0.636,
+   "k": 3
+  },
+  {
+   "subset": "drug|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6296,
+   "k": 3
+  },
+  {
+   "subset": "diabetes|drug|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6484,
+   "dropout_single_auroc": 0.631,
+   "k": 3
+  },
+  {
+   "subset": "diabetes|drug|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6308,
+   "k": 4
+  },
+  {
+   "subset": "drug|duration|hypertension|indication",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6378,
+   "k": 4
+  },
+  {
+   "subset": "drug|hypertension|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6417,
+   "k": 4
+  },
+  {
+   "subset": "age|drug|exposure|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6489,
+   "dropout_single_auroc": 0.6378,
+   "k": 5
+  },
+  {
+   "subset": "diabetes|drug|duration|hypertension|indication",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6375,
+   "k": 5
+  },
+  {
+   "subset": "diabetes|drug|hypertension|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6488,
+   "dropout_single_auroc": 0.6425,
+   "k": 5
+  },
+  {
+   "subset": "age|diabetes|drug|exposure|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6489,
+   "dropout_single_auroc": 0.638,
+   "k": 6
+  },
+  {
+   "subset": "diabetes|drug|exposure|hypertension|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6482,
+   "dropout_single_auroc": 0.6435,
+   "k": 6
+  },
+  {
+   "subset": "age|drug|duration|exposure|hypertension|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6479,
+   "dropout_single_auroc": 0.6461,
+   "k": 6
+  },
+  {
+   "subset": "age|diabetes|drug|exposure|hypertension|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6472,
+   "dropout_single_auroc": 0.6416,
+   "k": 7
+  },
+  {
+   "subset": "diabetes|drug|duration|exposure|hypertension|indication|sex",
+   "best_model": "rf",
+   "best_auroc": 0.6468,
+   "dropout_single_auroc": 0.646,
+   "k": 7
+  },
+  {
+   "subset": "age|diabetes|drug|duration|exposure|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6464,
+   "dropout_single_auroc": 0.6445,
+   "k": 7
+  },
+  {
+   "subset": "age|diabetes|drug|duration|exposure|hypertension|indication|sex",
+   "best_model": "xgb",
+   "best_auroc": 0.6462,
+   "dropout_single_auroc": 0.6454,
+   "k": 8
+  }
+ ],
+ "dropout_vs_bank_mean_diff": -0.01209359174006988,
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}

@@ -1,0 +1,7 @@
+{
+ "collinear_terms_dropped_from_A1": [
+  "source_type_ehr_primary_care",
+  "source_type_national_registry"
+ ],
+ "note": "Associations are ecological (study-level covariates) and not causal. Within-study exposure (A2) is the least confounded estimate."
+}
