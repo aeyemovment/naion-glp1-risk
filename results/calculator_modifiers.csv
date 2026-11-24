@@ -1,0 +1,9 @@
+Factor,Level,OR,Reference level in training cohorts,Source,AUROC gain alone,Forward-selection step,Marginal AUROC gain,In calculator v2
+Sex,Male,1.67,48%,"Liu 2021 meta-analysis, PMID 34671609 (male vs female)",0.0181,3,0.0037,No
+Hypertension,Yes,1.28,80%,PMID 34671609,0.0032,6,0.0004,No
+Hyperlipidaemia,Yes,1.43,73%,PMID 34671609,0.0066,5,0.0011,No
+Coronary heart disease,Yes,1.68,22%,PMID 34671609,0.0147,4,0.0026,No
+Obstructive sleep apnoea,Yes,3.28,28%,PMID 34671609 (RR used as OR),0.0665,2,0.0197,Yes
+Cup-to-disc ratio,0.20 or less,46.3,9% of controls,"Disc-at-Risk Study, PMID 42556433 (fellow eye measured after NAION; case-control OR vs > 0.40)",0.1867,1,0.1867,Yes
+Cup-to-disc ratio,0.21 to 0.40,6.8,47% of controls,"Disc-at-Risk Study, PMID 42556433 (fellow eye measured after NAION; case-control OR vs > 0.40)",0.1867,1,0.1867,Yes
+Cup-to-disc ratio,Greater than 0.40,1.0,44% of controls,"Disc-at-Risk Study, PMID 42556433 (fellow eye measured after NAION; case-control OR vs > 0.40)",0.1867,1,0.1867,Yes

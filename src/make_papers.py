@@ -13,7 +13,7 @@ import matplotlib.image as mpimg
 import sys; sys.path.insert(0, "src")
 _to_md = pd.DataFrame.to_markdown  # keep pre-formatted numbers (e.g. 1.20) exactly as written
 pd.DataFrame.to_markdown = lambda self, *a, **k: _to_md(self, *a, **{"disable_numparse": True, **k})
-from paper_sections_extra import intro_full, intro_nejm, methods_extended, results_extra, multimodal_table, results_incidence, table_incidence, results_subgroups, table_subgroups, results_abcd, table_abcd_ablation, results_combinations, tables_combinations, results_compute_imaging, methods_compute_imaging
+from paper_sections_extra import intro_full, intro_nejm, methods_extended, results_extra, multimodal_table, results_incidence, table_incidence, results_subgroups, table_subgroups, calculator_section, results_abcd, table_abcd_ablation, results_combinations, tables_combinations, results_compute_imaging, methods_compute_imaging
 
 ROOT = os.path.expanduser("~/naion-glp1-risk"); os.chdir(ROOT)
 P = "paper"; FIG = f"{P}/figures"; os.makedirs(FIG, exist_ok=True)
@@ -507,7 +507,7 @@ def results_sensitivity(table=True):
 
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
+          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), calculator_section(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
           "Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.\n\n" + t_models(),

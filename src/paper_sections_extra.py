@@ -309,6 +309,36 @@ def results_combinations():
             f"{f(S['dropout_vs_bank_mean_diff'],4)} AUROC on average across input patterns.")
 
 
+def calculator_section():
+    """Calculator v2 (NEJM AI manuscript only; the medRxiv preprint describes calculator v1)."""
+    p, q = "results/calculator_modifiers.csv", "results/stage18/summary.json"
+    if not (os.path.exists(p) and os.path.exists(q)): return ""
+    S = J(q); t = pd.read_csv(p)
+    t = t.assign(OR=t["OR"].map(lambda v: f(v, 2)), Source=t["Source"].str.replace(r".*PMID (\d+).*", lambda m: f"[@p{m.group(1)}]", regex=True))
+    t = t[["Factor", "Level", "OR", "Reference level in training cohorts", "AUROC gain alone", "Forward-selection step", "Marginal AUROC gain", "In calculator v2", "Source"]]
+    for c in ["AUROC gain alone", "Marginal AUROC gain"]: t[c] = t[c].map(lambda v: f(v, 4))
+    t = t.sort_values(["Forward-selection step", "Level"]).rename(columns={"Reference level in training cohorts": "Reference level"})
+    fs = pd.read_csv("results/stage18/forward_selection.csv")
+    dropped = ", ".join(f"{r.label.lower()} (+{f(r.marginal_gain, 4)})" for r in fs[~fs.kept].itertuples())
+    return ("### Calculator version 2: which optional factors add prediction\n\n"
+            "Calculator version 2 keeps the five core inputs the models were trained on (GLP-1RA drug, comparator, indication, age and time horizon) and returns the "
+            "mean of the XGBoost and logistic-regression probabilities, the mean ensemble reported above (AUROC 0.657 \u00b1 0.008). Optional patient factors were not "
+            "chosen in advance. Every factor with a verified published odds ratio was a candidate: male sex, hypertension, hyperlipidaemia, coronary heart disease and "
+            "obstructive sleep apnoea [@p34671609], and cup-to-disc ratio [@p42556433]; diabetes was excluded because the indication input already determines it. "
+            "Because no cohort reported these factors per patient, each was assigned to the held-out patients conditional on their observed outcome using its published "
+            "odds ratio and the reference prevalence of the training cohorts, independently across factors (the design of the imaging what-if analysis), with every "
+            "factor combination carried as an exactly weighted row. Each factor adds ln(OR) \u00d7 (patient value \u2212 reference level) to the core log-odds, so a "
+            "factor left unknown changes nothing. Greedy forward selection over the same ten disjoint 10% training folds kept a factor if it raised AUROC by at least "
+            f"0.005 with Benjamini-Hochberg-corrected significance. From a core AUROC of {f(S['core_auroc_mean'])}, cup-to-disc ratio was selected first "
+            f"(+{f(fs.marginal_gain.iloc[0], 3)}) and sleep apnoea second (+{f(fs.marginal_gain.iloc[1], 3)}; AUROC {f(S['auroc_selected'])}). The remaining factors added "
+            f"little: {dropped}; all six together reached {f(S['auroc_all_candidates'])}. Version 2 therefore offers two optional inputs, for seven inputs in total. "
+            "These gains are simulated from published odds ratios rather than observed, assume conditional independence, and inherit the limitations of the sources: the "
+            "cup-to-disc ratio odds ratios were measured in fellow eyes after NAION, and no pre-treatment estimate exists. Version 2 is exploratory, separate from the "
+            "version 1 calculator, and the component that prospective validation should test first.\n\n"
+            "Table: Optional calculator factors: published odds ratios and forward-selection results (calculator version 2; simulated gains, not validated).\n\n"
+            + t.to_markdown(index=False))
+
+
 def tables_combinations():
     p, q = "results/stage14/combination_performance.csv", "results/stage14/odds_ratio_stability.csv"
     if not os.path.exists(p): return ""

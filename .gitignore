@@ -48,3 +48,5 @@ __pycache__/
 /results/stage3/factorial_tf30.csv
 /results/stage3/factorial_tf20.csv
 !/paper/overleaf_ieee/
+!/app_v2/
+/app_v2/.vercel/

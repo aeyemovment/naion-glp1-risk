@@ -164,6 +164,12 @@ TAB = {
         "Marginal associations with NAION across studies (count-weighted logistic regression with cluster-robust standard errors by study). "
         "These comparisons are ecological and confounded by study setting. Feature names: therapy_, indication_, region_, source_type_, "
         "outcome_def_ = one-hot levels (reference levels omitted); OR = odds ratio; q = Benjamini-Hochberg adjusted P value.",
+    "Optional calculator factors":
+        "Optional calculator factors: published odds ratios and forward-selection results (calculator version 2; simulated gains, not "
+        "validated). Reference level = median prevalence across the training cohorts (cup-to-disc ratio: share of control eyes in the source "
+        "study); OR = odds ratio (sleep apnoea: pooled risk ratio used as OR; cup-to-disc ratio relative to a ratio above 0.40); AUROC gain "
+        "alone = gain over the core ensemble when the factor is added by itself; marginal AUROC gain = gain at its forward-selection step; "
+        "factors were kept if the marginal gain was at least 0.005 with Benjamini-Hochberg q < 0.05.",
     "SHAP permutation tests":
         "SHAP permutation tests (B = 500 permutations). Mean abs. SHAP = mean absolute SHAP value (XGBoost, log-odds); P (global null) = outcome "
         "permuted across all patients; P (within-study null) = outcome permuted within studies, which tests whether the feature carries "

@@ -1,0 +1,24 @@
+{
+ "core_auroc_mean": 0.6566589467875092,
+ "core_auroc_sd": 0.008559129997286087,
+ "selected": [
+  "cup_to_disc",
+  "sleep_apnoea"
+ ],
+ "n_selected": 2,
+ "auroc_all_candidates": 0.8708202175365454,
+ "auroc_selected": 0.8631227456628681,
+ "alone_gain": {
+  "male_sex": 0.018054598174759507,
+  "hypertension": 0.003158810877243556,
+  "hyperlipidaemia": 0.006585869211609685,
+  "coronary_heart_disease": 0.014720402910779074,
+  "sleep_apnoea": 0.06650686511827494,
+  "cup_to_disc": 0.18672497809029803
+ },
+ "rule": "marginal gain >= 0.005 AUROC and BH q < 0.05 (paired over 10 folds)",
+ "design": "Stage 18 - which optional patient factors, and how many, add risk prediction to the core calculator model.",
+ "synthetic_only": true,
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}

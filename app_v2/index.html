@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAION GLP-1 Calculator v2</title>
+<meta name="description" content="Research-prototype calculator: estimated NAION risk with GLP-1 receptor agonists, from a model trained on published evidence. Not for clinical use.">
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f7f6f3;--surface:#fff;--ink:#141413;--ink2:#52514e;--muted:#7a7974;--line:#e4e3df;--accent:#2a78d6;--accent-ink:#fff;--warn-bg:#fff4e5;--warn-line:#f0b45a;--warn-ink:#6b4100;--drug:#2a78d6;--comp:#a3a29d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--surface:#1f1f1d;--ink:#f2f1ed;--ink2:#c3c2bc;--muted:#8f8e88;--line:#34332f;--accent:#5b9ae6;--accent-ink:#0b0b0b;--warn-bg:#33270f;--warn-line:#a87828;--warn-ink:#f4d9a8;--drug:#5b9ae6;--comp:#77766f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{max-width:880px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.6rem;line-height:1.25;margin:0 0 4px}
+.sub{color:var(--ink2);margin:0 0 20px}
+.banner{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:10px;padding:12px 14px;font-size:.92rem;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+select,input[type=number]{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
+.hint{color:var(--muted);font-size:.8rem;margin-top:4px}
+.ack{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;margin-top:16px}
+button{margin-top:16px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:14px}
+.stat .k{color:var(--ink2);font-size:.82rem}
+.stat .v{font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .d{color:var(--muted);font-size:.8rem}
+.bars{margin-top:18px}
+.bar{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin:8px 0;font-size:.88rem}
+.track{height:14px;background:var(--line);border-radius:4px;overflow:hidden}
+.fill{height:100%;border-radius:0 4px 4px 0}
+.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.warnlist{color:var(--warn-ink);background:var(--warn-bg);border-radius:8px;padding:8px 12px;font-size:.85rem;margin-top:12px}
+details{font-size:.9rem;color:var(--ink2)}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+table{border-collapse:collapse;width:100%;font-size:.85rem;margin-top:8px}
+td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+footer{color:var(--muted);font-size:.8rem;margin-top:24px}
+a{color:var(--accent)}
+@media (max-width:520px){.bar{grid-template-columns:96px 1fr 70px}}
+</style>
+</head>
+<body>
+<main>
+<h1>NAION risk with GLP-1 receptor agonists <span style="font-weight:400;color:var(--muted);font-size:1rem">· calculator v2 (exploratory)</span></h1>
+<p class="sub">Version 2: the v1 core model plus optional eye and sleep factors. The calculator described in the medRxiv preprint is v1 (<a href="https://naion-glp1-calculator.vercel.app">naion-glp1-calculator.vercel.app</a>). A research calculator built from published evidence (11 cohorts, 3.27 million reconstructed patients, 1,425 events)</p>
+
+<div class="banner" role="note"><strong>Research prototype. Not for clinical, diagnostic or treatment decisions.</strong>
+The model was trained on study-level published data. It discriminates modestly (AUROC 0.66) and close to chance in settings it has not seen (0.53). Do not use it to start, stop or choose a drug, or to decide on antiplatelet therapy. Calculations run in your browser, and nothing you enter is sent or stored.</div>
+
+<section class="card" aria-labelledby="in-h">
+<h2 id="in-h" style="margin-top:0;font-size:1.1rem">Patient and treatment profile</h2>
+<p class="hint" style="margin:-4px 0 12px">Required core inputs</p>
+<div class="grid">
+ <div><label for="drug">GLP-1RA therapy</label>
+  <select id="drug"><option value="semaglutide">Semaglutide</option><option value="sema_or_tirz">Semaglutide or tirzepatide</option><option value="glp1ra_class">Other / unspecified GLP-1RA</option></select></div>
+ <div><label for="comp">Comparator (if not on GLP-1RA)</label>
+  <select id="comp"><option value="no_glp1ra">No GLP-1RA</option><option value="sglt2i">SGLT2 inhibitor</option><option value="dpp4i">DPP-4 inhibitor</option><option value="other_antidiabetic">Other glucose-lowering drug</option><option value="other_antiobesity">Other anti-obesity drug</option></select></div>
+ <div><label for="ind">Indication</label>
+  <select id="ind"><option value="t2d">Type 2 diabetes</option><option value="obesity">Obesity (without diabetes)</option><option value="iih">Idiopathic intracranial hypertension</option></select></div>
+ <div><label for="age">Age (years)</label><input id="age" type="number" min="18" max="100" value="58">
+  <div class="hint">Training cohorts had mean ages of 44 to 63 years</div></div>
+ <div><label for="fu">Time horizon (years)</label><input id="fu" type="number" min="0.5" max="10" step="0.5" value="2">
+  <div class="hint">Training follow-up ranged from 0.5 to 5 years</div></div>
+</div>
+<h3 style="font-size:1rem;margin:20px 0 4px">Optional eye and sleep factors <span style="font-weight:400;color:var(--muted);font-size:.85rem">(exploratory)</span></h3>
+<p class="hint" style="margin:0 0 12px">Leave as "Unknown" if not available; unknown factors do not change the estimate. Entered factors adjust the core estimate using published odds ratios centred on the average of the training cohorts. They were not validated in this model. Only the two factors that added meaningful discrimination in a forward-selection analysis are offered: sex, hypertension, hyperlipidaemia and coronary heart disease each added less than 0.005 AUROC.</p>
+<div class="grid">
+ <div><label for="m_osa">Obstructive sleep apnoea</label><select id="m_osa"><option value="unknown">Unknown / not entered</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+ <div><label for="m_cdr">Cup-to-disc ratio</label><select id="m_cdr"><option value="unknown">Unknown / not entered</option><option value="le020">0.20 or less ("disc at risk")</option><option value="021_040">0.21 to 0.40</option><option value="gt040">Greater than 0.40</option></select></div>
+</div>
+<label class="ack"><input type="checkbox" id="ok"> <span>I understand this is a research prototype and will not use the result for clinical decisions.</span></label>
+<button id="go" disabled>Estimate risk</button>
+</section>
+
+<section class="card" id="out" hidden aria-live="polite">
+<h2 style="margin-top:0;font-size:1.1rem">Estimated NAION risk over <span id="h"></span></h2>
+<div class="stats">
+ <div class="stat"><div class="k">On GLP-1RA</div><div class="v" id="pd"></div><div class="d">per 100,000 patients</div></div>
+ <div class="stat"><div class="k">On comparator</div><div class="v" id="pc"></div><div class="d">per 100,000 patients</div></div>
+ <div class="stat"><div class="k">Model risk ratio</div><div class="v" id="rr"></div><div class="d">published within-study OR 1.59 (1.42–1.77)</div></div>
+ <div class="stat"><div class="k">Risk tier</div><div class="v" id="tier" style="font-size:1.15rem"></div><div class="d" id="tierd"></div></div>
+</div>
+<div class="bars" role="img" id="barsimg">
+ <div class="bar"><span>GLP-1RA</span><div class="track"><div class="fill" id="bd" style="background:var(--drug)"></div></div><span class="num" id="nd"></span></div>
+ <div class="bar"><span>Comparator</span><div class="track"><div class="fill" id="bc" style="background:var(--comp)"></div></div><span class="num" id="nc"></span></div>
+ <div class="bar"><span>Cohort average</span><div class="track"><div class="fill" id="bp" style="background:var(--muted)"></div></div><span class="num" id="np"></span></div>
+</div>
+<table aria-label="Contribution of each model and factor"><thead><tr><th>Component</th><th>GLP-1RA</th><th>Comparator</th><th>Evidence</th></tr></thead><tbody id="contrib"></tbody></table>
+<div id="warns"></div>
+<p style="font-size:.88rem;color:var(--ink2)">Even in the highest tier, absolute risk stays below about 1 in 1,000. At the top‑10% threshold the model's positive predictive value was about 0.09%: roughly 1,100 flagged patients for each NAION event. Nocturnal hypotension, optic disc drusen and other factors without a verified published odds ratio are not included.</p>
+</section>
+
+<section class="card">
+<details><summary>How this works</summary>
+<p><strong>Core model.</strong> The core estimate is the mean of two models: gradient-boosted trees (XGBoost, 300 trees) and L2 logistic regression. Both were trained on count-weighted patient-level data reconstructed from published GLP-1RA cohort studies. Inputs are applied to a reference setting (US, EHR network, NAION outcome) at the cohort-average sex mix. Age and horizon are clamped to the training range. The tier compares the core GLP-1RA estimate with the top 10% of predicted risk in the training data.</p>
+<p><strong>Optional factors.</strong> Each entered factor adds ln(OR) × (patient value − training-cohort average) to the log-odds. Factors left as unknown add nothing. Odds ratios: Liu 2021 meta-analysis (PMID 34671609) for sleep apnoea; Disc-at-Risk Study (PMID 42556433) for cup-to-disc ratio. <strong>Factor selection.</strong> Six factors with a verified published odds ratio were ranked by how much each added to the core model's AUROC (greedy forward selection over the same ten training folds, with factor values simulated from the published odds ratios). A factor was kept if it added at least 0.005 AUROC. Cup-to-disc ratio (+0.187) and sleep apnoea (+0.020) were kept; male sex (+0.004), coronary heart disease (+0.003), hyperlipidaemia (+0.001) and hypertension (+0.0004) were not. These gains are simulated, not observed. The published cohorts did not report these factors for individual patients, so this extension could not be validated. It assumes the factors act independently.</p>
+<table><thead><tr><th>Validation</th><th>AUROC</th></tr></thead><tbody>
+<tr><td>Core ensemble, ten disjoint 10% training folds</td><td>0.657 ± 0.008</td></tr>
+<tr><td>XGBoost alone, ten disjoint 10% training folds</td><td>0.656 ± 0.011</td></tr>
+<tr><td>Unseen studies (leave-one-study-out)</td><td>≈0.53</td></tr>
+<tr><td>Observed / expected (calibration-in-the-large)</td><td>1.00</td></tr></tbody></table>
+<p>Paper: Green KE. <em>Toward a Foundation Model for NAION Risk Stratification in GLP-1 Receptor Agonist Users: Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence</em>. medRxiv preprint (not peer reviewed). Code, model weights and data: <a href="https://github.com/aeyemovment/naion-glp1-risk">github.com/aeyemovment/naion-glp1-risk</a>.</p>
+</details>
+</section>
+<footer>© 2026 NeuroAgent AI, Inc. Research use only, with attribution; no commercial use without written permission.<br>v2.0.0 (separate from the v1 calculator described in the medRxiv preprint) · research_prototype=true · compliance_ref Addendum_5_DT9 · Not for clinical, diagnostic, treatment-selection or regulatory use.</footer>
+</main>
+<script src="model.js"></script>
+<script src="calc.js"></script>
+</body>
+</html>
