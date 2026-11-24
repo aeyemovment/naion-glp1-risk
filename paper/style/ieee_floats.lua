@@ -39,7 +39,14 @@ function Pandoc(doc)
       else deferred[#deferred+1] = b
         out[#out+1] = pandoc.Para({pandoc.Emph({pandoc.Str('(Full table in Appendix, "Long result tables".)')})}) end
     elseif not appendix and b.t == 'Figure' then
-      out[#out+1] = pandoc.RawBlock('latex', (tex({b}):gsub('\\begin{figure}', '\\begin{figure*}[!t]'):gsub('\\end{figure}', '\\end{figure*}')))
+      -- narrow figures (width < 60%) stay in one column at full column width; wide ones span both columns
+      local narrow = false
+      b = b:walk{Image = function(im)
+        local w = tonumber((im.attributes.width or ''):match('^(%d+)%%'))
+        if w and w < 60 then narrow = true; im.attributes.width = '100%' end
+        return im end}
+      if narrow then out[#out+1] = pandoc.RawBlock('latex', (tex({b}):gsub('\\begin{figure}', '\\begin{figure}[!tbp]')))
+      else out[#out+1] = pandoc.RawBlock('latex', (tex({b}):gsub('\\begin{figure}', '\\begin{figure*}[!t]'):gsub('\\end{figure}', '\\end{figure*}'))) end
     else out[#out+1] = b end
   end
   doc.blocks = out; return doc

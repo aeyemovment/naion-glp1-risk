@@ -105,6 +105,12 @@ FIG = {
         "Right: pairwise Shapley interaction indices (AUROC); red = redundancy (the pair adds less together than separately), blue = synergy. "
         "Groups: exposure = GLP-1RA exposure; drug = therapy arm; indication; age = study mean age (with partial ABCD2 age item); sex = share "
         "of women; duration = follow-up; hypertension and diabetes = partial ABCD2 items; setting = region, data source and outcome definition.",
+    "fig0_pipeline.png":
+        "End-to-end pipeline. (1) PubMed search and structured extraction by publication type; (2) reconstruction of count-weighted "
+        "pseudo-individual patient data from published 2x2 counts (blue); (3) model families, synthetic digital twins and a background model "
+        "trained on non-users only; (4) validation schemes and inference; (5) principal findings, with values from the result files "
+        "(OR = within-study odds ratio with 95% CI; AUROC mean +/- SD over ten disjoint 10% training folds; unseen studies = "
+        "leave-one-study-out; hybrid = real plus synthetic training data; observed/expected > 1 = under-prediction); (6) released outputs.",
     "fig_imaging_whatif.png":
         "Simulated effect of adding ocular imaging and obstructive sleep apnoea (OSA) to the published-feature XGBoost model (AUROC; values at "
         "bar ends). Grey = base model; blue = with imaging features; orange = with OSA (non-imaging comparator). CDR = cup-to-disc ratio from "

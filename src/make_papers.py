@@ -344,27 +344,27 @@ def results(full=False):
     r = ["## Results",
          "### Evidence base",
          f"Of {len(recs)} records, {len(used)} publications contributed data: {cohort.source_pmid.nunique()} observational studies, {cases.source_pmid.nunique()} case reports or series "
-         f"({int((cases.diagnosis=='naion').sum())} NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports (Figure 1). Reconstruction yielded "
+         f"({int((cases.diagnosis=='naion').sum())} NAION patients), 11 pharmacovigilance studies and 16 pooled-trial or meta-analytic reports ([[FIG:flow]]). Reconstruction yielded "
          f"{N_PAT:,} patients and {N_EV:,} events (prevalence {f(100*prev,3)}%) from {N_ST} cohorts in the United States, the Nordic countries and the United Kingdom (Table 1). "
          "No source provided patient-level imaging or video; case reports described fundus photography and optical coherence tomography only as figures.",
          "### Associations",
-         f"With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio {orci('glp1ra_exposed')}; q<0.001). Estimates were {orci('exposed_semaglutide')} for semaglutide, "
+         f"With study fixed effects, GLP-1RA exposure was associated with NAION (odds ratio {orci('glp1ra_exposed')}; q<0.001; [[FIG:within]]). Estimates were {orci('exposed_semaglutide')} for semaglutide, "
          f"{orci('exposed_obesity')} when the indication was obesity and {orci('exposed_t2d')} for type 2 diabetes. The association depended on the comparator: "
          f"{orci('exposed_vs_sglt2i')} against SGLT2 inhibitors and {orci('exposed_vs_other_antidiabetic')} against other antidiabetic drugs, but {orci('exposed_vs_dpp4i')} against DPP-4 "
          f"inhibitors and {orci('exposed_vs_no_glp1ra')} against untreated comparators. In patients with idiopathic intracranial hypertension the direction reversed ({orci('exposed_iih')}). "
          f"The exposure effect was larger in studies with older participants (interaction odds ratio {orci('exposed_x_age_per_10y', EM)} per 10 years; q={pq(EM.loc['exposed_x_age_per_10y','q_bh'])}) "
          f"and did not vary with the percentage of women (q={pq(EM.loc['exposed_x_female_per_10pct','q_bh'])}). Random-effects pooling of published estimates gave a ratio of "
          f"{f(MA.loc['all studies (most precise estimate each)','pooled_ratio'],2)} (95% CI, {f(MA.loc['all studies (most precise estimate each)','ci_lo'],2)} to "
-         f"{f(MA.loc['all studies (most precise estimate each)','ci_hi'],2)}; I² = {f(MA.loc['all studies (most precise estimate each)','I2'],0)}%) (Figure 3). Patients in case reports "
+         f"{f(MA.loc['all studies (most precise estimate each)','ci_hi'],2)}; I² = {f(MA.loc['all studies (most precise estimate each)','I2'],0)}%) ([[FIG:forestpub]]). Patients in case reports "
          f"were younger than exposed cohort participants (median {f(DM.loc['case reports: age vs exposed-cohort mean age','observed'],0)} vs {f(DM.loc['case reports: age vs exposed-cohort mean age','expected'],0)} years; "
          f"q={pq(DM.loc['case reports: age vs exposed-cohort mean age','q_bh'])}); the excess of men was not significant (q={pq(DM.loc['case reports: male share vs exposed-cohort male share','q_bh'])}).",
          "### Discrimination, calibration and explainability",
          f"Trained on 10% of patients, XGBoost reached an AUROC of {f(xh['auroc'])} on the remaining 90% with calibration slope {f(xh['cal_slope'],2)}; across ten disjoint 10% training folds the "
-         f"AUROC was {f(xk['auroc']['mean'])} ± {f(xk['auroc']['sd'])} and O/E {f(xk['o_e']['mean'],2)} (Figure 2). Logistic regression ({f(S1['kfold_summary']['logreg']['auroc']['mean'])}) and random "
+         f"AUROC was {f(xk['auroc']['mean'])} ± {f(xk['auroc']['sd'])} and O/E {f(xk['o_e']['mean'],2)} ([[FIG:roc]]). Logistic regression ({f(S1['kfold_summary']['logreg']['auroc']['mean'])}) and random "
          f"forest ({f(S1['kfold_summary']['rf']['auroc']['mean'])}) did not differ significantly from XGBoost (all corrected q≥0.27). AUROC rose with training fraction to a plateau near 0.67 at 40% to 60%. "
          f"In unseen studies, AUROC fell to {f(S1['loso_summary']['xgb']['auroc'])}. SHAP rankings were stable across folds; permutation tests confirmed signal for exposure "
          f"(q={pq(SH.loc['glp1ra_exposed','q_bh'])}) and therapy (q={pq(SH.loc['therapy','q_bh'])}), while data source and region — markers of setting rather than patient risk — carried "
-         "the largest attributions.",
+         "the largest attributions ([[FIG:shap]]).",
          "### Threshold performance",
          f"At the top-10% threshold, XGBoost had sensitivity {f(xt.sensitivity_mean,2)}, specificity {f(xt.specificity_mean,2)}, PPV {f(100*xt.ppv_mean,3)}% and NPV {f(100*xt.npv_mean,2)}% "
          f"(positive likelihood ratio {f(xt.lr_pos_mean,2)}); at the Youden threshold sensitivity was {f(xy.sensitivity_mean,2)} and specificity {f(xy.specificity_mean,2)}. Sensitivity and PPV "
@@ -548,15 +548,59 @@ def results_sensitivity(table=True):
     T.columns = ["Cohorts included", "Cohorts", "Patients", "Events", "OR", "95% CI low", "95% CI high", "MH OR", "I2 (%)", "XGBoost AUROC"]
     return txt + "\n\nTable: Sensitivity analysis restricted to cohorts reporting NAION risk-factor prevalence.\n\n" + T.to_markdown(index=False)
 
+# ------------------------------------------------------------------ figure placement and cross-references
+FIGPATH = {"flow": f"{FIG}/fig1_study_flow.png", "roc": "results/stage1/fig_holdout_roc_pr_cal.png", "forestpub": "results/stage1b/fig_forest.png",
+           "within": f"{FIG}/fig_forest_within_study.png", "shap": "results/stage1/fig_shap_kfold_importance.png",
+           "incidence": "results/stage10/fig_incidence_strata.png", "subgroups": "results/stage11/fig_subgroups.png",
+           "combos": "results/stage14/fig_feature_combinations.png", "imaging": "results/stage16/fig_imaging_whatif.png"}
+
+
+def cite_first(txt, fid, key=None):
+    """Add a figure citation at the end of the first paragraph (or the first paragraph containing `key`) of a results section."""
+    if not txt: return txt
+    paras = txt.split("\n\n")
+    k = next((i for i, p_ in enumerate(paras) if (key is None or key in p_) and not p_.lstrip().startswith(("|", "Table:", "!["))), None)
+    if k is None: return txt
+    p_ = paras[k].rstrip()
+    paras[k] = p_[:-1] + f" ([[FIG:{fid}]])." if p_.endswith(".") else p_ + f" ([[FIG:{fid}]])"
+    return "\n\n".join(paras)
+
+
+def place_figures(md):
+    """Label figures, move each to just after the paragraph that first cites it, and turn citations into LaTeX references."""
+    for fid, path in FIGPATH.items():
+        md = re.sub(r"(!\[[^\n]*\]\(" + re.escape(path) + r"\))\{(?!#)", lambda m: m.group(1) + "{#fig:" + fid + " ", md)
+    order = sorted((md.find(f"[[FIG:{k}]]"), k) for k in FIGPATH if f"[[FIG:{k}]]" in md)
+    for _, fid in order:
+        m = re.search(r"\n!\[[^\n]*\{#fig:" + fid + r"[ }][^\n]*\n", md)
+        if not m: continue
+        fig = m.group(0); md = md.replace(fig, "\n", 1)
+        i = md.find(f"[[FIG:{fid}]]"); j = md.find("\n\n", i); j = len(md) if j < 0 else j
+        md = md[:j] + "\n\n" + fig.strip() + md[j:]
+    return re.sub(r"\[\[FIG:(\w+)\]\]", lambda m: "Fig.\\ \\ref{fig:" + m.group(1) + "}", md)
+
+
+def docx_refs(md):
+    """For Word output, replace LaTeX figure references with the figure numbers pandoc assigns (order of appearance)."""
+    ids = re.findall(r"!\[[^\n]*?\]\([^)]*\)(?:\{#fig:(\w+)[^}]*\})?", md)
+    num = {fid: k + 1 for k, fid in enumerate(ids) if fid}
+    return re.sub(r"Fig\.\\? ?\\ref\{fig:(\w+)\}", lambda m: f"Figure {num.get(m.group(1), '?')}", md)
+
+
+NEJM_FIG = {"flow": "Figure 2", "within": "Figure 3", "shap": "Figure 3", "roc": "Figure 4", "forestpub": "Supplementary Appendix",
+            "incidence": "Supplementary Appendix", "subgroups": "Supplementary Appendix", "combos": "Supplementary Appendix", "imaging": "Supplementary Appendix"}
+
+
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), results_optional_covariates(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), calculator_section(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
+          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods().replace("## Methods\n\n", "## Methods\n\nFigure 1 summarizes the end-to-end pipeline, from the PubMed search to the released models and calculator.\n\n", 1), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), results_optional_covariates(table=False), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), calculator_section(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
           "Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.\n\n" + t_models(),
+          f"![End-to-end pipeline of the study.]({FIG}/fig0_pipeline.png){{width=100%}}",
           f"![Study flow and validation design.]({FIG}/fig1_study_flow.png){{width=100%}}",
-          f"![Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90% hold-out after training on 10%; (middle) AUROC and PR-AUC across ten disjoint 10% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10% to 90%.]({FIG2}){{width=100%}}",
           f"![(Top) Within-study odds ratios for NAION with study fixed effects (blue, q<0.05 after Benjamini-Hochberg correction). (Bottom) SHAP importance (mean ± SD over ten folds) for three model types.]({FIG3}){{width=100%}}",
+          f"![Discrimination and calibration of PubMed-only models: (top) receiver-operating-characteristic, precision-recall and decile calibration on the 90% hold-out after training on 10%; (middle) AUROC and PR-AUC across ten disjoint 10% training folds; (bottom) AUROC, calibration-in-the-large and SHAP-rank stability across training fractions of 10% to 90%.]({FIG2}){{width=100%}}",
           "The Supplementary Appendix (the full preprint) contains all additional tables and figures: data inventory and modalities; case-level phenotyping and meta-regression; every "
           "P value (within-study and marginal associations, SHAP permutation tests, meta-analysis, demographics, ML experiments); threshold metrics for all models; training-fraction "
           "sweeps; GNN depth and edge-weight tuning; ensembles; the full digital-twin factorial; non-GLP to GLP transport and fine-tuning; CNN and imaging feasibility; incidence, "
@@ -566,12 +610,13 @@ def nejm():
           AVAIL,
           "## References"]
     out = "\n\n".join(md)
+    out = re.sub(r"\[\[FIG:(\w+)\]\]", lambda m: NEJM_FIG[m.group(1)], out)
     out = NOM.annotate_captions(out).replace("## References", "## Supplementary Appendix: Nomenclature\n\n" + NOM.markdown().split("\n", 1)[1] + "\n\n## References")
     return plain_terms(out)
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
+            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"),
             (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
             (f"![AUROC and PPV of each model within non-users and within GLP-1RA users (mean ± SD over ten folds).](results/stage11/fig_subgroups.png){{width=100%}}" if os.path.exists("results/stage11/fig_subgroups.png") else ""),
@@ -596,7 +641,7 @@ def preprint():
             "Table: Demographic contrasts.\n\n" + t_pvals("D_demographics", ["term", "observed", "expected", "test", "p", "q_bh"], {"term": "Contrast", "observed": "Observed", "expected": "Expected", "test": "Test", "p": "P", "q_bh": "q"}),
             "Table: Tests of ML experiments.\n\n" + t_pvals("E_ml_experiments", ["term", "estimate", "test", "p", "q_bh"], {"term": "Experiment", "estimate": "Estimate", "test": "Test", "p": "P", "q_bh": "q"}),
             f"![Within-study odds ratios.]({FIG}/fig_forest_within_study.png){{width=100%}}",
-            f"![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){{width=80%}}",
+            f"![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){{width=45%}}",
             "### D. Threshold metrics (hold-out; P values against chance)",
             "Table: Sensitivity, specificity, accuracy, PPV and NPV with P values; NIR, no-information rate; NB, net benefit at the threshold probability.\n\n" + t_thresholds(),
             "Table: Threshold metrics across ten folds (mean).\n\n" + S5k[["model", "threshold", "auroc_mean", "sensitivity_mean", "specificity_mean", "accuracy_mean", "ppv_mean", "npv_mean", "lr_pos_mean", "flagged_frac_mean"]].round(5).assign(model=lambda d: d.model.map(MODEL_LABELS).fillna(d.model), threshold=lambda d: d.threshold.map({"T1_youden": "Youden", "T2_top10pct": "Top 10%", "T3_top20pct": "Top 20%"})).rename(columns={"model": "Model", "threshold": "Threshold", "auroc_mean": "AUROC", "sensitivity_mean": "Sens", "specificity_mean": "Spec", "accuracy_mean": "Acc", "ppv_mean": "PPV", "npv_mean": "NPV", "lr_pos_mean": "LR+", "flagged_frac_mean": "Flagged"}).to_markdown(index=False),
@@ -637,12 +682,11 @@ def preprint():
     out = "\n\n".join(s for s in secs if s)
     out = out.replace("## Complete experimental results\n\n", "## Complete experimental results\n\n" + NOM.markdown() + "\n\n", 1)
     for a, b in XREF_PREPRINT.items(): out = out.replace(a, b)
+    out = place_figures(out)
     out = CAP.expand(out)
     return plain_terms(out)
 
-XREF_PREPRINT = {"(Table 1)": "(Reconstructed cohorts table, Section A)", "(Figure 1)": "(study flow figure, Section A)",
-                 "(Figure 2)": "(hold-out ROC, precision-recall and calibration figure, Section B)",
-                 "(Figure 3)": "(published-estimate forest plot, Section C)", "Table 2 summarizes": "The model-summary table (Section I) summarizes",
+XREF_PREPRINT = {"(Table 1)": "(Reconstructed cohorts table, Section A)", "Table 2 summarizes": "The model-summary table (Section I) summarizes",
                  "| Table 1: 11 non-overlapping": "| Reconstructed cohorts table: 11 non-overlapping"}
 
 # ------------------------------------------------------------------ render
@@ -659,7 +703,9 @@ def render(name, md):
     open(f"{d}/header.tex", "w").write(HEADER)
     common = ["pandoc", mdp, "--citeproc", "--bibliography", f"{P}/references.bib", "--csl", f"{P}/style/the-new-england-journal-of-medicine.csl",
               "--resource-path", f".:{ROOT}", "-f", "markdown+pipe_tables+implicit_figures"]
-    subprocess.run(common + ["-o", f"{d}/{name}.docx"], check=True)
+    if "\\ref{fig:" in md:                       # Word cannot resolve LaTeX references: number them for the .docx
+        open(f"{d}/{name}_docx.md", "w").write(docx_refs(md)); common[1] = f"{d}/{name}_docx.md"
+    subprocess.run(common + ["-o", f"{d}/{name}.docx"], check=True); common[1] = mdp
     subprocess.run(common + ["-s", "-H", f"{d}/header.tex", "-V", "fontsize=11pt", "-V", "colorlinks=true", "-o", f"{d}/{name}.tex"], check=True)
     # make the .tex self-contained relative to its folder: copy figures next to it and rewrite paths
     figdir = f"{d}/figures"; os.makedirs(figdir, exist_ok=True)

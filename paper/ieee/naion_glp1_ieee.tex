@@ -15,6 +15,10 @@
 \newcommand*\pandocbounded[1]{\sbox\pandoc@box{#1}\ifdim\wd\pandoc@box>\linewidth\resizebox{\linewidth}{!}{\usebox{\pandoc@box}}\else\usebox{\pandoc@box}\fi}\makeatother
 \newsavebox\mwbox\newcommand\maxwbox[2]{\sbox\mwbox{#2}\ifdim\wd\mwbox>#1\resizebox{#1}{!}{\usebox\mwbox}\else\usebox\mwbox\fi}
 \setlength{\LTcapwidth}{\textwidth}\setlength{\tabcolsep}{4pt}
+% let floats sit on the page where they are cited instead of drifting to float-only pages
+\renewcommand{\topfraction}{0.9}\renewcommand{\dbltopfraction}{0.9}\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}\renewcommand{\floatpagefraction}{0.75}\renewcommand{\dblfloatpagefraction}{0.75}
+\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
 \title{Toward a Foundation Model for NAION Risk Stratification in GLP-1 Receptor Agonist Users: Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence}
@@ -592,22 +596,47 @@ appendix.}\label{fig:flow}
 \subsection{Associations}\label{associations}
 
 With study fixed effects, GLP-1RA exposure was associated with NAION
-(odds ratio 1.59 (95\% CI, 1.42 to 1.77); q\textless0.001). Estimates
-were 1.73 (95\% CI, 1.44 to 2.08) for semaglutide, 2.70 (95\% CI, 1.64
-to 4.44) when the indication was obesity and 1.62 (95\% CI, 1.45 to
-1.82) for type 2 diabetes. The association depended on the comparator:
-1.81 (95\% CI, 1.54 to 2.11) against SGLT2 inhibitors and 2.35 (95\% CI,
-1.74 to 3.16) against other antidiabetic drugs, but 1.03 (95\% CI, 0.57
-to 1.85) against DPP-4 inhibitors and 1.14 (95\% CI, 0.94 to 1.39)
-against untreated comparators. In patients with idiopathic intracranial
-hypertension the direction reversed (0.43 (95\% CI, 0.22 to 0.84)). The
-exposure effect was larger in studies with older participants
-(interaction odds ratio 1.99 (95\% CI, 1.30 to 3.04) per 10 years;
-q=0.002) and did not vary with the percentage of women (q=0.943).
-Random-effects pooling of published estimates gave a ratio of 1.34 (95\%
-CI, 1.16 to 1.55; I\textsuperscript{2} = 87\%) (Fig.~\ref{fig:forestpub}). Patients in
-case reports were younger than exposed cohort participants (median 47 vs
-60 years; q=0.016); the excess of men was not significant (q=0.274).
+(odds ratio 1.59 (95\% CI, 1.42 to 1.77); q\textless0.001;
+Fig.~\ref{fig:within}). Estimates were 1.73 (95\% CI, 1.44 to 2.08) for
+semaglutide, 2.70 (95\% CI, 1.64 to 4.44) when the indication was
+obesity and 1.62 (95\% CI, 1.45 to 1.82) for type 2 diabetes. The
+association depended on the comparator: 1.81 (95\% CI, 1.54 to 2.11)
+against SGLT2 inhibitors and 2.35 (95\% CI, 1.74 to 3.16) against other
+antidiabetic drugs, but 1.03 (95\% CI, 0.57 to 1.85) against DPP-4
+inhibitors and 1.14 (95\% CI, 0.94 to 1.39) against untreated
+comparators. In patients with idiopathic intracranial hypertension the
+direction reversed (0.43 (95\% CI, 0.22 to 0.84)). The exposure effect
+was larger in studies with older participants (interaction odds ratio
+1.99 (95\% CI, 1.30 to 3.04) per 10 years; q=0.002) and did not vary
+with the percentage of women (q=0.943). Random-effects pooling of
+published estimates gave a ratio of 1.34 (95\% CI, 1.16 to 1.55; I\textsuperscript{2} =
+87\%) (Fig.~\ref{fig:forestpub}). Patients in case reports were younger
+than exposed cohort participants (median 47 vs 60 years; q=0.016); the
+excess of men was not significant (q=0.274).
+
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Most precise published ratio estimate per study (smallest standard error), as reported by the authors (hazard, odds, risk or incidence rate ratios; not directly interchangeable). Points = estimate (size proportional to precision), lines = 95\% CI, log scale; dashed line = 1. Labels: first author, year (population). T2D, type 2 diabetes; IIH, idiopathic intracranial hypertension. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest.png}
+\caption{Most precise published ratio estimate per study (smallest
+standard error), as reported by the authors (hazard, odds, risk or
+incidence rate ratios; not directly interchangeable). Points = estimate
+(size proportional to precision), lines = 95\% CI, log scale; dashed
+line = 1. Labels: first author, year (population). T2D, type 2 diabetes;
+IIH, idiopathic intracranial hypertension. Remaining abbreviations and
+variable names: Nomenclature appendix.}\label{fig:forestpub}
+\end{figure}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Within-study odds ratios for NAION (count-weighted logistic regression with study fixed effects, so each estimate compares patients within the same study). Points = odds ratio, lines = 95\% CI, log scale; dashed line = no association. Blue, q \textless{} 0.05; grey, not significant; q = Benjamini-Hochberg adjusted P value. Values at right: OR (95\% CI) and q. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest_within_study.png}
+\caption{Within-study odds ratios for NAION (count-weighted logistic
+regression with study fixed effects, so each estimate compares patients
+within the same study). Points = odds ratio, lines = 95\% CI, log scale;
+dashed line = no association. Blue, q \textless{} 0.05; grey, not
+significant; q = Benjamini-Hochberg adjusted P value. Values at right:
+OR (95\% CI) and q. Remaining abbreviations and variable names:
+Nomenclature appendix.}\label{fig:within}
+\end{figure*}
 
 \subsection{Discrimination, calibration and
 explainability}\label{discrimination-calibration-and-explainability}
@@ -622,7 +651,20 @@ q\ensuremath{\geq}0.27). AUROC rose with training fraction to a plateau near 0.6
 stable across folds; permutation tests confirmed signal for exposure
 (q=0.004) and therapy (q=0.015), while data source and region ---
 markers of setting rather than patient risk --- carried the largest
-attributions.
+attributions (Fig.~\ref{fig:shap}).
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with one-hot levels summed into their parent variable (therapy = drug arm; region; source\_type = data source; outcome\_def = outcome definition). Blue, logistic regression (L2); green, XGBoost; random-forest SHAP values are on the probability scale (about 0.0001) and therefore not shown. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_kfold_importance.png}
+\caption{Feature-group importance across ten folds: mean absolute SHAP
+value (log-odds scale; bars = mean, whiskers = SD over folds), with
+one-hot levels summed into their parent variable (therapy = drug arm;
+region; source\_type = data source; outcome\_def = outcome definition).
+Blue, logistic regression (L2); green, XGBoost; random-forest SHAP
+values are on the probability scale (about 0.0001) and therefore not
+shown. Remaining abbreviations and variable names: Nomenclature
+appendix.}\label{fig:shap}
+\end{figure*}
 
 \begin{figure*}[!t]
 \centering
@@ -727,7 +769,20 @@ effect by study age band (P=\textless0.001), indication
 (P=\textless0.001) but not by the percentage of women (P=0.756). Because
 age is a study-level attribute and person-years were reported by only
 two studies, these strata describe settings rather than individual
-patients.
+patients (Fig.~\ref{fig:incidence}).
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={NAION incidence per 100,000 person-years (log scale; points = pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and comparators (blue), by (A) study mean age band, (B) indication (IIH = idiopathic intracranial hypertension) and (C) drug of the exposed arm (GLP-1RA class = studies pooling several GLP-1RAs). Grey band = published background incidence in adults aged 50 years or older. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_incidence_strata.png}
+\caption{NAION incidence per 100,000 person-years (log scale; points =
+pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and
+comparators (blue), by (A) study mean age band, (B) indication (IIH =
+idiopathic intracranial hypertension) and (C) drug of the exposed arm
+(GLP-1RA class = studies pooling several GLP-1RAs). Grey band =
+published background incidence in adults aged 50 years or older.
+Remaining abbreviations and variable names: Nomenclature
+appendix.}\label{fig:incidence}
+\end{figure*}
 
 \textbf{Rare-event and anomaly-detection models.} A Poisson rate model
 with a person-time offset (AUROC 0.652), King-Zeng corrected logistic
@@ -793,7 +848,21 @@ The within-group difference in AUROC was significant after correction
 for 0 of 9 models. Together with the under-prediction of a background
 model in GLP-1RA users, this indicates that the features available in
 published data capture background NAION risk but little of what
-determines which GLP-1RA users develop NAION.
+determines which GLP-1RA users develop NAION (Fig.~\ref{fig:subgroups}).
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Detection within GLP-1RA users (orange) and within non-users (blue): (left) AUROC and (right) PPV at the threshold flagging the top 10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network; Ens., mean ensemble; Poisson, Poisson regression with person-time offset; IForest, isolation forest; AE, autoencoder (both anomaly detectors trained on non-events). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_subgroups.png}
+\caption{Detection within GLP-1RA users (orange) and within non-users
+(blue): (left) AUROC and (right) PPV at the threshold flagging the top
+10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten
+folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random
+forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional
+convolutional network; Ens., mean ensemble; Poisson, Poisson regression
+with person-time offset; IForest, isolation forest; AE, autoencoder
+(both anomaly detectors trained on non-events). Remaining abbreviations
+and variable names: Nomenclature appendix.}\label{fig:subgroups}
+\end{figure*}
 
 \begin{table*}[!htbp]\centering\caption{Model performance within GLP-1RA users and within non-users (mean over
 ten folds; threshold = top 10\% of training risk). PR-AUC = area under
@@ -998,7 +1067,24 @@ individually negligible features contribute in combination, no feature
 group met the prespecified criteria; no pair showed significant positive
 interaction. For an optional-input calculator, a single XGBoost trained
 with random feature-group dropout differed from a bank of dedicated
-sub-models by -0.0121 AUROC on average across input patterns.
+sub-models by -0.0121 AUROC on average across input patterns
+(Fig.~\ref{fig:combos}).
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Feature-group contributions across all 511 combinations of nine feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of a model using only that group); blue = Shapley value (average gain in AUROC when the group is added, over all combinations). Right: pairwise Shapley interaction indices (AUROC); red = redundancy (the pair adds less together than separately), blue = synergy. Groups: exposure = GLP-1RA exposure; drug = therapy arm; indication; age = study mean age (with partial ABCD2 age item); sex = share of women; duration = follow-up; hypertension and diabetes = partial ABCD2 items; setting = region, data source and outcome definition. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_feature_combinations.png}
+\caption{Feature-group contributions across all 511 combinations of nine
+feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of
+a model using only that group); blue = Shapley value (average gain in
+AUROC when the group is added, over all combinations). Right: pairwise
+Shapley interaction indices (AUROC); red = redundancy (the pair adds
+less together than separately), blue = synergy. Groups: exposure =
+GLP-1RA exposure; drug = therapy arm; indication; age = study mean age
+(with partial ABCD2 age item); sex = share of women; duration =
+follow-up; hypertension and diabetes = partial ABCD2 items; setting =
+region, data source and outcome definition. Remaining abbreviations and
+variable names: Nomenclature appendix.}\label{fig:combos}
+\end{figure*}
 
 \emph{(Table in Appendix, "Long result tables".)}
 
@@ -1071,7 +1157,7 @@ observed incidence, to estimate AUROC within \ensuremath{\pm}0.03; a case-contro
 design enriched for NAION would need far fewer imaged patients. These
 figures are simulations that assume conditional independence of features
 and, for drusen, OCT angiography and serial imaging, effect sizes that
-have not been measured.
+have not been measured (Fig.~\ref{fig:imaging}).
 
 \begin{figure*}[!t]
 \centering
@@ -1086,49 +1172,7 @@ on-treatment change on repeat imaging. CDR and OSA effects use published
 odds ratios; drusen, OCTA and serial effects are hypothetical, and black
 bars show the range across low and high assumed effect sizes. All
 imaging values are synthetic. Remaining abbreviations and variable
-names: Nomenclature appendix.}
-\end{figure*}
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Feature-group contributions across all 511 combinations of nine feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of a model using only that group); blue = Shapley value (average gain in AUROC when the group is added, over all combinations). Right: pairwise Shapley interaction indices (AUROC); red = redundancy (the pair adds less together than separately), blue = synergy. Groups: exposure = GLP-1RA exposure; drug = therapy arm; indication; age = study mean age (with partial ABCD2 age item); sex = share of women; duration = follow-up; hypertension and diabetes = partial ABCD2 items; setting = region, data source and outcome definition. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_feature_combinations.png}
-\caption{Feature-group contributions across all 511 combinations of nine
-feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 of
-a model using only that group); blue = Shapley value (average gain in
-AUROC when the group is added, over all combinations). Right: pairwise
-Shapley interaction indices (AUROC); red = redundancy (the pair adds
-less together than separately), blue = synergy. Groups: exposure =
-GLP-1RA exposure; drug = therapy arm; indication; age = study mean age
-(with partial ABCD2 age item); sex = share of women; duration =
-follow-up; hypertension and diabetes = partial ABCD2 items; setting =
-region, data source and outcome definition. Remaining abbreviations and
-variable names: Nomenclature appendix.}
-\end{figure*}
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Detection within GLP-1RA users (orange) and within non-users (blue): (left) AUROC and (right) PPV at the threshold flagging the top 10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network; Ens., mean ensemble; Poisson, Poisson regression with person-time offset; IForest, isolation forest; AE, autoencoder (both anomaly detectors trained on non-events). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_subgroups.png}
-\caption{Detection within GLP-1RA users (orange) and within non-users
-(blue): (left) AUROC and (right) PPV at the threshold flagging the top
-10\% of training risk (proportion; 0.001 = 0.1\%), mean \ensuremath{\pm} SD over ten
-folds; dashed line = AUROC 0.5. LR, logistic regression; RF, random
-forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional
-convolutional network; Ens., mean ensemble; Poisson, Poisson regression
-with person-time offset; IForest, isolation forest; AE, autoencoder
-(both anomaly detectors trained on non-events). Remaining abbreviations
-and variable names: Nomenclature appendix.}
-\end{figure*}
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={NAION incidence per 100,000 person-years (log scale; points = pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and comparators (blue), by (A) study mean age band, (B) indication (IIH = idiopathic intracranial hypertension) and (C) drug of the exposed arm (GLP-1RA class = studies pooling several GLP-1RAs). Grey band = published background incidence in adults aged 50 years or older. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_incidence_strata.png}
-\caption{NAION incidence per 100,000 person-years (log scale; points =
-pooled rate, bars = exact Poisson 95\% CI) in GLP-1RA users (orange) and
-comparators (blue), by (A) study mean age band, (B) indication (IIH =
-idiopathic intracranial hypertension) and (C) drug of the exposed arm
-(GLP-1RA class = studies pooling several GLP-1RAs). Grey band =
-published background incidence in adults aged 50 years or older.
-Remaining abbreviations and variable names: Nomenclature appendix.}
+names: Nomenclature appendix.}\label{fig:imaging}
 \end{figure*}
 
 \section{Discussion}\label{discussion}
@@ -1667,19 +1711,6 @@ source\_type\_single\_center = single-center data source). Remaining
 abbreviations and variable names: Nomenclature appendix.}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with one-hot levels summed into their parent variable (therapy = drug arm; region; source\_type = data source; outcome\_def = outcome definition). Blue, logistic regression (L2); green, XGBoost; random-forest SHAP values are on the probability scale (about 0.0001) and therefore not shown. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_kfold_importance.png}
-\caption{Feature-group importance across ten folds: mean absolute SHAP
-value (log-odds scale; bars = mean, whiskers = SD over folds), with
-one-hot levels summed into their parent variable (therapy = drug arm;
-region; source\_type = data source; outcome\_def = outcome definition).
-Blue, logistic regression (L2); green, XGBoost; random-forest SHAP
-values are on the probability scale (about 0.0001) and therefore not
-shown. Remaining abbreviations and variable names: Nomenclature
-appendix.}
-\end{figure}
-
 \section{Statistical inference (all P values, Benjamini-Hochberg q
 within
 family)}\label{statistical-inference-all-p-values-benjamini-hochberg-q-within-family}
@@ -1888,30 +1919,6 @@ Stage 2 hybrid best vs PubMed-only (XGB, paired) & 0.001 & paired z over 27 spli
 Stage 2 synthetic-only best vs PubMed-only (XGB, paired) & -0.010 & paired z over 27 split/seed pairs & \textless0.001 & \textless0.001 \\
 \bottomrule\end{tabular}}
 \end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Within-study odds ratios for NAION (count-weighted logistic regression with study fixed effects, so each estimate compares patients within the same study). Points = odds ratio, lines = 95\% CI, log scale; dashed line = no association. Blue, q \textless{} 0.05; grey, not significant; q = Benjamini-Hochberg adjusted P value. Values at right: OR (95\% CI) and q. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest_within_study.png}
-\caption{Within-study odds ratios for NAION (count-weighted logistic
-regression with study fixed effects, so each estimate compares patients
-within the same study). Points = odds ratio, lines = 95\% CI, log scale;
-dashed line = no association. Blue, q \textless{} 0.05; grey, not
-significant; q = Benjamini-Hochberg adjusted P value. Values at right:
-OR (95\% CI) and q. Remaining abbreviations and variable names:
-Nomenclature appendix.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={Most precise published ratio estimate per study (smallest standard error), as reported by the authors (hazard, odds, risk or incidence rate ratios; not directly interchangeable). Points = estimate (size proportional to precision), lines = 95\% CI, log scale; dashed line = 1. Labels: first author, year (population). T2D, type 2 diabetes; IIH, idiopathic intracranial hypertension. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_forest.png}
-\caption{Most precise published ratio estimate per study (smallest
-standard error), as reported by the authors (hazard, odds, risk or
-incidence rate ratios; not directly interchangeable). Points = estimate
-(size proportional to precision), lines = 95\% CI, log scale; dashed
-line = 1. Labels: first author, year (population). T2D, type 2 diabetes;
-IIH, idiopathic intracranial hypertension. Remaining abbreviations and
-variable names: Nomenclature appendix.}\label{fig:forestpub}
-\end{figure}
 
 \section{Threshold metrics (hold-out; P values against
 chance)}\label{threshold-metrics-hold-out-p-values-against-chance}

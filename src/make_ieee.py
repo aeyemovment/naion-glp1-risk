@@ -56,14 +56,10 @@ def author_block(thanks):
             f"\\\\[4pt] {{\\normalsize\\itshape {aff}\\\\[2pt] \\upshape\\texttt{{{EMAIL}}}}}")
 
 def build():
-    MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "(Figure 1)": "(Fig.\\ \\ref{fig:flow})", "(Figure 2)": "(Fig.\\ \\ref{fig:roc})",
-                        "(Figure 3)": "(Fig.\\ \\ref{fig:forestpub})", "Table 2 summarizes": "Table\\ \\ref{tbl:models} summarizes",
+    MP.XREF_PREPRINT = {"(Table 1)": "(Table\\ \\ref{tbl:cohorts})", "Table 2 summarizes": "Table\\ \\ref{tbl:models} summarizes",
                         "| Table 1: 11 non-overlapping": "| Table\\ \\ref{tbl:cohorts}: 11 non-overlapping",
                         "Table: Reconstructed cohorts.": "Table: Reconstructed cohorts.\\label{tbl:cohorts}",
-                        "Table: Model performance by family.": "Table: Model performance by family.\\label{tbl:models}",
-                        "(paper/figures/fig1_study_flow.png){width=100%}": "(paper/figures/fig1_study_flow.png){#fig:flow width=100%}",
-                        "(results/stage1/fig_holdout_roc_pr_cal.png){width=100%}": "(results/stage1/fig_holdout_roc_pr_cal.png){#fig:roc width=100%}",
-                        "(results/stage1b/fig_forest.png){width=80%}": "(results/stage1b/fig_forest.png){#fig:forestpub width=80%}"}
+                        "Table: Model performance by family.": "Table: Model performance by family.\\label{tbl:models}"}
     md = MP.preprint()
     md = re.sub(r"\A---.*?---\s*", "", md, flags=re.S)
     for s in (MP.AUTH, MP.DISCL, MP.AI_USE): md = md.replace(s, "")
@@ -87,13 +83,7 @@ def build():
     md_ieee = re.sub(r"```\{=latex\}\n\\section\*\{Acknowledgment\}.*?```", "", md_ieee, flags=re.S)
     md_ieee = md_ieee.replace(raw("\\clearpage\\twocolumn"), raw("\\clearpage\\twocolumn\n" + ACK))
 
-    # move key figures from the appendix into the body, right after the paragraph that first cites them (IEEE: figures near first mention)
-    for fid in ("fig:flow", "fig:roc"):
-        m = re.search(r"\n!\[[^\n]*\{#" + re.escape(fid) + r"[^\n]*\}\n", md_ieee)
-        if not m: continue
-        fig = m.group(0); md_ieee = md_ieee.replace(fig, "\n")
-        i = md_ieee.find("\\ref{" + fid + "}"); j = md_ieee.find("\n\n", i)
-        md_ieee = md_ieee[:j] + "\n\n" + fig.strip() + md_ieee[j:]
+    # figures are already placed next to their first citation by MP.place_figures
     d = "paper/ieee"; os.makedirs(f"{d}/figures", exist_ok=True)
     open(f"{d}/ieee.md", "w").write(md_ieee)
     tolatex = lambda s: subprocess.run(["pandoc", "-f", "markdown", "-t", "latex"], input=s, capture_output=True, text=True, check=True).stdout.strip()
