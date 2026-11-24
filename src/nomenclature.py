@@ -37,7 +37,7 @@ ABBR = {
     "ROR": "reporting odds ratio", "SD": "standard deviation", "SE": "standard error",
     "SGLT2i": "sodium-glucose cotransporter-2 inhibitor", "SHAP": "Shapley additive explanations",
     "SUSTAIN-6": "Trial to Evaluate Cardiovascular and Other Long-term Outcomes with Semaglutide in Subjects with Type 2 Diabetes",
-    "SVM": "support vector machine", "T2D": "type 2 diabetes", "TIA": "transient ischemic attack",
+    "SVM": "support vector machine", "MLP": "multilayer perceptron", "LOF": "local outlier factor", "T2D": "type 2 diabetes", "TIA": "transient ischemic attack",
     "TRIPOD+AI": "Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis, AI extension",
     "VA": "US Department of Veterans Affairs", "XGB": "XGBoost (extreme gradient boosting)",
 }

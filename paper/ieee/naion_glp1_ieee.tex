@@ -1289,11 +1289,13 @@ I\textsuperscript{2} & percentage of between-study variance due to heterogeneity
 k & number of estimates (meta-analysis) or neighbours per node
 (graph) \\
 L2 & ridge (squared-coefficient) penalty \\
+LOF & local outlier factor \\
 LOSO & leave-one-study-out validation \\
 LR & logistic regression \\
 LR+ & positive likelihood ratio \\
 MH & Mantel-Haenszel \\
 ML & machine learning \\
+MLP & multilayer perceptron \\
 MRI & magnetic resonance imaging \\
 NAION & nonarteritic anterior ischemic optic neuropathy \\
 NB & net benefit \\
@@ -1784,14 +1786,14 @@ Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{llllllll}\toprule
 Analysis & k & Pooled ratio & 95\% CI low & 95\% CI high & I2 & P & q \\
 \midrule
-all studies (most precise estimate each) & 25.000 & 1.341 & 1.161 & 1.549 & 86.6 & \textless0.001 & \textless0.001 \\
-indication = T2D & 20.000 & 1.363 & 1.163 & 1.598 & 87.8 & \textless0.001 & \textless0.001 \\
-indication = T2D or obesity & 2.000 & 1.859 & 0.764 & 4.525 & 86.9 & 0.172 & 0.229 \\
+All studies (most precise estimate each) & 25.000 & 1.341 & 1.161 & 1.549 & 86.6 & \textless0.001 & \textless0.001 \\
+Indication = T2D & 20.000 & 1.363 & 1.163 & 1.598 & 87.8 & \textless0.001 & \textless0.001 \\
+Indication = T2D or obesity & 2.000 & 1.859 & 0.764 & 4.525 & 86.9 & 0.172 & 0.229 \\
 Subgroup difference by indication & 2.000 & --- & --- & --- & --- & 0.501 & 0.501 \\
-drug = any GLP-1RA & 15.000 & 1.302 & 1.128 & 1.504 & 81.1 & \textless0.001 & \textless0.001 \\
-drug = semaglutide & 8.000 & 1.569 & 1.007 & 2.444 & 91.9 & 0.047 & 0.075 \\
+Drug = any GLP-1RA & 15.000 & 1.302 & 1.128 & 1.504 & 81.1 & \textless0.001 & \textless0.001 \\
+Drug = semaglutide & 8.000 & 1.569 & 1.007 & 2.444 & 91.9 & 0.047 & 0.075 \\
 Subgroup difference by drug & 2.000 & --- & --- & --- & --- & 0.434 & 0.496 \\
-excluding IIH cohort & 24.000 & 1.380 & 1.196 & 1.592 & 86.4 & \textless0.001 & \textless0.001 \\
+Excluding IIH cohort & 24.000 & 1.380 & 1.196 & 1.592 & 86.4 & \textless0.001 & \textless0.001 \\
 \bottomrule\end{tabular}}
 \end{table}
 
@@ -1800,7 +1802,7 @@ men among case reports versus exposed cohorts) with the stated test; q =
 Benjamini-Hochberg adjusted P value. Remaining abbreviations and
 variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{llllll}\toprule
-Contrast & observed & expected & test & P & q \\
+Contrast & Observed & Expected & Test & P & q \\
 \midrule
 case reports: male share vs exposed-cohort male share & 0.688 & 0.490 & exact binomial & 0.137 & 0.274 \\
 case reports: age vs exposed-cohort mean age & 47.000 & 60.150 & Wilcoxon signed-rank vs cohort mean & 0.003 & 0.016 \\
@@ -1818,7 +1820,7 @@ corrected for overlapping training sets; Wilcoxon and Spearman as
 stated; q = Benjamini-Hochberg adjusted P value. Remaining abbreviations
 and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{lllll}\toprule
-Experiment & estimate & test & P & q \\
+Experiment & Estimate & Test & P & q \\
 \midrule
 LR: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.627 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
 RF: AUROC \textgreater{} 0.5 (10/90 hold-out) & 0.642 & Hanley-McNeil one-sided & \textless0.001 & \textless0.001 \\
@@ -2266,6 +2268,25 @@ model}\label{threshold-metrics-advantages-and-limitations-of-the-best-model}
   >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
   >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
   >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\caption{Threshold metrics of the best PubMed-only model (XGBoost):
+advantages and limitations. Values are means over ten disjoint 10\%
+training folds (tested on the remaining 90\%) unless stated; Youden, top
+10\% and top 20\% = decision thresholds fixed on the training data; vs
+chance = P value against the chance or no-information reference stated;
+LR+ = positive likelihood ratio; prevalence = 0.044\%. Remaining
+abbreviations and variable names: Nomenclature appendix.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Best model (XGBoost)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+vs chance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reads as
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Metric
@@ -2292,13 +2313,13 @@ Specificity & 0.61 (Youden); 0.82 (top 10\%); 0.75 (top 20\%) & p \ensuremath{\a
 0.36--0.42 vs 1 \ensuremath{-} flag rate & Limitation: no better than chance at the
 same flag rate. With 99.96\% non-events, specificity mostly reflects how
 many people are flagged \\
-Accuracy & 0.61--0.85 & below the 0.9996 no-information rate (p = 1) &
-Limitation by construction: with 0.044\% prevalence, calling everyone
-``no NAION'' is 99.96\% accurate. Report it but don't use it for model
-choice \\
+Accuracy & 0.61 (Youden) -- 0.82 (top 10\%) & below the 0.9996
+no-information rate (p = 1) & Limitation by construction: with 0.044\%
+prevalence, calling everyone ``no NAION'' is 99.96\% accurate. Report it
+but don't use it for model choice \\
 PPV & 0.07\% (Youden) -- 0.09\% (top 10\%); prevalence 0.044\% & p
 \textless{} 1e-28 vs prevalence & Advantage: about 2\ensuremath{\times} enrichment (LR+
-1.5--2.2). Limitation: absolute PPV \textless{} 0.1\%, so about 1 in
+1.6--2.0). Limitation: absolute PPV \textless{} 0.1\%, so about 1 in
 1,000--1,500 flagged patients develops NAION. Any intervention given to
 all flagged patients exposes about 1,000 patients per event \\
 NPV & 99.97\% & p \textless{} 1e-12 vs 1 \ensuremath{-} prevalence & Mostly reflects
@@ -2350,12 +2371,12 @@ selection)}\label{implication-for-the-intended-use-antiplatelet-selection}
 
 {\scriptsize
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2412}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.4647}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0941}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0765}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0824}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0412}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2753}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.4438}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0899}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0730}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0787}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0393}}@{}}
 \caption{AUROC with and without partial ABCD2 features (study-level age,
 hypertension and diabetes items) in every experiment, on identical
 splits. Difference = with minus without; q = Benjamini-Hochberg adjusted
@@ -2426,17 +2447,17 @@ Stage 10: rare-event / anomaly folds & XGB (balanced, prior-corrected) &
 0.6481 & 0.6481 & 0.0000 & 1.000 \\
 Stage 10: rare-event / anomaly folds & LR (King-Zeng) & 0.6551 & 0.6579
 & 0.0027 & 1.000 \\
-Stage 10: rare-event / anomaly folds & xgb\_incidence\_anchored & 0.6572
+Stage 10: rare-event / anomaly folds & XGB (incidence-anchored) & 0.6572
 & 0.6542 & -0.0029 & 1.000 \\
-Stage 10: rare-event / anomaly folds & focal\_mlp & 0.5749 & 0.5722 &
--0.0027 & 1.000 \\
-Stage 10: rare-event / anomaly folds & xgb\_standard & 0.6565 & 0.6542 &
--0.0023 & 1.000 \\
+Stage 10: rare-event / anomaly folds & MLP (focal loss) & 0.5749 &
+0.5722 & -0.0027 & 1.000 \\
+Stage 10: rare-event / anomaly folds & XGB (standard) & 0.6565 & 0.6542
+& -0.0023 & 1.000 \\
 Stage 10: rare-event / anomaly folds & IForest & 0.5411 & 0.5364 &
 -0.0048 & 1.000 \\
-Stage 10: rare-event / anomaly folds & one\_class\_svm & 0.4133 & 0.4162
-& 0.0028 & 1.000 \\
-Stage 10: rare-event / anomaly folds & lof\_novelty & 0.4211 & 0.4138 &
+Stage 10: rare-event / anomaly folds & One-class SVM & 0.4133 & 0.4162 &
+0.0028 & 1.000 \\
+Stage 10: rare-event / anomaly folds & LOF (novelty) & 0.4211 & 0.4138 &
 -0.0073 & 1.000 \\
 Stage 10: rare-event / anomaly folds & AE & 0.5747 & 0.5847 & 0.0100 &
 1.000 \\
@@ -2478,25 +2499,25 @@ Stage 11: within GLP-1RA users & XGB & 0.5995 & 0.5946 & -0.0050 &
 1.000 \\
 Stage 11: within all & XGB & 0.6565 & 0.6542 & -0.0023 & 1.000 \\
 Stage 11: within non-users & XGB & 0.6740 & 0.6724 & -0.0017 & 1.000 \\
-Stage 7: non-GLP model, external\_GLP & Ens. & 0.5966 & 0.5835 & -0.0131
-& 1.000 \\
-Stage 7: non-GLP model, internal\_nonGLP & Ens. & 0.6665 & 0.6617 &
+Stage 7: non-GLP model, external, GLP-1RA users & Ens. & 0.5966 & 0.5835
+& -0.0131 & 1.000 \\
+Stage 7: non-GLP model, internal, non-users & Ens. & 0.6665 & 0.6617 &
 -0.0048 & 1.000 \\
-Stage 7: non-GLP model, external\_GLP & GNN & 0.5893 & 0.5795 & -0.0098
-& 1.000 \\
-Stage 7: non-GLP model, internal\_nonGLP & GNN & 0.6641 & 0.6592 &
+Stage 7: non-GLP model, external, GLP-1RA users & GNN & 0.5893 & 0.5795
+& -0.0098 & 1.000 \\
+Stage 7: non-GLP model, internal, non-users & GNN & 0.6641 & 0.6592 &
 -0.0049 & 1.000 \\
-Stage 7: non-GLP model, external\_GLP & LR & 0.5328 & 0.5632 & 0.0305 &
-1.000 \\
-Stage 7: non-GLP model, internal\_nonGLP & LR & 0.6257 & 0.6357 & 0.0101
-& 1.000 \\
-Stage 7: non-GLP model, external\_GLP & RF & 0.5784 & 0.5886 & 0.0101 &
-1.000 \\
-Stage 7: non-GLP model, internal\_nonGLP & RF & 0.6518 & 0.6599 & 0.0082
-& 1.000 \\
-Stage 7: non-GLP model, external\_GLP & XGB & 0.5929 & 0.5856 & -0.0073
-& 1.000 \\
-Stage 7: non-GLP model, internal\_nonGLP & XGB & 0.6639 & 0.6633 &
+Stage 7: non-GLP model, external, GLP-1RA users & LR & 0.5328 & 0.5632 &
+0.0305 & 1.000 \\
+Stage 7: non-GLP model, internal, non-users & LR & 0.6257 & 0.6357 &
+0.0101 & 1.000 \\
+Stage 7: non-GLP model, external, GLP-1RA users & RF & 0.5784 & 0.5886 &
+0.0101 & 1.000 \\
+Stage 7: non-GLP model, internal, non-users & RF & 0.6518 & 0.6599 &
+0.0082 & 1.000 \\
+Stage 7: non-GLP model, external, GLP-1RA users & XGB & 0.5929 & 0.5856
+& -0.0073 & 1.000 \\
+Stage 7: non-GLP model, internal, non-users & XGB & 0.6639 & 0.6633 &
 -0.0006 & 1.000 \\
 Stage 4: ensembles folds & cross-family(pubmed+hybrid+synthetic) (mean)
 & 0.6574 & 0.6563 & -0.0011 & 1.000 \\

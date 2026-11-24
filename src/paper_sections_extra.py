@@ -290,7 +290,9 @@ def table_abcd_ablation():
     for c in ["without_abcd", "with_abcd"]: d[c] = d[c].map(lambda v: f(v, 4))
     d["diff"] = d["diff"].map(lambda v: f(v, 4)); d["q_bh"] = d.q_bh.map(pq)
     MN = {"logreg": "LR", "rf": "RF", "xgb": "XGB", "gnn": "GNN", "cnn1d": "CNN", "ensemble": "Ens.", "autoencoder": "AE", "isolation_forest": "IForest",
-          "poisson_offset": "Poisson", "logreg_kingzeng": "LR (King-Zeng)", "xgb_balanced_raw": "XGB (balanced)", "xgb_balanced_priorcorrected": "XGB (balanced, prior-corrected)"}
+          "poisson_offset": "Poisson", "logreg_kingzeng": "LR (King-Zeng)", "xgb_balanced_raw": "XGB (balanced)", "xgb_balanced_priorcorrected": "XGB (balanced, prior-corrected)",
+          "focal_mlp": "MLP (focal loss)", "lof_novelty": "LOF (novelty)", "one_class_svm": "One-class SVM", "xgb_incidence_anchored": "XGB (incidence-anchored)",
+          "xgb_standard": "XGB (standard)"}
     UPD = {"glp_only": "GLP-1RA-only model", "gnn_joint": "GNN joint training", "pooled_refit": "pooled refit", "pretrain_only": "no update",
            "recal_intercept": "intercept recalibration", "recal_logistic": "logistic recalibration", "xgb_continue": "XGB continued boosting"}
     def lab(m):
@@ -301,6 +303,7 @@ def table_abcd_ablation():
         m = re.sub(r"\b(logreg|rf|xgb|gnn|cnn1d)\b", lambda k: MN[k.group(1)], str(m))
         return m.replace("cross_family", "cross-family").replace("(single)", "(single model)")
     d["model"] = d.model.map(lab)
+    d["experiment"] = d.experiment.str.replace("internal_nonGLP", "internal, non-users").str.replace("external_GLP", "external, GLP-1RA users")
     return "Table: AUROC with and without partial ABCD2 features in every experiment (paired, identical splits; q, Benjamini-Hochberg).\n\n" + d.rename(columns={
         "experiment": "Experiment", "model": "Model or configuration", "without_abcd": "Without ABCD", "with_abcd": "With ABCD", "diff": "Difference", "q_bh": "q"}).to_markdown(index=False)
 

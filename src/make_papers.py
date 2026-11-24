@@ -207,6 +207,7 @@ def t_pvals(fam, cols, rename):
         elif c == "I2": d[c] = d[c].map(lambda v: "---" if pd.isna(v) else f(v, 1))
         elif d[c].dtype.kind == "f": d[c] = d[c].map(lambda v: "---" if pd.isna(v) else f(v, 3))
     if "term" in d.columns: d["term"] = d["term"].map(pretty_term)
+    if fam == "C_meta_analysis": d["term"] = d["term"].map(lambda t: t[:1].upper() + t[1:])
     return d.rename(columns=rename).to_markdown(index=False)
 
 MODEL_LABELS = {"logreg": "LR", "rf": "RF", "xgb": "XGB", "ensemble": "Ensemble", "gnn": "GNN"}
@@ -561,8 +562,8 @@ def preprint():
             "Table: Marginal associations (cluster-robust SE by study; ecological, setting-confounded).\n\n" + t_pvals("A1_marginal_risk_factors", ["term", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
             "Table: SHAP permutation tests (B=500).\n\n" + t_pvals("B_shap_permutation", ["term", "obs_mean_abs_shap", "p", "q_bh", "p_within_study"], {"term": "Feature", "obs_mean_abs_shap": "Mean abs. SHAP", "p": "P (global null)", "q_bh": "q", "p_within_study": "P (within-study null)"}),
             "Table: Random-effects meta-analysis of published estimates.\n\n" + t_pvals("C_meta_analysis", ["term", "k", "pooled_ratio", "ci_lo", "ci_hi", "I2", "p", "q_bh"], {"term": "Analysis", "pooled_ratio": "Pooled ratio", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
-            "Table: Demographic contrasts.\n\n" + t_pvals("D_demographics", ["term", "observed", "expected", "test", "p", "q_bh"], {"term": "Contrast", "p": "P", "q_bh": "q"}),
-            "Table: Tests of ML experiments.\n\n" + t_pvals("E_ml_experiments", ["term", "estimate", "test", "p", "q_bh"], {"term": "Experiment", "p": "P", "q_bh": "q"}),
+            "Table: Demographic contrasts.\n\n" + t_pvals("D_demographics", ["term", "observed", "expected", "test", "p", "q_bh"], {"term": "Contrast", "observed": "Observed", "expected": "Expected", "test": "Test", "p": "P", "q_bh": "q"}),
+            "Table: Tests of ML experiments.\n\n" + t_pvals("E_ml_experiments", ["term", "estimate", "test", "p", "q_bh"], {"term": "Experiment", "estimate": "Estimate", "test": "Test", "p": "P", "q_bh": "q"}),
             f"![Within-study odds ratios.]({FIG}/fig_forest_within_study.png){{width=100%}}",
             f"![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){{width=80%}}",
             "### D. Threshold metrics (hold-out; P values against chance)",
@@ -596,7 +597,8 @@ def preprint():
             "### K2. Reporting checklist",
             "Table: TRIPOD+AI items.\n\n" + TRIPOD,
             "### K. Threshold metrics: advantages and limitations of the best model",
-            open("paper/discussion_notes_metrics.md").read().split("\n", 3)[3] if os.path.exists("paper/discussion_notes_metrics.md") else "",
+            re.sub(r"\n\| Metric \|", "\n\nTable: Threshold metrics of the best PubMed-only model (XGBoost): advantages and limitations.\n\n| Metric |",
+                   open("paper/discussion_notes_metrics.md").read().split("\n", 3)[3], count=1) if os.path.exists("paper/discussion_notes_metrics.md") else "",
             discussion(), AI_USE,
             "## Data and code availability",
             AVAIL,

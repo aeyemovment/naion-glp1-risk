@@ -175,6 +175,10 @@ TAB = {
         "study); OR = odds ratio (sleep apnoea: pooled risk ratio used as OR; cup-to-disc ratio relative to a ratio above 0.40); AUROC gain "
         "alone = gain over the core ensemble when the factor is added by itself; marginal AUROC gain = gain at its forward-selection step; "
         "factors were kept if the marginal gain was at least 0.005 with Benjamini-Hochberg q < 0.05.",
+    "Threshold metrics of the best PubMed-only model (XGBoost)":
+        "Threshold metrics of the best PubMed-only model (XGBoost): advantages and limitations. Values are means over ten disjoint 10% "
+        "training folds (tested on the remaining 90%) unless stated; Youden, top 10% and top 20% = decision thresholds fixed on the training "
+        "data; vs chance = P value against the chance or no-information reference stated; LR+ = positive likelihood ratio; prevalence = 0.044%.",
     "SHAP permutation tests":
         "SHAP permutation tests (B = 500 permutations). Mean abs. SHAP = mean absolute SHAP value (XGBoost, log-odds); P (global null) = outcome "
         "permuted across all patients; P (within-study null) = outcome permuted within studies, which tests whether the feature carries "
