@@ -1,0 +1,136 @@
+{
+ "design": "Stage 19 - optional-input model trained on the REAL (sparsely reported) cohort covariates, instead of literature odds ratios.",
+ "reported_by": {
+  "hypertension": 5,
+  "sleep_apnoea": 4,
+  "hyperlipidaemia": 6,
+  "cardiovascular_disease": 6,
+  "hba1c": 3,
+  "bmi": 2
+ },
+ "single_covariate_gain": [
+  {
+   "subset": "sleep_apnoea",
+   "gain_folds": 0.00057,
+   "gain_loso": 0.01008,
+   "reported_by": 4
+  },
+  {
+   "subset": "hyperlipidaemia",
+   "gain_folds": 0.00023,
+   "gain_loso": 0.00876,
+   "reported_by": 6
+  },
+  {
+   "subset": "hba1c",
+   "gain_folds": 0.00022,
+   "gain_loso": 0.0,
+   "reported_by": 3
+  },
+  {
+   "subset": "bmi",
+   "gain_folds": -0.00026,
+   "gain_loso": 0.00876,
+   "reported_by": 2
+  },
+  {
+   "subset": "hypertension",
+   "gain_folds": -0.00033,
+   "gain_loso": -0.00339,
+   "reported_by": 5
+  },
+  {
+   "subset": "cardiovascular_disease",
+   "gain_folds": -0.00092,
+   "gain_loso": 0.0,
+   "reported_by": 6
+  }
+ ],
+ "forward_selection": [
+  {
+   "step": 1,
+   "added": "sleep_apnoea",
+   "reported_by": 4,
+   "auroc_sel": 0.65268,
+   "gain_sel": 0.00124,
+   "p_sel": 0.94062,
+   "q_sel": 0.99639,
+   "kept": false
+  },
+  {
+   "step": 2,
+   "added": "hba1c",
+   "reported_by": 3,
+   "auroc_sel": 0.65263,
+   "gain_sel": -4e-05,
+   "p_sel": 0.99639,
+   "q_sel": 0.99639,
+   "kept": false
+  },
+  {
+   "step": 3,
+   "added": "bmi",
+   "reported_by": 2,
+   "auroc_sel": 0.65469,
+   "gain_sel": 0.00206,
+   "p_sel": 0.80412,
+   "q_sel": 0.99639,
+   "kept": false
+  },
+  {
+   "step": 4,
+   "added": "hypertension",
+   "reported_by": 5,
+   "auroc_sel": 0.65462,
+   "gain_sel": -7e-05,
+   "p_sel": 0.9845,
+   "q_sel": 0.99639,
+   "kept": false
+  },
+  {
+   "step": 5,
+   "added": "hyperlipidaemia",
+   "reported_by": 6,
+   "auroc_sel": 0.65266,
+   "gain_sel": -0.00196,
+   "p_sel": 0.84938,
+   "q_sel": 0.99639,
+   "kept": false
+  },
+  {
+   "step": 6,
+   "added": "cardiovascular_disease",
+   "reported_by": 6,
+   "auroc_sel": 0.65138,
+   "gain_sel": -0.00129,
+   "p_sel": 0.84045,
+   "q_sel": 0.99639,
+   "kept": false
+  }
+ ],
+ "confirmation": {
+  "kept": [],
+  "folds_5_9": {
+   "auroc_kept": 0.6597071724057817,
+   "auroc_core": 0.6597071724057817,
+   "gain": 0.0
+  },
+  "loso": {
+   "auroc_kept": 0.5353084043567823,
+   "auroc_core": 0.5353084043567823,
+   "gain": 0.0
+  },
+  "all_six_folds_all": {
+   "auroc_all": 0.65520614259018,
+   "auroc_core": 0.6555722604220435,
+   "gain": -0.00036611783186358827
+  },
+  "all_six_loso": {
+   "auroc_all": 0.5440691193976905,
+   "auroc_core": 0.5353084043567823,
+   "gain": 0.008760715040908272
+  }
+ },
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}
