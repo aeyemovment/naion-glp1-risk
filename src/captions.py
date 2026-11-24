@@ -34,7 +34,7 @@ FIG = {
         "Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with "
         "one-hot levels summed into their parent variable (therapy = drug arm; region; source_type = data source; outcome_def = outcome "
         "definition). Blue, logistic regression (L2); green, XGBoost; random-forest SHAP values are on the probability scale "
-        "(about 10^-4) and therefore not visible.",
+        "(about 0.0001) and therefore not shown.",
     "fig_forest_within_study.png":
         "Within-study odds ratios for NAION (count-weighted logistic regression with study fixed effects, so each estimate compares patients "
         "within the same study). Points = odds ratio, lines = 95% CI, log scale; dashed line = no association. Blue, q < 0.05; grey, not "
@@ -85,10 +85,10 @@ FIG = {
         "users. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; Ens., mean ensemble.",
     "fig_finetune.png":
         "Fine-tuning a non-user model for GLP-1RA users: AUROC in held-out GLP-1RA users versus the percentage of GLP-1RA users used for "
-        "fine-tuning, by fine-tuning data source (real, synthetic or hybrid). Lines = update methods: recal intercept / recal logistic = "
-        "intercept-only or intercept-and-slope recalibration; xgb continue = continued boosting; gnn joint = graph network trained jointly; "
-        "pooled refit = refit on pooled data; glp only = model trained on GLP-1RA users only. Dashed line = pretrained non-user model without "
-        "update.",
+        "fine-tuning, by fine-tuning data source (real, synthetic or hybrid). Lines = update methods (legend below the panels). Recalibration "
+        "(intercept only, or intercept and slope) is a monotone transformation of the risk score, so it cannot change AUROC; both recalibration "
+        "lines therefore lie on the dashed line (pretrained non-user model without update). GLP-1RA users only = model trained on GLP-1RA users "
+        "without pretraining.",
     "fig_subgroups.png":
         "Detection within GLP-1RA users (orange) and within non-users (blue): (left) AUROC and (right) PPV at the threshold flagging the top "
         "10% of training risk (proportion; 0.001 = 0.1%), mean ± SD over ten folds; dashed line = AUROC 0.5. LR, logistic regression; RF, "
@@ -96,8 +96,8 @@ FIG = {
         "Poisson regression with person-time offset; IForest, isolation forest; AE, autoencoder (both anomaly detectors trained on non-events).",
     "fig_incidence_strata.png":
         "NAION incidence per 100,000 person-years (log scale; points = pooled rate, bars = exact Poisson 95% CI) in GLP-1RA users (orange) and "
-        "comparators (blue), by (A) study mean age band, (B) indication (iih = idiopathic intracranial hypertension; t2d = type 2 diabetes) "
-        "and (C) drug of the exposed arm (glp1ra_class = any GLP-1RA; sema_or_tirz = semaglutide or tirzepatide). Grey band = published "
+        "comparators (blue), by (A) study mean age band, (B) indication (IIH = idiopathic intracranial hypertension) "
+        "and (C) drug of the exposed arm (GLP-1RA class = studies pooling several GLP-1RAs). Grey band = published "
         "background incidence in adults aged 50 years or older.",
     "fig_feature_combinations.png":
         "Feature-group contributions across all 511 combinations of nine feature groups (XGBoost). Left: grey = stand-alone gain (AUROC - 0.5 "
@@ -122,12 +122,14 @@ TAB = {
     "NAION incidence per 100,000 person-years":
         "NAION incidence per 100,000 person-years (rate) in GLP-1RA users and comparators by stratum. Events = NAION events; IRR = incidence "
         "rate ratio (GLP-1RA / comparator) with exact conditional binomial 95% CI; MH IRR = Mantel-Haenszel IRR pooled within studies; q = "
-        "Benjamini-Hochberg adjusted P value. Stratifier levels: age_band (study mean age), indication (t2d, iih), drug (glp1ra_class, "
-        "sema_or_tirz, semaglutide), fu_band (follow-up), female_band (share of women).",
+        "Benjamini-Hochberg adjusted P value. Rates are per 100,000 person-years; Study mean age, "
+        "Women in study and Follow-up are study-level bands; T2D, type 2 diabetes; IIH, idiopathic intracranial hypertension.",
     "Model performance within GLP-1RA users":
         "Model performance within GLP-1RA users and within non-users (mean over ten folds; threshold = top 10% of training risk). PR-AUC = area "
         "under the precision-recall curve; O/E = observed/expected events; Sens, sensitivity; Spec, specificity; Acc, accuracy; PPV and NPV = "
-        "positive and negative predictive values (proportions).",
+        "positive and negative predictive values (proportions). LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural "
+        "network; CNN, one-dimensional convolutional network; Ens., mean ensemble; Poisson, Poisson regression with person-time offset; IForest, "
+        "isolation forest; AE, autoencoder; --- = not applicable (anomaly scores are not calibrated probabilities).",
     "AUROC with and without partial ABCD2":
         "AUROC with and without partial ABCD2 features (study-level age, hypertension and diabetes items) in every experiment, on identical "
         "splits. Difference = with minus without; q = Benjamini-Hochberg adjusted P value of the paired test. Experiment names refer to the "
@@ -150,9 +152,9 @@ TAB = {
         "Reconstructed cohorts (one primary, non-overlapping contrast per study). Setting = data source; Population: T2D, type 2 diabetes; IIH, "
         "idiopathic intracranial hypertension; events/N = NAION events and patients in each arm.",
     "Training-fraction sweep (mean over 10 repeats).":
-        "Training-fraction sweep (mean over 10 repeats). train_frac = share of patients used for training; auroc and auroc_sd = mean and SD of "
-        "AUROC on the remainder; pr_auc = PR-AUC; brier = Brier score; cal_slope = calibration slope (1 = ideal); o_e and o_e_sd = "
-        "observed/expected events (1 = ideal). Models: logreg, L2 logistic regression; rf, random forest; xgb, XGBoost.",
+        "Training-fraction sweep (mean over 10 repeats). Training fraction = share of patients used for training; AUROC and AUROC SD = mean and SD "
+        "of AUROC on the remainder; PR-AUC = area under the precision-recall curve; Brier = Brier score; Cal. slope = calibration slope (1 = ideal); "
+        "O/E and O/E SD = observed/expected events (1 = ideal). LR, L2 logistic regression; RF, random forest; XGB, XGBoost.",
     "Within-study (study fixed effects) associations.":
         "Within-study associations with NAION (count-weighted logistic regression with study fixed effects). Terms: exposed_ = GLP-1RA "
         "exposure in the named drug or indication subgroup; exposed_vs_ = versus the named comparator; exposed_x_ = interaction with the "
@@ -163,7 +165,7 @@ TAB = {
         "These comparisons are ecological and confounded by study setting. Feature names: therapy_, indication_, region_, source_type_, "
         "outcome_def_ = one-hot levels (reference levels omitted); OR = odds ratio; q = Benjamini-Hochberg adjusted P value.",
     "SHAP permutation tests":
-        "SHAP permutation tests (B = 500 permutations). Mean |SHAP| = mean absolute SHAP value (XGBoost, log-odds); P (global null) = outcome "
+        "SHAP permutation tests (B = 500 permutations). Mean abs. SHAP = mean absolute SHAP value (XGBoost, log-odds); P (global null) = outcome "
         "permuted across all patients; P (within-study null) = outcome permuted within studies, which tests whether the feature carries "
         "information beyond study membership; q = Benjamini-Hochberg adjusted P value.",
     "Random-effects meta-analysis of published estimates.":
@@ -178,13 +180,13 @@ TAB = {
         "and Spearman as stated; q = Benjamini-Hochberg adjusted P value.",
     "Sensitivity, specificity, accuracy, PPV and NPV":
         "Threshold metrics on the 90% hold-out with P values against chance. Thresholds: Youden = maximizes sensitivity + specificity - 1; "
-        "Top 10% / Top 20% = flags the top 10% or 20% of training risk. Sens, sensitivity; Spec, specificity; Acc, accuracy; P vs NIR = "
-        "accuracy versus the no-information rate; PPV versus prevalence (P vs prev); NPV, negative predictive value; LR+, positive likelihood "
+        "Top 10% / Top 20% = flags the top 10% or 20% of training risk. Sens, sensitivity; Spec, specificity; Acc, accuracy; P (Sens) and P (Spec) = "
+        "versus chance; P vs NIR = accuracy versus the no-information rate; P (NPV) = NPV versus 1 - prevalence; PPV versus prevalence (P vs prev); NPV, negative predictive value; LR+, positive likelihood "
         "ratio; NB, net benefit at the threshold probability; NB treat-all, net benefit of treating everyone.",
     "Threshold metrics across ten folds (mean).":
-        "Threshold metrics across ten folds (mean). Thresholds: T1_youden = maximizes Youden's J; T2_top10pct and T3_top20pct = flag the top 10% "
-        "or 20% of training risk. *_mean = mean over folds; lr_pos = positive likelihood ratio; flagged_frac = share of patients flagged. "
-        "Models: logreg, rf, xgb, ensemble (mean of members).",
+        "Threshold metrics across ten folds (mean). Thresholds: Youden = maximizes Youden's J; Top 10% and Top 20% = flag the top 10% "
+        "or 20% of training risk. All values are means over folds; Sens, sensitivity; Spec, specificity; Acc, accuracy; LR+, positive likelihood ratio; "
+        "Flagged = share of patients flagged. LR, logistic regression; RF, random forest; XGB, XGBoost; Ensemble = mean of members.",
     "Model performance by family.":
         "Model performance by family. AUROC 10/90 = trained on 10%, tested on 90%; AUROC 10x10% folds = mean ± SD over ten disjoint folds; "
         "AUROC LOSO = leave-one-study-out; O/E = observed/expected events; Sens/Spec and PPV/NPV at the top-10% threshold; hybrid = real plus "

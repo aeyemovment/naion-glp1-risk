@@ -11,6 +11,8 @@ import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys; sys.path.insert(0, "src")
+_to_md = pd.DataFrame.to_markdown  # keep pre-formatted numbers (e.g. 1.20) exactly as written
+pd.DataFrame.to_markdown = lambda self, *a, **k: _to_md(self, *a, **{"disable_numparse": True, **k})
 from paper_sections_extra import intro_full, intro_nejm, methods_extended, results_extra, multimodal_table, results_incidence, table_incidence, results_subgroups, table_subgroups, results_abcd, table_abcd_ablation, results_combinations, tables_combinations, results_compute_imaging, methods_compute_imaging
 
 ROOT = os.path.expanduser("~/naion-glp1-risk"); os.chdir(ROOT)
@@ -191,16 +193,25 @@ def t_pvals(fam, cols, rename):
     d = S5[S5.family == fam][cols].copy()
     for c in d.columns:
         if c in ("p", "q_bh", "p_within_study"): d[c] = d[c].map(pq)
-        elif d[c].dtype.kind == "f": d[c] = d[c].map(lambda v: f(v, 3))
+        elif c == "I2": d[c] = d[c].map(lambda v: "---" if pd.isna(v) else f(v, 1))
+        elif d[c].dtype.kind == "f": d[c] = d[c].map(lambda v: "---" if pd.isna(v) else f(v, 3))
+    if "term" in d.columns: d["term"] = d["term"].map(pretty_term)
     return d.rename(columns=rename).to_markdown(index=False)
+
+MODEL_LABELS = {"logreg": "LR", "rf": "RF", "xgb": "XGB", "ensemble": "Ensemble", "gnn": "GNN"}
+def pretty_term(t):
+    t = str(t)
+    for a, b in [("t2d_or_obesity", "T2D or obesity"), ("any_glp1ra", "any GLP-1RA"), ("= t2d", "= T2D"), ("logreg", "LR"), ("xgb", "XGB"), ("rf:", "RF:"), ("rf vs", "RF vs"), ("vs rf", "vs RF"), ("subgroup difference", "Subgroup difference")]:
+        t = t.replace(a, b)
+    return t
 
 def t_thresholds():
     d = S5h[["model", "threshold", "auroc", "sensitivity", "p_sens_vs_chance", "specificity", "p_spec_vs_chance", "accuracy", "p_acc_vs_nir", "ppv", "p_ppv_vs_prevalence", "npv", "p_npv_vs_1minusprev", "lr_pos", "net_benefit", "net_benefit_treat_all"]].copy()
     for c in d.columns[2:]:
         d[c] = d[c].map(pq) if c.startswith("p_") else d[c].map(lambda v: f(v, 4) if abs(v) >= 1e-3 else f"{v:.2e}")
-    d["threshold"] = d.threshold.map({"T1_youden": "Youden", "T2_top10pct": "Top 10%", "T3_top20pct": "Top 20%"})
-    return d.rename(columns={"model": "Model", "threshold": "Threshold", "auroc": "AUROC", "sensitivity": "Sens", "p_sens_vs_chance": "P", "specificity": "Spec", "p_spec_vs_chance": "P ",
-                             "accuracy": "Acc", "p_acc_vs_nir": "P vs NIR", "ppv": "PPV", "p_ppv_vs_prevalence": "P vs prev", "npv": "NPV", "p_npv_vs_1minusprev": "P  ", "lr_pos": "LR+",
+    d["threshold"] = d.threshold.map({"T1_youden": "Youden", "T2_top10pct": "Top 10%", "T3_top20pct": "Top 20%"}); d["model"] = d.model.map(MODEL_LABELS).fillna(d.model)
+    return d.rename(columns={"model": "Model", "threshold": "Threshold", "auroc": "AUROC", "sensitivity": "Sens", "p_sens_vs_chance": "P (Sens)", "specificity": "Spec", "p_spec_vs_chance": "P (Spec)",
+                             "accuracy": "Acc", "p_acc_vs_nir": "P vs NIR", "ppv": "PPV", "p_ppv_vs_prevalence": "P vs prev", "npv": "NPV", "p_npv_vs_1minusprev": "P (NPV)", "lr_pos": "LR+",
                              "net_benefit": "NB", "net_benefit_treat_all": "NB treat-all"}).to_markdown(index=False)
 
 TRIPOD = pd.DataFrame([
@@ -531,13 +542,13 @@ def preprint():
             f"![ROC, precision-recall and calibration on the 90% hold-out.](results/stage1/fig_holdout_roc_pr_cal.png){{width=100%}}",
             f"![AUROC and PR-AUC across ten disjoint 10% training folds.](results/stage1/fig_kfold.png){{width=100%}}",
             f"![Training-fraction sweep (10% to 90%, 10 repeats each): AUROC, O/E and SHAP-rank stability (Kendall W).](results/stage1c/fig_train_fraction_curves.png){{width=100%}}",
-            "Table: Training-fraction sweep (mean over 10 repeats).\n\n" + S1c.assign(train_frac=lambda d: (100 * d.train_frac).astype(int).astype(str) + "%").round(4).to_markdown(index=False),
+            "Table: Training-fraction sweep (mean over 10 repeats).\n\n" + S1c.assign(train_frac=lambda d: (100 * d.train_frac).round().astype(int).astype(str) + "%", model=lambda d: d.model.map(MODEL_LABELS)).round(4).rename(columns={"model": "Model", "train_frac": "Training fraction", "auroc": "AUROC", "auroc_sd": "AUROC SD", "pr_auc": "PR-AUC", "brier": "Brier", "cal_slope": "Cal. slope", "o_e": "O/E", "o_e_sd": "O/E SD"}).to_markdown(index=False),
             f"![SHAP beeswarm, XGBoost on the 90% hold-out.](results/stage1/fig_shap_beeswarm_xgb.png){{width=85%}}",
             f"![SHAP importance across ten folds.](results/stage1/fig_shap_kfold_importance.png){{width=85%}}",
             "### C. Statistical inference (all P values, Benjamini-Hochberg q within family)",
             "Table: Within-study (study fixed effects) associations.\n\n" + t_pvals("A2_within_study_exposure", ["term", "model", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "model": "Model", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
             "Table: Marginal associations (cluster-robust SE by study; ecological, setting-confounded).\n\n" + t_pvals("A1_marginal_risk_factors", ["term", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
-            "Table: SHAP permutation tests (B=500).\n\n" + t_pvals("B_shap_permutation", ["term", "obs_mean_abs_shap", "p", "q_bh", "p_within_study"], {"term": "Feature", "obs_mean_abs_shap": "Mean |SHAP|", "p": "P (global null)", "q_bh": "q", "p_within_study": "P (within-study null)"}),
+            "Table: SHAP permutation tests (B=500).\n\n" + t_pvals("B_shap_permutation", ["term", "obs_mean_abs_shap", "p", "q_bh", "p_within_study"], {"term": "Feature", "obs_mean_abs_shap": "Mean abs. SHAP", "p": "P (global null)", "q_bh": "q", "p_within_study": "P (within-study null)"}),
             "Table: Random-effects meta-analysis of published estimates.\n\n" + t_pvals("C_meta_analysis", ["term", "k", "pooled_ratio", "ci_lo", "ci_hi", "I2", "p", "q_bh"], {"term": "Analysis", "pooled_ratio": "Pooled ratio", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
             "Table: Demographic contrasts.\n\n" + t_pvals("D_demographics", ["term", "observed", "expected", "test", "p", "q_bh"], {"term": "Contrast", "p": "P", "q_bh": "q"}),
             "Table: Tests of ML experiments.\n\n" + t_pvals("E_ml_experiments", ["term", "estimate", "test", "p", "q_bh"], {"term": "Experiment", "p": "P", "q_bh": "q"}),
@@ -545,7 +556,7 @@ def preprint():
             f"![Most precise published estimate per study (log scale).](results/stage1b/fig_forest.png){{width=80%}}",
             "### D. Threshold metrics (hold-out; P values against chance)",
             "Table: Sensitivity, specificity, accuracy, PPV and NPV with P values; NIR, no-information rate; NB, net benefit at the threshold probability.\n\n" + t_thresholds(),
-            "Table: Threshold metrics across ten folds (mean).\n\n" + S5k[["model", "threshold", "auroc_mean", "sensitivity_mean", "specificity_mean", "accuracy_mean", "ppv_mean", "npv_mean", "lr_pos_mean", "flagged_frac_mean"]].round(5).to_markdown(index=False),
+            "Table: Threshold metrics across ten folds (mean).\n\n" + S5k[["model", "threshold", "auroc_mean", "sensitivity_mean", "specificity_mean", "accuracy_mean", "ppv_mean", "npv_mean", "lr_pos_mean", "flagged_frac_mean"]].round(5).assign(model=lambda d: d.model.map(MODEL_LABELS).fillna(d.model), threshold=lambda d: d.threshold.map({"T1_youden": "Youden", "T2_top10pct": "Top 10%", "T3_top20pct": "Top 20%"})).rename(columns={"model": "Model", "threshold": "Threshold", "auroc_mean": "AUROC", "sensitivity_mean": "Sens", "specificity_mean": "Spec", "accuracy_mean": "Acc", "ppv_mean": "PPV", "npv_mean": "NPV", "lr_pos_mean": "LR+", "flagged_frac_mean": "Flagged"}).to_markdown(index=False),
             "### E. Case-level phenotyping and study-level meta-regression",
             f"Among {S1b['cases']['n_naion_cases']} NAION case patients (median age {f(S1b['cases']['descriptives']['age_median'],0)}; {f(S1b['cases']['descriptives']['male_pct'],0)}% men; "
             f"{S1b['cases']['descriptives']['semaglutide_n']} semaglutide, {S1b['cases']['descriptives']['tirzepatide_n']} tirzepatide, {S1b['cases']['descriptives']['liraglutide_n']} liraglutide; "

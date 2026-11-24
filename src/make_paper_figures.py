@@ -30,8 +30,8 @@ fig, ax = plt.subplots(figsize=(8.4, 8.0)); ax.set_xlim(0, 1); ax.set_ylim(0, 1)
 box(ax, 0.17, 0.90, 0.60, 0.07, f"PubMed search (to {max(r['year'] for r in recs)}): GLP-1RA / GIP-GLP-1RA\nAND (ischemic) optic neuropathy — {len(recs)} records", bold=True)
 arrow(ax, 0.47, 0.90, 0.47, 0.855)
 box(ax, 0.17, 0.785, 0.60, 0.07, f"{n_ft} open-access full texts (PMC); remaining screened\non abstract / publisher page")
-box(ax, 0.785, 0.755, 0.19, 0.125, f"Excluded: {len(recs) - len(used)}\nreviews, editorials,\nletters/replies without\nextractable data,\n1 retracted article")
-arrow(ax, 0.47, 0.785, 0.47, 0.74); arrow(ax, 0.77, 0.82, 0.785, 0.82)
+box(ax, 0.79, 0.77, 0.19, 0.115, f"Excluded: {len(recs) - len(used)}\nreviews, editorials,\nletters/replies without\nextractable data,\n1 retracted article")
+arrow(ax, 0.47, 0.785, 0.47, 0.74); arrow(ax, 0.77, 0.82, 0.79, 0.82)
 box(ax, 0.10, 0.67, 0.74, 0.07, f"{len(used)} publications with extractable data\n(3 parallel extractors; strict schema; null if not reported; evidence quote per row)", bold=True, fs=7.2)
 for i, (lab, key) in enumerate([("Cohort / case-control\n/ target-trial", "cohort_level"), ("Case reports\n/ series", "case_level"),
                                 ("Pharmaco-\nvigilance", "pharmacovigilance"), ("RCT-pooled /\nmeta-analyses", "rct_meta")]):

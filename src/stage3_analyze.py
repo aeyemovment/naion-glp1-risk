@@ -82,8 +82,9 @@ for i, f in enumerate(["genset", "source", "V", "s"]):
     ax[i].set_xticks(range(len(levels)), [GL(l) if f == "genset" else (str(l) if f != "s" else f"{int(l*100)}") for l in levels], fontsize=7, rotation=45 if f == "genset" else 0)
     ax[i].axhline(0, color="#a3a29d", ls="--", lw=1); ax[i].set_title({"genset": "Generator set", "source": "Prior source", "V": "Volume (×)", "s": "Synthetic share (%)"}[f])
     ax[i].grid(axis="y", color="#e4e3df")
-ax[0].set_ylabel("Mean ΔAUROC vs PubMed-only"); ax[0].legend(frameon=False, fontsize=6)
-fig.tight_layout(); fig.savefig(f"{OUT}/fig_main_effects.png", dpi=300); plt.close(fig)
+ax[0].set_ylabel("Mean ΔAUROC vs PubMed-only")
+h_, l_ = ax[0].get_legend_handles_labels(); fig.legend(h_, l_, loc="lower center", ncol=4, frameon=False, fontsize=8)
+fig.tight_layout(rect=(0, 0.08, 1, 1)); fig.savefig(f"{OUT}/fig_main_effects.png", dpi=300); plt.close(fig)
 
 summ = {"n_rows": int(len(full)), "n_configs_tested": int(m_), "n_significant_bh05": int(len(sig)),
         "significant_configs": sig.head(30).round(5).to_dict("records"),

@@ -195,6 +195,15 @@ def results_incidence():
             "with and without NAION from the same study arm share identical features in reconstructed aggregate data; anomaly methods need individual-level covariates.")
 
 
+STRAT_LABELS = {"overall": "Overall", "drug": "Drug", "indication": "Indication", "comparator": "Comparator", "region": "Region", "source_type": "Data source",
+                "age_band": "Study mean age", "female_band": "Women in study", "fu_band": "Follow-up"}
+LEVEL_LABELS = {"all": "All studies", "glp1ra_class": "GLP-1RA class", "sema_or_tirz": "Semaglutide or tirzepatide", "semaglutide": "Semaglutide", "iih": "IIH",
+                "t2d": "T2D", "dpp4i": "DPP-4i", "no_glp1ra": "No GLP-1RA", "other_antidiabetic": "Other antidiabetic", "sglt2i": "SGLT2i", "nordic": "Nordic",
+                "uk": "UK", "us": "US", "claims": "Claims", "ehr_network": "EHR network", "ehr_primary_care": "Primary-care EHR", "national_registry": "National registry",
+                "single_center": "Single center", "va_ehr": "VA EHR", "55-59": "55-59 y", "<55": "<55 y", ">=60": "60 y or older", "unknown": "Not reported",
+                "40-54%": "40-54%", "<40%": "<40%", ">=55%": "55% or more", "<=1 y": "1 y or less", "1-2.5 y": "1-2.5 y", ">2.5 y": ">2.5 y"}
+
+
 def table_incidence():
     p = "results/stage10/incidence_stratified.csv"
     if not os.path.exists(p): return ""
@@ -203,6 +212,10 @@ def table_incidence():
     for c in ["glp_rate_per_100k_py", "nonglp_rate_per_100k_py"]: d[c] = d[c].map(lambda v: f(v, 1))
     for c in ["crude_IRR", "IRR_lo", "IRR_hi", "MH_IRR_by_study"]: d[c] = d[c].map(lambda v: f(v, 2))
     d["q_bh"] = d.q_bh.map(pq); d["glp_events"] = d.glp_events.astype(int); d["nonglp_events"] = d.nonglp_events.astype(int)
+    order = {"overall": 0, "age_band": 1, "female_band": 2, "fu_band": 3, "indication": 4, "drug": 5, "comparator": 6, "region": 7, "source_type": 8}
+    lvl_order = {"<55": 0, "55-59": 1, ">=60": 2, "<40%": 0, "40-54%": 1, ">=55%": 2, "<=1 y": 0, "1-2.5 y": 1, ">2.5 y": 2, "unknown": 9}
+    d = d.assign(_o=d.stratifier.map(order).fillna(99), _l=d.level.map(lvl_order).fillna(5)).sort_values(["_o", "_l", "level"]).drop(columns=["_o", "_l"])
+    d["stratifier"] = d.stratifier.map(STRAT_LABELS).fillna(d.stratifier); d["level"] = d.level.map(LEVEL_LABELS).fillna(d.level)
     return "Table: NAION incidence per 100,000 person-years in GLP-1RA users and comparators, by stratum (IRR, incidence rate ratio; MH, Mantel-Haenszel by study; q, Benjamini-Hochberg).\n\n" + d.rename(columns={
         "stratifier": "Stratifier", "level": "Level", "studies": "Studies", "glp_events": "GLP events", "glp_rate_per_100k_py": "GLP rate", "nonglp_events": "Non-GLP events",
         "nonglp_rate_per_100k_py": "Non-GLP rate", "crude_IRR": "IRR", "IRR_lo": "95% CI low", "IRR_hi": "95% CI high", "MH_IRR_by_study": "MH IRR", "q_bh": "q"}).to_markdown(index=False)
@@ -227,6 +240,8 @@ def table_subgroups():
     if not os.path.exists(p): return ""
     d = pd.read_csv(p); d = d[d.group != "all"][["model", "group", "auroc_mean", "pr_auc_mean", "o_e_mean", "sensitivity_mean", "specificity_mean", "accuracy_mean", "ppv_mean", "npv_mean"]]
     for c in d.columns[2:]: d[c] = d[c].map(lambda v: f(v, 4) if pd.notna(v) else "—")
+    MN = {"logreg": "LR", "rf": "RF", "xgb": "XGB", "gnn": "GNN", "cnn1d": "CNN", "ensemble": "Ens.", "poisson_offset": "Poisson", "isolation_forest": "IForest", "autoencoder": "AE"}
+    d["model"] = pd.Categorical(d.model.map(MN).fillna(d.model), categories=list(MN.values()), ordered=True); d = d.sort_values(["model", "group"])
     return "Table: Model performance within GLP-1RA users and within non-users (mean over ten folds; threshold = top 10% of training risk).\n\n" + d.rename(columns={
         "model": "Model", "group": "Group", "auroc_mean": "AUROC", "pr_auc_mean": "PR-AUC", "o_e_mean": "O/E", "sensitivity_mean": "Sens", "specificity_mean": "Spec",
         "accuracy_mean": "Acc", "ppv_mean": "PPV", "npv_mean": "NPV"}).to_markdown(index=False)
@@ -310,7 +325,7 @@ def tables_combinations():
            "combinations and models; full results for all 511 combinations and every model in Supplementary Workbook S1).\n\n" + t.rename(columns=cols).to_markdown(index=False))
     if os.path.exists(q):
         s = pd.read_csv(q).sort_values("share_q05", ascending=False)
-        for c in ["median_OR", "min_OR", "max_OR"]: s[c] = s[c].map(lambda v: f(v, 2) if v < 1e4 else ">10^4")
+        for c in ["median_OR", "min_OR", "max_OR"]: s[c] = s[c].map(lambda v: ">10,000" if v >= 1e4 else ("<0.01" if v < 0.005 else f(v, 2)))
         for c in ["share_OR_gt1", "share_q05"]: s[c] = (100 * s[c]).map(lambda v: f"{v:.0f}%")
         out += ("\n\nTable: Odds-ratio reliability of each feature across all combinations that contain it (count-weighted logistic regression with cluster-robust standard "
                 "errors by study; study-level covariates are ecological and imprecise with 11 clusters).\n\n" + s.rename(columns={"base_feature": "Feature", "n_models": "Models",
