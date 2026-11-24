@@ -1,0 +1,248 @@
+{
+ "design": "Stage 7b - background (non-GLP) NAION model validated on real vs synthetic GLP-1RA users, in isolation and together.",
+ "summary": [
+  {
+   "test_set": "A_real_GLP",
+   "model": "ensemble",
+   "auroc": 0.59042,
+   "auroc_sd": 0.02954,
+   "o_e": 1.51965,
+   "o_e_sd": 0.15587,
+   "n": 1287543.0,
+   "events": 685.0
+  },
+  {
+   "test_set": "A_real_GLP",
+   "model": "logreg",
+   "auroc": 0.53276,
+   "auroc_sd": 0.02454,
+   "o_e": 1.41191,
+   "o_e_sd": 0.12855,
+   "n": 1287543.0,
+   "events": 685.0
+  },
+  {
+   "test_set": "A_real_GLP",
+   "model": "rf",
+   "auroc": 0.57844,
+   "auroc_sd": 0.0257,
+   "o_e": 1.55977,
+   "o_e_sd": 0.19067,
+   "n": 1287543.0,
+   "events": 685.0
+  },
+  {
+   "test_set": "A_real_GLP",
+   "model": "xgb",
+   "auroc": 0.59288,
+   "auroc_sd": 0.01799,
+   "o_e": 1.61043,
+   "o_e_sd": 0.20637,
+   "n": 1287543.0,
+   "events": 685.0
+  },
+  {
+   "test_set": "B_synthetic_GLP",
+   "model": "ensemble",
+   "auroc": 0.57711,
+   "auroc_sd": 0.03226,
+   "o_e": 1.34961,
+   "o_e_sd": 0.19408,
+   "n": 1287543.0,
+   "events": 697.0
+  },
+  {
+   "test_set": "B_synthetic_GLP",
+   "model": "logreg",
+   "auroc": 0.55268,
+   "auroc_sd": 0.03615,
+   "o_e": 1.43474,
+   "o_e_sd": 0.16674,
+   "n": 1287543.0,
+   "events": 697.0
+  },
+  {
+   "test_set": "B_synthetic_GLP",
+   "model": "rf",
+   "auroc": 0.57865,
+   "auroc_sd": 0.03121,
+   "o_e": 1.41653,
+   "o_e_sd": 0.21766,
+   "n": 1287543.0,
+   "events": 697.0
+  },
+  {
+   "test_set": "B_synthetic_GLP",
+   "model": "xgb",
+   "auroc": 0.56992,
+   "auroc_sd": 0.03665,
+   "o_e": 1.25049,
+   "o_e_sd": 0.2622,
+   "n": 1287543.0,
+   "events": 697.0
+  },
+  {
+   "test_set": "C_real_plus_synthetic_GLP",
+   "model": "ensemble",
+   "auroc": 0.58315,
+   "auroc_sd": 0.02467,
+   "o_e": 1.42594,
+   "o_e_sd": 0.15561,
+   "n": 2575086.0,
+   "events": 1382.0
+  },
+  {
+   "test_set": "C_real_plus_synthetic_GLP",
+   "model": "logreg",
+   "auroc": 0.5439,
+   "auroc_sd": 0.02744,
+   "o_e": 1.42332,
+   "o_e_sd": 0.13312,
+   "n": 2575086.0,
+   "events": 1382.0
+  },
+  {
+   "test_set": "C_real_plus_synthetic_GLP",
+   "model": "rf",
+   "auroc": 0.57849,
+   "auroc_sd": 0.02267,
+   "o_e": 1.48367,
+   "o_e_sd": 0.19222,
+   "n": 2575086.0,
+   "events": 1382.0
+  },
+  {
+   "test_set": "C_real_plus_synthetic_GLP",
+   "model": "xgb",
+   "auroc": 0.58138,
+   "auroc_sd": 0.02097,
+   "o_e": 1.38969,
+   "o_e_sd": 0.20347,
+   "n": 2575086.0,
+   "events": 1382.0
+  },
+  {
+   "test_set": "D_all_real",
+   "model": "ensemble",
+   "auroc": 0.62863,
+   "auroc_sd": 0.01873,
+   "o_e": 1.21312,
+   "o_e_sd": 0.11987,
+   "n": 3073103.4,
+   "events": 1351.0
+  },
+  {
+   "test_set": "D_all_real",
+   "model": "logreg",
+   "auroc": 0.58563,
+   "auroc_sd": 0.01796,
+   "o_e": 1.17265,
+   "o_e_sd": 0.11161,
+   "n": 3073103.4,
+   "events": 1351.0
+  },
+  {
+   "test_set": "D_all_real",
+   "model": "rf",
+   "auroc": 0.61648,
+   "auroc_sd": 0.01694,
+   "o_e": 1.2272,
+   "o_e_sd": 0.12871,
+   "n": 3073103.4,
+   "events": 1351.0
+  },
+  {
+   "test_set": "D_all_real",
+   "model": "xgb",
+   "auroc": 0.62937,
+   "auroc_sd": 0.01266,
+   "o_e": 1.24321,
+   "o_e_sd": 0.1289,
+   "n": 3073103.4,
+   "events": 1351.0
+  },
+  {
+   "test_set": "E_all_real_plus_synthetic_GLP",
+   "model": "ensemble",
+   "auroc": 0.61644,
+   "auroc_sd": 0.01934,
+   "o_e": 1.25485,
+   "o_e_sd": 0.12695,
+   "n": 4360646.4,
+   "events": 2048.0
+  },
+  {
+   "test_set": "E_all_real_plus_synthetic_GLP",
+   "model": "logreg",
+   "auroc": 0.57653,
+   "auroc_sd": 0.01942,
+   "o_e": 1.25022,
+   "o_e_sd": 0.11493,
+   "n": 4360646.4,
+   "events": 2048.0
+  },
+  {
+   "test_set": "E_all_real_plus_synthetic_GLP",
+   "model": "rf",
+   "auroc": 0.60915,
+   "auroc_sd": 0.01473,
+   "o_e": 1.28502,
+   "o_e_sd": 0.14057,
+   "n": 4360646.4,
+   "events": 2048.0
+  },
+  {
+   "test_set": "E_all_real_plus_synthetic_GLP",
+   "model": "xgb",
+   "auroc": 0.61296,
+   "auroc_sd": 0.01567,
+   "o_e": 1.23543,
+   "o_e_sd": 0.14893,
+   "n": 4360646.4,
+   "events": 2048.0
+  },
+  {
+   "test_set": "I_internal_nonGLP",
+   "model": "ensemble",
+   "auroc": 0.66341,
+   "auroc_sd": 0.0175,
+   "o_e": 1.00662,
+   "o_e_sd": 0.11112,
+   "n": 1785560.4,
+   "events": 666.0
+  },
+  {
+   "test_set": "I_internal_nonGLP",
+   "model": "logreg",
+   "auroc": 0.62567,
+   "auroc_sd": 0.02208,
+   "o_e": 0.99875,
+   "o_e_sd": 0.0999,
+   "n": 1785560.4,
+   "events": 666.0
+  },
+  {
+   "test_set": "I_internal_nonGLP",
+   "model": "rf",
+   "auroc": 0.65176,
+   "auroc_sd": 0.01466,
+   "o_e": 1.01025,
+   "o_e_sd": 0.11879,
+   "n": 1785560.4,
+   "events": 666.0
+  },
+  {
+   "test_set": "I_internal_nonGLP",
+   "model": "xgb",
+   "auroc": 0.66389,
+   "auroc_sd": 0.01688,
+   "o_e": 1.01154,
+   "o_e_sd": 0.11749,
+   "n": 1785560.4,
+   "events": 666.0
+  }
+ ],
+ "synthetic_only_twins": true,
+ "research_prototype": true,
+ "compliance_ref": "Addendum_5_DT9"
+}
