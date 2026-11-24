@@ -133,15 +133,19 @@ TAB = {
     "AUROC with and without partial ABCD2":
         "AUROC with and without partial ABCD2 features (study-level age, hypertension and diabetes items) in every experiment, on identical "
         "splits. Difference = with minus without; q = Benjamini-Hochberg adjusted P value of the paired test. Experiment names refer to the "
-        "Stages in Methods; model labels are defined in the Nomenclature.",
+        "Stages in Methods. Model or configuration: the model, ensemble (members joined by +; cross-family = PubMed-only, hybrid and "
+        "synthetic-only members), or, for Stage 8, the update method followed by the pretraining data, fine-tuning data and share of GLP-1RA "
+        "patients used for fine-tuning. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, "
+        "one-dimensional convolutional network; Ens., mean ensemble; AE, autoencoder; IForest, isolation forest.",
     "Best feature-group combinations by number of groups":
         "Best feature-group combinations for each number of groups (two best per size; mean over folds; threshold = top 10% of training "
         "risk). SD = standard deviation of AUROC over folds; q (AUROC>0.5) and q (PPV>prev) = Benjamini-Hochberg adjusted P values for AUROC "
-        "above chance and PPV above prevalence, over all 511 combinations and models; Sens, Spec, Acc, PPV, NPV as proportions. Full results "
+        "above chance and PPV above prevalence, over all 511 combinations and models; Sens, Spec, Acc, PPV, NPV as proportions. Feature groups are "
+        "joined by +; LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network. Full results "
         "for every combination and model are in Supplementary Workbook S1.",
     "Odds-ratio reliability of each feature":
         "Reliability of each feature's odds ratio (OR) across all combinations containing it (count-weighted logistic regression with "
-        "cluster-robust standard errors by study). Models = number of combinations; Median/Min/Max OR across them; OR>1 = share of "
+        "cluster-robust standard errors by study). Combinations = number of feature combinations containing the feature; Median/Min/Max OR across them; OR>1 = share of "
         "combinations with OR above 1; q<0.05 = share significant after Benjamini-Hochberg correction. Study-level covariates are ecological "
         "and imprecise with 11 clusters.",
     "Data sources by type and modality":
@@ -156,7 +160,8 @@ TAB = {
         "of AUROC on the remainder; PR-AUC = area under the precision-recall curve; Brier = Brier score; Cal. slope = calibration slope (1 = ideal); "
         "O/E and O/E SD = observed/expected events (1 = ideal). LR, L2 logistic regression; RF, random forest; XGB, XGBoost.",
     "Within-study (study fixed effects) associations.":
-        "Within-study associations with NAION (count-weighted logistic regression with study fixed effects). Terms: exposed_ = GLP-1RA "
+        "Within-study associations with NAION (count-weighted logistic regression with study fixed effects). Specification = the "
+        "regression model in which the term was estimated. Terms: exposed_ = GLP-1RA "
         "exposure in the named drug or indication subgroup; exposed_vs_ = versus the named comparator; exposed_x_ = interaction with the "
         "named study-level covariate (per 10 years of mean age, per 10 percentage points of women, per year of follow-up). OR = odds ratio; "
         "q = Benjamini-Hochberg adjusted P value.",

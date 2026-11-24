@@ -214,389 +214,389 @@ Table: Model performance within GLP-1RA users and within non-users (mean over te
 
 **With versus without ABCD features across all experiments.** Over 455 paired comparisons using identical splits and seeds, adding the partial ABCD items changed AUROC by 0.0016 on average; 0 comparisons differed after Benjamini-Hochberg correction.
 
-Table: AUROC with and without partial ABCD2 features (study-level age, hypertension and diabetes items) in every experiment, on identical splits. Difference = with minus without; q = Benjamini-Hochberg adjusted P value of the paired test. Experiment names refer to the Stages in Methods; model labels are defined in the Nomenclature. Remaining abbreviations and variable names: Nomenclature appendix.
+Table: AUROC with and without partial ABCD2 features (study-level age, hypertension and diabetes items) in every experiment, on identical splits. Difference = with minus without; q = Benjamini-Hochberg adjusted P value of the paired test. Experiment names refer to the Stages in Methods. Model or configuration: the model, ensemble (members joined by +; cross-family = PubMed-only, hybrid and synthetic-only members), or, for Stage 8, the update method followed by the pretraining data, fine-tuning data and share of GLP-1RA patients used for fine-tuning. LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network; Ens., mean ensemble; AE, autoencoder; IForest, isolation forest. Remaining abbreviations and variable names: Nomenclature appendix.
 
-| Experiment                              | Model                                          | Without ABCD   | With ABCD   | Difference   | q     |
-|:----------------------------------------|:-----------------------------------------------|:---------------|:------------|:-------------|:------|
-| Stage 1: 10 x 10% folds                 | logreg                                         | 0.6159         | 0.6202      | 0.0043       | 1.000 |
-| Stage 1: leave-one-study-out            | logreg                                         | 0.5097         | 0.5353      | 0.0256       | 1.000 |
-| Stage 1: 10 x 10% folds                 | rf                                             | 0.6458         | 0.6507      | 0.0050       | 1.000 |
-| Stage 1: leave-one-study-out            | rf                                             | 0.5315         | 0.5315      | 0.0000       | 1.000 |
-| Stage 1: 10 x 10% folds                 | xgb                                            | 0.6565         | 0.6542      | -0.0023      | 1.000 |
-| Stage 1: leave-one-study-out            | xgb                                            | 0.5353         | 0.5441      | 0.0088       | 1.000 |
-| Stage 1c: training fractions 10-90%     | logreg                                         | 0.6289         | 0.6408      | 0.0119       | 1.000 |
-| Stage 1c: training fractions 10-90%     | rf                                             | 0.6593         | 0.6630      | 0.0037       | 1.000 |
-| Stage 1c: training fractions 10-90%     | xgb                                            | 0.6669         | 0.6670      | 0.0001       | 1.000 |
-| Stage 6: GNN folds                      | gnn                                            | 0.6487         | 0.6508      | 0.0020       | 1.000 |
-| Stage 6: GNN LOSO                       | gnn                                            | 0.5309         | 0.5397      | 0.0088       | 1.000 |
-| Stage 9: CNN folds                      | cnn1d                                          | 0.6527         | 0.6523      | -0.0004      | 1.000 |
-| Stage 9: CNN LOSO                       | cnn1d                                          | 0.5137         | 0.5262      | 0.0125       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | poisson_offset                                 | 0.6523         | 0.6525      | 0.0002       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | xgb_balanced_raw                               | 0.6481         | 0.6481      | 0.0000       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | xgb_balanced_priorcorrected                    | 0.6481         | 0.6481      | 0.0000       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | logreg_kingzeng                                | 0.6551         | 0.6579      | 0.0027       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | xgb_incidence_anchored                         | 0.6572         | 0.6542      | -0.0029      | 1.000 |
-| Stage 10: rare-event / anomaly folds    | focal_mlp                                      | 0.5749         | 0.5722      | -0.0027      | 1.000 |
-| Stage 10: rare-event / anomaly folds    | xgb_standard                                   | 0.6565         | 0.6542      | -0.0023      | 1.000 |
-| Stage 10: rare-event / anomaly folds    | isolation_forest                               | 0.5411         | 0.5364      | -0.0048      | 1.000 |
-| Stage 10: rare-event / anomaly folds    | one_class_svm                                  | 0.4133         | 0.4162      | 0.0028       | 1.000 |
-| Stage 10: rare-event / anomaly folds    | lof_novelty                                    | 0.4211         | 0.4138      | -0.0073      | 1.000 |
-| Stage 10: rare-event / anomaly folds    | autoencoder                                    | 0.5747         | 0.5847      | 0.0100       | 1.000 |
-| Stage 11: within GLP-1RA users          | autoencoder                                    | 0.5136         | 0.5208      | 0.0072       | 1.000 |
-| Stage 11: within all                    | autoencoder                                    | 0.5747         | 0.5847      | 0.0100       | 1.000 |
-| Stage 11: within non-users              | autoencoder                                    | 0.6114         | 0.6099      | -0.0014      | 1.000 |
-| Stage 11: within GLP-1RA users          | cnn1d                                          | 0.5946         | 0.5935      | -0.0010      | 1.000 |
-| Stage 11: within all                    | cnn1d                                          | 0.6527         | 0.6523      | -0.0004      | 1.000 |
-| Stage 11: within non-users              | cnn1d                                          | 0.6731         | 0.6734      | 0.0003       | 1.000 |
-| Stage 11: within GLP-1RA users          | ensemble                                       | 0.5977         | 0.5976      | -0.0001      | 1.000 |
-| Stage 11: within all                    | ensemble                                       | 0.6559         | 0.6554      | -0.0005      | 1.000 |
-| Stage 11: within non-users              | ensemble                                       | 0.6719         | 0.6728      | 0.0009       | 1.000 |
-| Stage 11: within GLP-1RA users          | gnn                                            | 0.5942         | 0.5931      | -0.0011      | 1.000 |
-| Stage 11: within all                    | gnn                                            | 0.6491         | 0.6479      | -0.0011      | 1.000 |
-| Stage 11: within non-users              | gnn                                            | 0.6673         | 0.6668      | -0.0005      | 1.000 |
-| Stage 11: within GLP-1RA users          | isolation_forest                               | 0.5110         | 0.5110      | 0.0000       | 1.000 |
-| Stage 11: within all                    | isolation_forest                               | 0.5411         | 0.5364      | -0.0048      | 1.000 |
-| Stage 11: within non-users              | isolation_forest                               | 0.5767         | 0.5646      | -0.0121      | 1.000 |
-| Stage 11: within GLP-1RA users          | logreg                                         | 0.5612         | 0.5760      | 0.0148       | 1.000 |
-| Stage 11: within all                    | logreg                                         | 0.6159         | 0.6202      | 0.0043       | 1.000 |
-| Stage 11: within non-users              | logreg                                         | 0.6350         | 0.6377      | 0.0027       | 1.000 |
-| Stage 11: within GLP-1RA users          | poisson_offset                                 | 0.5972         | 0.5972      | 0.0000       | 1.000 |
-| Stage 11: within all                    | poisson_offset                                 | 0.6523         | 0.6525      | 0.0002       | 1.000 |
-| Stage 11: within non-users              | poisson_offset                                 | 0.6706         | 0.6704      | -0.0002      | 1.000 |
-| Stage 11: within GLP-1RA users          | rf                                             | 0.5902         | 0.5940      | 0.0038       | 1.000 |
-| Stage 11: within all                    | rf                                             | 0.6458         | 0.6507      | 0.0050       | 1.000 |
-| Stage 11: within non-users              | rf                                             | 0.6632         | 0.6682      | 0.0049       | 1.000 |
-| Stage 11: within GLP-1RA users          | xgb                                            | 0.5995         | 0.5946      | -0.0050      | 1.000 |
-| Stage 11: within all                    | xgb                                            | 0.6565         | 0.6542      | -0.0023      | 1.000 |
-| Stage 11: within non-users              | xgb                                            | 0.6740         | 0.6724      | -0.0017      | 1.000 |
-| Stage 7: non-GLP model, external_GLP    | ensemble                                       | 0.5966         | 0.5835      | -0.0131      | 1.000 |
-| Stage 7: non-GLP model, internal_nonGLP | ensemble                                       | 0.6665         | 0.6617      | -0.0048      | 1.000 |
-| Stage 7: non-GLP model, external_GLP    | gnn                                            | 0.5893         | 0.5795      | -0.0098      | 1.000 |
-| Stage 7: non-GLP model, internal_nonGLP | gnn                                            | 0.6641         | 0.6592      | -0.0049      | 1.000 |
-| Stage 7: non-GLP model, external_GLP    | logreg                                         | 0.5328         | 0.5632      | 0.0305       | 1.000 |
-| Stage 7: non-GLP model, internal_nonGLP | logreg                                         | 0.6257         | 0.6357      | 0.0101       | 1.000 |
-| Stage 7: non-GLP model, external_GLP    | rf                                             | 0.5784         | 0.5886      | 0.0101       | 1.000 |
-| Stage 7: non-GLP model, internal_nonGLP | rf                                             | 0.6518         | 0.6599      | 0.0082       | 1.000 |
-| Stage 7: non-GLP model, external_GLP    | xgb                                            | 0.5929         | 0.5856      | -0.0073      | 1.000 |
-| Stage 7: non-GLP model, internal_nonGLP | xgb                                            | 0.6639         | 0.6633      | -0.0006      | 1.000 |
-| Stage 4: ensembles folds                | cross_family(pubmed+hybrid+synthetic) (mean)   | 0.6574         | 0.6563      | -0.0011      | 1.000 |
-| Stage 4: ensembles folds                | gnn (single)                                   | 0.6525         | 0.6487      | -0.0037      | 1.000 |
-| Stage 4: ensembles folds                | logreg (single)                                | 0.6159         | 0.6202      | 0.0043       | 1.000 |
-| Stage 4: ensembles folds                | logreg+gnn (mean)                              | 0.6527         | 0.6506      | -0.0021      | 1.000 |
-| Stage 4: ensembles folds                | logreg+gnn (stacked)                           | 0.6528         | 0.6493      | -0.0035      | 1.000 |
-| Stage 4: ensembles folds                | logreg+gnn (weighted)                          | 0.6519         | 0.6496      | -0.0022      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf (mean)                               | 0.6455         | 0.6488      | 0.0034       | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf (stacked)                            | 0.6457         | 0.6506      | 0.0049       | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf (weighted)                           | 0.6449         | 0.6500      | 0.0051       | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+gnn (mean)                           | 0.6539         | 0.6541      | 0.0002       | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+gnn (stacked)                        | 0.6519         | 0.6499      | -0.0020      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+gnn (weighted)                       | 0.6536         | 0.6531      | -0.0005      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb (mean)                           | 0.6556         | 0.6558      | 0.0002       | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb (stacked)                        | 0.6561         | 0.6543      | -0.0018      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb (weighted)                       | 0.6560         | 0.6558      | -0.0002      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb+gnn (mean)                       | 0.6560         | 0.6551      | -0.0009      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb+gnn (stacked)                    | 0.6556         | 0.6525      | -0.0031      | 1.000 |
-| Stage 4: ensembles folds                | logreg+rf+xgb+gnn (weighted)                   | 0.6556         | 0.6551      | -0.0005      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb (mean)                              | 0.6571         | 0.6549      | -0.0021      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb (stacked)                           | 0.6565         | 0.6539      | -0.0025      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb (weighted)                          | 0.6569         | 0.6546      | -0.0023      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb+gnn (mean)                          | 0.6564         | 0.6537      | -0.0027      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb+gnn (stacked)                       | 0.6557         | 0.6528      | -0.0029      | 1.000 |
-| Stage 4: ensembles folds                | logreg+xgb+gnn (weighted)                      | 0.6554         | 0.6538      | -0.0016      | 1.000 |
-| Stage 4: ensembles folds                | rf (single)                                    | 0.6458         | 0.6507      | 0.0050       | 1.000 |
-| Stage 4: ensembles folds                | rf+gnn (mean)                                  | 0.6547         | 0.6533      | -0.0014      | 1.000 |
-| Stage 4: ensembles folds                | rf+gnn (stacked)                               | 0.6529         | 0.6485      | -0.0045      | 1.000 |
-| Stage 4: ensembles folds                | rf+gnn (weighted)                              | 0.6540         | 0.6534      | -0.0006      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb (mean)                                  | 0.6563         | 0.6560      | -0.0003      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb (stacked)                               | 0.6568         | 0.6551      | -0.0017      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb (weighted)                              | 0.6561         | 0.6560      | -0.0001      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb+gnn (mean)                              | 0.6566         | 0.6544      | -0.0022      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb+gnn (stacked)                           | 0.6545         | 0.6520      | -0.0025      | 1.000 |
-| Stage 4: ensembles folds                | rf+xgb+gnn (weighted)                          | 0.6559         | 0.6541      | -0.0018      | 1.000 |
-| Stage 4: ensembles folds                | xgb (single)                                   | 0.6565         | 0.6542      | -0.0023      | 1.000 |
-| Stage 4: ensembles folds                | xgb+gnn (mean)                                 | 0.6557         | 0.6539      | -0.0018      | 1.000 |
-| Stage 4: ensembles folds                | xgb+gnn (stacked)                              | 0.6550         | 0.6527      | -0.0023      | 1.000 |
-| Stage 4: ensembles folds                | xgb+gnn (weighted)                             | 0.6557         | 0.6539      | -0.0017      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / glp_only              | 0.5841         | 0.5834      | -0.0007      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / gnn_joint             | 0.6039         | 0.5954      | -0.0085      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / pooled_refit          | 0.5947         | 0.5972      | 0.0025       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / pretrain_only         | 0.5861         | 0.5906      | 0.0046       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / recal_intercept       | 0.5861         | 0.5906      | 0.0046       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / recal_logistic        | 0.5861         | 0.5906      | 0.0046       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.05 / xgb_continue          | 0.5961         | 0.5965      | 0.0004       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / glp_only               | 0.6059         | 0.6058      | -0.0001      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / gnn_joint              | 0.6090         | 0.6091      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / pooled_refit           | 0.6045         | 0.6057      | 0.0012       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / pretrain_only          | 0.5869         | 0.5901      | 0.0032       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / recal_intercept        | 0.5869         | 0.5901      | 0.0032       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / recal_logistic         | 0.5869         | 0.5901      | 0.0032       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.1 / xgb_continue           | 0.6052         | 0.6094      | 0.0042       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / glp_only              | 0.6083         | 0.6087      | 0.0004       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / gnn_joint             | 0.6107         | 0.6103      | -0.0004      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / pooled_refit          | 0.6086         | 0.6070      | -0.0016      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / pretrain_only         | 0.5886         | 0.5801      | -0.0085      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / recal_intercept       | 0.5886         | 0.5801      | -0.0085      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / recal_logistic        | 0.5886         | 0.5801      | -0.0085      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.25 / xgb_continue          | 0.6084         | 0.6062      | -0.0022      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / glp_only               | 0.6118         | 0.6120      | 0.0002       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / gnn_joint              | 0.6131         | 0.6116      | -0.0015      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / pooled_refit           | 0.6146         | 0.6129      | -0.0017      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / pretrain_only          | 0.5761         | 0.5826      | 0.0065       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / recal_intercept        | 0.5761         | 0.5826      | 0.0065       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / recal_logistic         | 0.5761         | 0.5826      | 0.0065       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / hybrid / 0.5 / xgb_continue           | 0.6135         | 0.6148      | 0.0013       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / none / 0.0 / pretrain_only            | 0.5701         | 0.5846      | 0.0145       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / glp_only                | 0.5655         | 0.5556      | -0.0099      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / gnn_joint               | 0.5676         | 0.5737      | 0.0060       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / pooled_refit            | 0.5856         | 0.5860      | 0.0005       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / pretrain_only           | 0.5804         | 0.5872      | 0.0068       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / recal_intercept         | 0.5804         | 0.5872      | 0.0068       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / recal_logistic          | 0.5804         | 0.5872      | 0.0068       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.05 / xgb_continue            | 0.5915         | 0.5985      | 0.0070       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / glp_only                 | 0.5953         | 0.5948      | -0.0005      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / gnn_joint                | 0.6012         | 0.6002      | -0.0010      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / pooled_refit             | 0.6046         | 0.6065      | 0.0019       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / pretrain_only            | 0.5749         | 0.5703      | -0.0046      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / recal_intercept          | 0.5749         | 0.5703      | -0.0046      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / recal_logistic           | 0.5749         | 0.5703      | -0.0046      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.1 / xgb_continue             | 0.6053         | 0.5994      | -0.0059      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / glp_only                | 0.6080         | 0.6081      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / gnn_joint               | 0.6083         | 0.6082      | -0.0001      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / pooled_refit            | 0.6138         | 0.6084      | -0.0054      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / pretrain_only           | 0.5774         | 0.5898      | 0.0125       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / recal_intercept         | 0.5774         | 0.5898      | 0.0125       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / recal_logistic          | 0.5774         | 0.5898      | 0.0125       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.25 / xgb_continue            | 0.6094         | 0.6100      | 0.0005       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / glp_only                 | 0.6113         | 0.6113      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / gnn_joint                | 0.6130         | 0.6118      | -0.0012      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / pooled_refit             | 0.6126         | 0.6125      | -0.0001      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / pretrain_only            | 0.5790         | 0.5791      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / recal_intercept          | 0.5790         | 0.5791      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / recal_logistic           | 0.5790         | 0.5791      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / real / 0.5 / xgb_continue             | 0.6089         | 0.6119      | 0.0030       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / glp_only           | 0.5224         | 0.5235      | 0.0011       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / gnn_joint          | 0.5671         | 0.5591      | -0.0081      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / pooled_refit       | 0.5646         | 0.5775      | 0.0128       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / pretrain_only      | 0.5983         | 0.5898      | -0.0084      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / recal_intercept    | 0.5983         | 0.5898      | -0.0084      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / recal_logistic     | 0.5983         | 0.5898      | -0.0084      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.05 / xgb_continue       | 0.5983         | 0.5829      | -0.0154      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / glp_only            | 0.5338         | 0.5569      | 0.0232       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / gnn_joint           | 0.6018         | 0.5948      | -0.0070      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / pooled_refit        | 0.6099         | 0.6112      | 0.0013       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / pretrain_only       | 0.5926         | 0.5862      | -0.0063      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / recal_intercept     | 0.5926         | 0.5862      | -0.0063      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / recal_logistic      | 0.5926         | 0.5862      | -0.0063      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.1 / xgb_continue        | 0.6025         | 0.6010      | -0.0015      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / glp_only           | 0.5495         | 0.5548      | 0.0053       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / gnn_joint          | 0.5963         | 0.6024      | 0.0062       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / pooled_refit       | 0.6059         | 0.6055      | -0.0004      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / pretrain_only      | 0.5953         | 0.5976      | 0.0023       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / recal_intercept    | 0.5953         | 0.5976      | 0.0023       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / recal_logistic     | 0.5953         | 0.5976      | 0.0023       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.25 / xgb_continue       | 0.6037         | 0.6063      | 0.0025       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / glp_only            | 0.5721         | 0.5792      | 0.0070       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / gnn_joint           | 0.5998         | 0.6081      | 0.0082       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / pooled_refit        | 0.6098         | 0.6100      | 0.0002       | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / pretrain_only       | 0.5861         | 0.5759      | -0.0102      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / recal_intercept     | 0.5861         | 0.5759      | -0.0102      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / recal_logistic      | 0.5861         | 0.5759      | -0.0102      | 1.000 |
-| Stage 8: fine-tuning                    | hybrid / synthetic / 0.5 / xgb_continue        | 0.5996         | 0.6089      | 0.0093       | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.05 / glp_only                | 0.5985         | 0.5960      | -0.0025      | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.05 / pooled_refit            | 0.5985         | 0.5960      | -0.0025      | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.1 / glp_only                 | 0.5963         | 0.5945      | -0.0018      | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.1 / pooled_refit             | 0.5963         | 0.5945      | -0.0018      | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.25 / glp_only                | 0.6121         | 0.6143      | 0.0022       | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.25 / pooled_refit            | 0.6121         | 0.6143      | 0.0022       | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.5 / glp_only                 | 0.6149         | 0.6139      | -0.0010      | 1.000 |
-| Stage 8: fine-tuning                    | none / hybrid / 0.5 / pooled_refit             | 0.6149         | 0.6139      | -0.0010      | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.05 / glp_only                  | 0.5736         | 0.5656      | -0.0080      | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.05 / pooled_refit              | 0.5736         | 0.5656      | -0.0080      | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.1 / glp_only                   | 0.5958         | 0.5891      | -0.0067      | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.1 / pooled_refit               | 0.5958         | 0.5891      | -0.0067      | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.25 / glp_only                  | 0.6114         | 0.6114      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.25 / pooled_refit              | 0.6114         | 0.6114      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.5 / glp_only                   | 0.6113         | 0.6113      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | none / real / 0.5 / pooled_refit               | 0.6113         | 0.6113      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.05 / glp_only             | 0.5489         | 0.5361      | -0.0128      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.05 / pooled_refit         | 0.5489         | 0.5361      | -0.0128      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.1 / glp_only              | 0.5172         | 0.5109      | -0.0063      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.1 / pooled_refit          | 0.5172         | 0.5109      | -0.0063      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.25 / glp_only             | 0.5783         | 0.5739      | -0.0044      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.25 / pooled_refit         | 0.5783         | 0.5739      | -0.0044      | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.5 / glp_only              | 0.5683         | 0.5774      | 0.0091       | 1.000 |
-| Stage 8: fine-tuning                    | none / synthetic / 0.5 / pooled_refit          | 0.5683         | 0.5774      | 0.0091       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / glp_only                | 0.5817         | 0.5780      | -0.0037      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / gnn_joint               | 0.5809         | 0.5835      | 0.0027       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / pooled_refit            | 0.5951         | 0.5969      | 0.0019       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / pretrain_only           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / recal_intercept         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / recal_logistic          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.05 / xgb_continue            | 0.5964         | 0.5965      | 0.0002       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / glp_only                 | 0.6069         | 0.6071      | 0.0002       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / gnn_joint                | 0.6124         | 0.6112      | -0.0012      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / pooled_refit             | 0.6057         | 0.6089      | 0.0032       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / pretrain_only            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / recal_intercept          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / recal_logistic           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.1 / xgb_continue             | 0.5969         | 0.5963      | -0.0006      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / glp_only                | 0.6108         | 0.6113      | 0.0005       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / gnn_joint               | 0.6093         | 0.6110      | 0.0016       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / pooled_refit            | 0.6163         | 0.6141      | -0.0022      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / pretrain_only           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / recal_intercept         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / recal_logistic          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.25 / xgb_continue            | 0.6100         | 0.6118      | 0.0019       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / glp_only                 | 0.6099         | 0.6100      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / gnn_joint                | 0.6121         | 0.6109      | -0.0011      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / pooled_refit             | 0.6110         | 0.6084      | -0.0026      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / pretrain_only            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / recal_intercept          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / recal_logistic           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / hybrid / 0.5 / xgb_continue             | 0.6104         | 0.6091      | -0.0013      | 1.000 |
-| Stage 8: fine-tuning                    | real / none / 0.0 / pretrain_only              | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / glp_only                  | 0.5709         | 0.5627      | -0.0082      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / gnn_joint                 | 0.5751         | 0.5751      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / pooled_refit              | 0.5723         | 0.5720      | -0.0002      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / pretrain_only             | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / recal_intercept           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / recal_logistic            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.05 / xgb_continue              | 0.5940         | 0.5818      | -0.0122      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / glp_only                   | 0.6057         | 0.6046      | -0.0011      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / gnn_joint                  | 0.6075         | 0.6058      | -0.0017      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / pooled_refit               | 0.6085         | 0.6082      | -0.0003      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / pretrain_only              | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / recal_intercept            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / recal_logistic             | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.1 / xgb_continue               | 0.6078         | 0.6065      | -0.0013      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / glp_only                  | 0.6127         | 0.6127      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / gnn_joint                 | 0.6127         | 0.6127      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / pooled_refit              | 0.6139         | 0.6139      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / pretrain_only             | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / recal_intercept           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / recal_logistic            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.25 / xgb_continue              | 0.6101         | 0.6123      | 0.0021       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / glp_only                   | 0.6113         | 0.6113      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / gnn_joint                  | 0.6115         | 0.6115      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / pooled_refit               | 0.6118         | 0.6114      | -0.0005      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / pretrain_only              | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / recal_intercept            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / recal_logistic             | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / real / 0.5 / xgb_continue               | 0.6113         | 0.6120      | 0.0007       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / glp_only             | 0.5485         | 0.5496      | 0.0011       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / gnn_joint            | 0.5608         | 0.5858      | 0.0249       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / pooled_refit         | 0.5810         | 0.5905      | 0.0095       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / pretrain_only        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / recal_intercept      | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / recal_logistic       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.05 / xgb_continue         | 0.6026         | 0.6020      | -0.0006      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / glp_only              | 0.5328         | 0.5239      | -0.0089      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / gnn_joint             | 0.5619         | 0.5723      | 0.0103       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / pooled_refit          | 0.6129         | 0.6078      | -0.0051      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / pretrain_only         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / recal_intercept       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / recal_logistic        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.1 / xgb_continue          | 0.5965         | 0.5888      | -0.0077      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / glp_only             | 0.5285         | 0.5293      | 0.0008       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / gnn_joint            | 0.6171         | 0.6151      | -0.0021      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / pooled_refit         | 0.6087         | 0.6126      | 0.0038       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / pretrain_only        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / recal_intercept      | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / recal_logistic       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.25 / xgb_continue         | 0.6004         | 0.6064      | 0.0059       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / glp_only              | 0.5717         | 0.5738      | 0.0021       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / gnn_joint             | 0.6104         | 0.6155      | 0.0051       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / pooled_refit          | 0.6051         | 0.6099      | 0.0048       | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / pretrain_only         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / recal_intercept       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / recal_logistic        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
-| Stage 8: fine-tuning                    | real / synthetic / 0.5 / xgb_continue          | 0.6069         | 0.6088      | 0.0019       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / glp_only           | 0.5635         | 0.5630      | -0.0005      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / gnn_joint          | 0.5550         | 0.5684      | 0.0134       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / pooled_refit       | 0.5657         | 0.5633      | -0.0024      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / pretrain_only      | 0.5011         | 0.5108      | 0.0097       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / recal_intercept    | 0.5011         | 0.5108      | 0.0097       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / recal_logistic     | 0.5011         | 0.5108      | 0.0097       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.05 / xgb_continue       | 0.5579         | 0.5622      | 0.0042       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / glp_only            | 0.6146         | 0.6158      | 0.0012       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / gnn_joint           | 0.6131         | 0.6182      | 0.0052       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / pooled_refit        | 0.6178         | 0.6191      | 0.0014       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / pretrain_only       | 0.5078         | 0.5271      | 0.0193       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / recal_intercept     | 0.5078         | 0.5271      | 0.0193       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / recal_logistic      | 0.5078         | 0.5271      | 0.0193       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.1 / xgb_continue        | 0.6134         | 0.6138      | 0.0004       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / glp_only           | 0.6107         | 0.6114      | 0.0006       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / gnn_joint          | 0.6120         | 0.6120      | -0.0000      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / pooled_refit       | 0.6088         | 0.6112      | 0.0024       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / pretrain_only      | 0.5461         | 0.5509      | 0.0048       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / recal_intercept    | 0.5461         | 0.5509      | 0.0048       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / recal_logistic     | 0.5461         | 0.5509      | 0.0048       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.25 / xgb_continue       | 0.6088         | 0.6089      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / glp_only            | 0.6104         | 0.6084      | -0.0020      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / gnn_joint           | 0.6109         | 0.6099      | -0.0010      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / pooled_refit        | 0.6142         | 0.6085      | -0.0057      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / pretrain_only       | 0.5143         | 0.5305      | 0.0162       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / recal_intercept     | 0.5143         | 0.5305      | 0.0162       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / recal_logistic      | 0.5143         | 0.5305      | 0.0162       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / hybrid / 0.5 / xgb_continue        | 0.6123         | 0.6094      | -0.0029      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / none / 0.0 / pretrain_only         | 0.5182         | 0.5420      | 0.0238       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / glp_only             | 0.5958         | 0.5967      | 0.0008       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / gnn_joint            | 0.6059         | 0.6034      | -0.0025      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / pooled_refit         | 0.6131         | 0.6043      | -0.0088      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / pretrain_only        | 0.5599         | 0.5703      | 0.0105       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / recal_intercept      | 0.5599         | 0.5703      | 0.0105       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / recal_logistic       | 0.5599         | 0.5703      | 0.0105       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.05 / xgb_continue         | 0.6013         | 0.6049      | 0.0035       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / glp_only              | 0.6048         | 0.6050      | 0.0002       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / gnn_joint             | 0.6052         | 0.6000      | -0.0053      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / pooled_refit          | 0.6066         | 0.6082      | 0.0015       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / pretrain_only         | 0.5217         | 0.5516      | 0.0299       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / recal_intercept       | 0.5217         | 0.5516      | 0.0299       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / recal_logistic        | 0.5217         | 0.5516      | 0.0299       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.1 / xgb_continue          | 0.5906         | 0.5983      | 0.0078       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / glp_only             | 0.6086         | 0.6086      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / gnn_joint            | 0.6091         | 0.6097      | 0.0005       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / pooled_refit         | 0.6114         | 0.6124      | 0.0010       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / pretrain_only        | 0.5778         | 0.5651      | -0.0127      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / recal_intercept      | 0.5778         | 0.5651      | -0.0127      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / recal_logistic       | 0.5778         | 0.5651      | -0.0127      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.25 / xgb_continue         | 0.6111         | 0.6119      | 0.0008       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / glp_only              | 0.6113         | 0.6113      | 0.0000       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / gnn_joint             | 0.6116         | 0.6116      | 0.0001       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / pooled_refit          | 0.6153         | 0.6092      | -0.0061      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / pretrain_only         | 0.5388         | 0.5414      | 0.0026       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / recal_intercept       | 0.5388         | 0.5414      | 0.0026       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / recal_logistic        | 0.5388         | 0.5414      | 0.0026       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / real / 0.5 / xgb_continue          | 0.6075         | 0.6082      | 0.0008       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / glp_only        | 0.5108         | 0.5126      | 0.0018       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / gnn_joint       | 0.5474         | 0.5119      | -0.0355      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / pooled_refit    | 0.5378         | 0.5523      | 0.0146       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / pretrain_only   | 0.5153         | 0.5423      | 0.0270       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / recal_intercept | 0.5153         | 0.5423      | 0.0270       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / recal_logistic  | 0.5153         | 0.5423      | 0.0270       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.05 / xgb_continue    | 0.5315         | 0.5580      | 0.0266       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / glp_only         | 0.5146         | 0.5305      | 0.0159       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / gnn_joint        | 0.5717         | 0.5499      | -0.0218      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / pooled_refit     | 0.5469         | 0.5770      | 0.0301       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / pretrain_only    | 0.5005         | 0.4999      | -0.0006      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / recal_intercept  | 0.5005         | 0.4999      | -0.0006      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / recal_logistic   | 0.5005         | 0.4999      | -0.0006      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.1 / xgb_continue     | 0.5280         | 0.5458      | 0.0178       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / glp_only        | 0.5571         | 0.5599      | 0.0028       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / gnn_joint       | 0.5517         | 0.5557      | 0.0040       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / pooled_refit    | 0.5812         | 0.5868      | 0.0055       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / pretrain_only   | 0.5355         | 0.5617      | 0.0262       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / recal_intercept | 0.5355         | 0.5617      | 0.0262       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / recal_logistic  | 0.5355         | 0.5617      | 0.0262       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.25 / xgb_continue    | 0.5741         | 0.5853      | 0.0112       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / glp_only         | 0.5634         | 0.5663      | 0.0028       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / gnn_joint        | 0.5909         | 0.5746      | -0.0164      | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / pooled_refit     | 0.5853         | 0.5972      | 0.0119       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / pretrain_only    | 0.5289         | 0.5450      | 0.0161       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / recal_intercept  | 0.5289         | 0.5450      | 0.0161       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / recal_logistic   | 0.5289         | 0.5450      | 0.0161       | 1.000 |
-| Stage 8: fine-tuning                    | synthetic / synthetic / 0.5 / xgb_continue     | 0.5821         | 0.5745      | -0.0076      | 1.000 |
-| Stage 3: full factorial                 | all 45744 configurations                       | 0.6406         | 0.6417      | 0.0011       | 1.000 |
+| Experiment                              | Model or configuration                                                        | Without ABCD   | With ABCD   | Difference   | q     |
+|:----------------------------------------|:------------------------------------------------------------------------------|:---------------|:------------|:-------------|:------|
+| Stage 1: 10 x 10% folds                 | LR                                                                            | 0.6159         | 0.6202      | 0.0043       | 1.000 |
+| Stage 1: leave-one-study-out            | LR                                                                            | 0.5097         | 0.5353      | 0.0256       | 1.000 |
+| Stage 1: 10 x 10% folds                 | RF                                                                            | 0.6458         | 0.6507      | 0.0050       | 1.000 |
+| Stage 1: leave-one-study-out            | RF                                                                            | 0.5315         | 0.5315      | 0.0000       | 1.000 |
+| Stage 1: 10 x 10% folds                 | XGB                                                                           | 0.6565         | 0.6542      | -0.0023      | 1.000 |
+| Stage 1: leave-one-study-out            | XGB                                                                           | 0.5353         | 0.5441      | 0.0088       | 1.000 |
+| Stage 1c: training fractions 10-90%     | LR                                                                            | 0.6289         | 0.6408      | 0.0119       | 1.000 |
+| Stage 1c: training fractions 10-90%     | RF                                                                            | 0.6593         | 0.6630      | 0.0037       | 1.000 |
+| Stage 1c: training fractions 10-90%     | XGB                                                                           | 0.6669         | 0.6670      | 0.0001       | 1.000 |
+| Stage 6: GNN folds                      | GNN                                                                           | 0.6487         | 0.6508      | 0.0020       | 1.000 |
+| Stage 6: GNN LOSO                       | GNN                                                                           | 0.5309         | 0.5397      | 0.0088       | 1.000 |
+| Stage 9: CNN folds                      | CNN                                                                           | 0.6527         | 0.6523      | -0.0004      | 1.000 |
+| Stage 9: CNN LOSO                       | CNN                                                                           | 0.5137         | 0.5262      | 0.0125       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | Poisson                                                                       | 0.6523         | 0.6525      | 0.0002       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | XGB (balanced)                                                                | 0.6481         | 0.6481      | 0.0000       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | XGB (balanced, prior-corrected)                                               | 0.6481         | 0.6481      | 0.0000       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | LR (King-Zeng)                                                                | 0.6551         | 0.6579      | 0.0027       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | xgb_incidence_anchored                                                        | 0.6572         | 0.6542      | -0.0029      | 1.000 |
+| Stage 10: rare-event / anomaly folds    | focal_mlp                                                                     | 0.5749         | 0.5722      | -0.0027      | 1.000 |
+| Stage 10: rare-event / anomaly folds    | xgb_standard                                                                  | 0.6565         | 0.6542      | -0.0023      | 1.000 |
+| Stage 10: rare-event / anomaly folds    | IForest                                                                       | 0.5411         | 0.5364      | -0.0048      | 1.000 |
+| Stage 10: rare-event / anomaly folds    | one_class_svm                                                                 | 0.4133         | 0.4162      | 0.0028       | 1.000 |
+| Stage 10: rare-event / anomaly folds    | lof_novelty                                                                   | 0.4211         | 0.4138      | -0.0073      | 1.000 |
+| Stage 10: rare-event / anomaly folds    | AE                                                                            | 0.5747         | 0.5847      | 0.0100       | 1.000 |
+| Stage 11: within GLP-1RA users          | AE                                                                            | 0.5136         | 0.5208      | 0.0072       | 1.000 |
+| Stage 11: within all                    | AE                                                                            | 0.5747         | 0.5847      | 0.0100       | 1.000 |
+| Stage 11: within non-users              | AE                                                                            | 0.6114         | 0.6099      | -0.0014      | 1.000 |
+| Stage 11: within GLP-1RA users          | CNN                                                                           | 0.5946         | 0.5935      | -0.0010      | 1.000 |
+| Stage 11: within all                    | CNN                                                                           | 0.6527         | 0.6523      | -0.0004      | 1.000 |
+| Stage 11: within non-users              | CNN                                                                           | 0.6731         | 0.6734      | 0.0003       | 1.000 |
+| Stage 11: within GLP-1RA users          | Ens.                                                                          | 0.5977         | 0.5976      | -0.0001      | 1.000 |
+| Stage 11: within all                    | Ens.                                                                          | 0.6559         | 0.6554      | -0.0005      | 1.000 |
+| Stage 11: within non-users              | Ens.                                                                          | 0.6719         | 0.6728      | 0.0009       | 1.000 |
+| Stage 11: within GLP-1RA users          | GNN                                                                           | 0.5942         | 0.5931      | -0.0011      | 1.000 |
+| Stage 11: within all                    | GNN                                                                           | 0.6491         | 0.6479      | -0.0011      | 1.000 |
+| Stage 11: within non-users              | GNN                                                                           | 0.6673         | 0.6668      | -0.0005      | 1.000 |
+| Stage 11: within GLP-1RA users          | IForest                                                                       | 0.5110         | 0.5110      | 0.0000       | 1.000 |
+| Stage 11: within all                    | IForest                                                                       | 0.5411         | 0.5364      | -0.0048      | 1.000 |
+| Stage 11: within non-users              | IForest                                                                       | 0.5767         | 0.5646      | -0.0121      | 1.000 |
+| Stage 11: within GLP-1RA users          | LR                                                                            | 0.5612         | 0.5760      | 0.0148       | 1.000 |
+| Stage 11: within all                    | LR                                                                            | 0.6159         | 0.6202      | 0.0043       | 1.000 |
+| Stage 11: within non-users              | LR                                                                            | 0.6350         | 0.6377      | 0.0027       | 1.000 |
+| Stage 11: within GLP-1RA users          | Poisson                                                                       | 0.5972         | 0.5972      | 0.0000       | 1.000 |
+| Stage 11: within all                    | Poisson                                                                       | 0.6523         | 0.6525      | 0.0002       | 1.000 |
+| Stage 11: within non-users              | Poisson                                                                       | 0.6706         | 0.6704      | -0.0002      | 1.000 |
+| Stage 11: within GLP-1RA users          | RF                                                                            | 0.5902         | 0.5940      | 0.0038       | 1.000 |
+| Stage 11: within all                    | RF                                                                            | 0.6458         | 0.6507      | 0.0050       | 1.000 |
+| Stage 11: within non-users              | RF                                                                            | 0.6632         | 0.6682      | 0.0049       | 1.000 |
+| Stage 11: within GLP-1RA users          | XGB                                                                           | 0.5995         | 0.5946      | -0.0050      | 1.000 |
+| Stage 11: within all                    | XGB                                                                           | 0.6565         | 0.6542      | -0.0023      | 1.000 |
+| Stage 11: within non-users              | XGB                                                                           | 0.6740         | 0.6724      | -0.0017      | 1.000 |
+| Stage 7: non-GLP model, external_GLP    | Ens.                                                                          | 0.5966         | 0.5835      | -0.0131      | 1.000 |
+| Stage 7: non-GLP model, internal_nonGLP | Ens.                                                                          | 0.6665         | 0.6617      | -0.0048      | 1.000 |
+| Stage 7: non-GLP model, external_GLP    | GNN                                                                           | 0.5893         | 0.5795      | -0.0098      | 1.000 |
+| Stage 7: non-GLP model, internal_nonGLP | GNN                                                                           | 0.6641         | 0.6592      | -0.0049      | 1.000 |
+| Stage 7: non-GLP model, external_GLP    | LR                                                                            | 0.5328         | 0.5632      | 0.0305       | 1.000 |
+| Stage 7: non-GLP model, internal_nonGLP | LR                                                                            | 0.6257         | 0.6357      | 0.0101       | 1.000 |
+| Stage 7: non-GLP model, external_GLP    | RF                                                                            | 0.5784         | 0.5886      | 0.0101       | 1.000 |
+| Stage 7: non-GLP model, internal_nonGLP | RF                                                                            | 0.6518         | 0.6599      | 0.0082       | 1.000 |
+| Stage 7: non-GLP model, external_GLP    | XGB                                                                           | 0.5929         | 0.5856      | -0.0073      | 1.000 |
+| Stage 7: non-GLP model, internal_nonGLP | XGB                                                                           | 0.6639         | 0.6633      | -0.0006      | 1.000 |
+| Stage 4: ensembles folds                | cross-family(pubmed+hybrid+synthetic) (mean)                                  | 0.6574         | 0.6563      | -0.0011      | 1.000 |
+| Stage 4: ensembles folds                | GNN (single model)                                                            | 0.6525         | 0.6487      | -0.0037      | 1.000 |
+| Stage 4: ensembles folds                | LR (single model)                                                             | 0.6159         | 0.6202      | 0.0043       | 1.000 |
+| Stage 4: ensembles folds                | LR+GNN (mean)                                                                 | 0.6527         | 0.6506      | -0.0021      | 1.000 |
+| Stage 4: ensembles folds                | LR+GNN (stacked)                                                              | 0.6528         | 0.6493      | -0.0035      | 1.000 |
+| Stage 4: ensembles folds                | LR+GNN (weighted)                                                             | 0.6519         | 0.6496      | -0.0022      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF (mean)                                                                  | 0.6455         | 0.6488      | 0.0034       | 1.000 |
+| Stage 4: ensembles folds                | LR+RF (stacked)                                                               | 0.6457         | 0.6506      | 0.0049       | 1.000 |
+| Stage 4: ensembles folds                | LR+RF (weighted)                                                              | 0.6449         | 0.6500      | 0.0051       | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+GNN (mean)                                                              | 0.6539         | 0.6541      | 0.0002       | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+GNN (stacked)                                                           | 0.6519         | 0.6499      | -0.0020      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+GNN (weighted)                                                          | 0.6536         | 0.6531      | -0.0005      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB (mean)                                                              | 0.6556         | 0.6558      | 0.0002       | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB (stacked)                                                           | 0.6561         | 0.6543      | -0.0018      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB (weighted)                                                          | 0.6560         | 0.6558      | -0.0002      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB+GNN (mean)                                                          | 0.6560         | 0.6551      | -0.0009      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB+GNN (stacked)                                                       | 0.6556         | 0.6525      | -0.0031      | 1.000 |
+| Stage 4: ensembles folds                | LR+RF+XGB+GNN (weighted)                                                      | 0.6556         | 0.6551      | -0.0005      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB (mean)                                                                 | 0.6571         | 0.6549      | -0.0021      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB (stacked)                                                              | 0.6565         | 0.6539      | -0.0025      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB (weighted)                                                             | 0.6569         | 0.6546      | -0.0023      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB+GNN (mean)                                                             | 0.6564         | 0.6537      | -0.0027      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB+GNN (stacked)                                                          | 0.6557         | 0.6528      | -0.0029      | 1.000 |
+| Stage 4: ensembles folds                | LR+XGB+GNN (weighted)                                                         | 0.6554         | 0.6538      | -0.0016      | 1.000 |
+| Stage 4: ensembles folds                | RF (single model)                                                             | 0.6458         | 0.6507      | 0.0050       | 1.000 |
+| Stage 4: ensembles folds                | RF+GNN (mean)                                                                 | 0.6547         | 0.6533      | -0.0014      | 1.000 |
+| Stage 4: ensembles folds                | RF+GNN (stacked)                                                              | 0.6529         | 0.6485      | -0.0045      | 1.000 |
+| Stage 4: ensembles folds                | RF+GNN (weighted)                                                             | 0.6540         | 0.6534      | -0.0006      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB (mean)                                                                 | 0.6563         | 0.6560      | -0.0003      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB (stacked)                                                              | 0.6568         | 0.6551      | -0.0017      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB (weighted)                                                             | 0.6561         | 0.6560      | -0.0001      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB+GNN (mean)                                                             | 0.6566         | 0.6544      | -0.0022      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB+GNN (stacked)                                                          | 0.6545         | 0.6520      | -0.0025      | 1.000 |
+| Stage 4: ensembles folds                | RF+XGB+GNN (weighted)                                                         | 0.6559         | 0.6541      | -0.0018      | 1.000 |
+| Stage 4: ensembles folds                | XGB (single model)                                                            | 0.6565         | 0.6542      | -0.0023      | 1.000 |
+| Stage 4: ensembles folds                | XGB+GNN (mean)                                                                | 0.6557         | 0.6539      | -0.0018      | 1.000 |
+| Stage 4: ensembles folds                | XGB+GNN (stacked)                                                             | 0.6550         | 0.6527      | -0.0023      | 1.000 |
+| Stage 4: ensembles folds                | XGB+GNN (weighted)                                                            | 0.6557         | 0.6539      | -0.0017      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA             | 0.5841         | 0.5834      | -0.0007      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA             | 0.6039         | 0.5954      | -0.0085      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA                   | 0.5947         | 0.5972      | 0.0025       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA                      | 0.5861         | 0.5906      | 0.0046       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA        | 0.5861         | 0.5906      | 0.0046       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA         | 0.5861         | 0.5906      | 0.0046       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune hybrid, 5% GLP-1RA         | 0.5961         | 0.5965      | 0.0004       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA            | 0.6059         | 0.6058      | -0.0001      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA            | 0.6090         | 0.6091      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA                  | 0.6045         | 0.6057      | 0.0012       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA                     | 0.5869         | 0.5901      | 0.0032       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA       | 0.5869         | 0.5901      | 0.0032       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA        | 0.5869         | 0.5901      | 0.0032       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune hybrid, 10% GLP-1RA        | 0.6052         | 0.6094      | 0.0042       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA            | 0.6083         | 0.6087      | 0.0004       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA            | 0.6107         | 0.6103      | -0.0004      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA                  | 0.6086         | 0.6070      | -0.0016      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA                     | 0.5886         | 0.5801      | -0.0085      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA       | 0.5886         | 0.5801      | -0.0085      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA        | 0.5886         | 0.5801      | -0.0085      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune hybrid, 25% GLP-1RA        | 0.6084         | 0.6062      | -0.0022      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA            | 0.6118         | 0.6120      | 0.0002       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA            | 0.6131         | 0.6116      | -0.0015      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA                  | 0.6146         | 0.6129      | -0.0017      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA                     | 0.5761         | 0.5826      | 0.0065       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA       | 0.5761         | 0.5826      | 0.0065       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA        | 0.5761         | 0.5826      | 0.0065       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune hybrid, 50% GLP-1RA        | 0.6135         | 0.6148      | 0.0013       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune none, 0% GLP-1RA                        | 0.5701         | 0.5846      | 0.0145       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune real, 5% GLP-1RA               | 0.5655         | 0.5556      | -0.0099      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune real, 5% GLP-1RA               | 0.5676         | 0.5737      | 0.0060       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune real, 5% GLP-1RA                     | 0.5856         | 0.5860      | 0.0005       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune real, 5% GLP-1RA                        | 0.5804         | 0.5872      | 0.0068       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune real, 5% GLP-1RA          | 0.5804         | 0.5872      | 0.0068       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune real, 5% GLP-1RA           | 0.5804         | 0.5872      | 0.0068       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune real, 5% GLP-1RA           | 0.5915         | 0.5985      | 0.0070       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune real, 10% GLP-1RA              | 0.5953         | 0.5948      | -0.0005      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune real, 10% GLP-1RA              | 0.6012         | 0.6002      | -0.0010      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune real, 10% GLP-1RA                    | 0.6046         | 0.6065      | 0.0019       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune real, 10% GLP-1RA                       | 0.5749         | 0.5703      | -0.0046      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune real, 10% GLP-1RA         | 0.5749         | 0.5703      | -0.0046      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune real, 10% GLP-1RA          | 0.5749         | 0.5703      | -0.0046      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune real, 10% GLP-1RA          | 0.6053         | 0.5994      | -0.0059      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune real, 25% GLP-1RA              | 0.6080         | 0.6081      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune real, 25% GLP-1RA              | 0.6083         | 0.6082      | -0.0001      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune real, 25% GLP-1RA                    | 0.6138         | 0.6084      | -0.0054      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune real, 25% GLP-1RA                       | 0.5774         | 0.5898      | 0.0125       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune real, 25% GLP-1RA         | 0.5774         | 0.5898      | 0.0125       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune real, 25% GLP-1RA          | 0.5774         | 0.5898      | 0.0125       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune real, 25% GLP-1RA          | 0.6094         | 0.6100      | 0.0005       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune real, 50% GLP-1RA              | 0.6113         | 0.6113      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune real, 50% GLP-1RA              | 0.6130         | 0.6118      | -0.0012      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune real, 50% GLP-1RA                    | 0.6126         | 0.6125      | -0.0001      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune real, 50% GLP-1RA                       | 0.5790         | 0.5791      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune real, 50% GLP-1RA         | 0.5790         | 0.5791      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune real, 50% GLP-1RA          | 0.5790         | 0.5791      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune real, 50% GLP-1RA          | 0.6089         | 0.6119      | 0.0030       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA          | 0.5224         | 0.5235      | 0.0011       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA          | 0.5671         | 0.5591      | -0.0081      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA                | 0.5646         | 0.5775      | 0.0128       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA                   | 0.5983         | 0.5898      | -0.0084      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA     | 0.5983         | 0.5898      | -0.0084      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA      | 0.5983         | 0.5898      | -0.0084      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune synthetic, 5% GLP-1RA      | 0.5983         | 0.5829      | -0.0154      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA         | 0.5338         | 0.5569      | 0.0232       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA         | 0.6018         | 0.5948      | -0.0070      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA               | 0.6099         | 0.6112      | 0.0013       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA                  | 0.5926         | 0.5862      | -0.0063      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA    | 0.5926         | 0.5862      | -0.0063      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA     | 0.5926         | 0.5862      | -0.0063      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune synthetic, 10% GLP-1RA     | 0.6025         | 0.6010      | -0.0015      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA         | 0.5495         | 0.5548      | 0.0053       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA         | 0.5963         | 0.6024      | 0.0062       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA               | 0.6059         | 0.6055      | -0.0004      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA                  | 0.5953         | 0.5976      | 0.0023       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA    | 0.5953         | 0.5976      | 0.0023       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA     | 0.5953         | 0.5976      | 0.0023       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune synthetic, 25% GLP-1RA     | 0.6037         | 0.6063      | 0.0025       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA         | 0.5721         | 0.5792      | 0.0070       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA         | 0.5998         | 0.6081      | 0.0082       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA               | 0.6098         | 0.6100      | 0.0002       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA                  | 0.5861         | 0.5759      | -0.0102      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA    | 0.5861         | 0.5759      | -0.0102      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA     | 0.5861         | 0.5759      | -0.0102      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain hybrid, fine-tune synthetic, 50% GLP-1RA     | 0.5996         | 0.6089      | 0.0093       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune hybrid, 5% GLP-1RA               | 0.5985         | 0.5960      | -0.0025      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune hybrid, 5% GLP-1RA                     | 0.5985         | 0.5960      | -0.0025      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune hybrid, 10% GLP-1RA              | 0.5963         | 0.5945      | -0.0018      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune hybrid, 10% GLP-1RA                    | 0.5963         | 0.5945      | -0.0018      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune hybrid, 25% GLP-1RA              | 0.6121         | 0.6143      | 0.0022       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune hybrid, 25% GLP-1RA                    | 0.6121         | 0.6143      | 0.0022       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune hybrid, 50% GLP-1RA              | 0.6149         | 0.6139      | -0.0010      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune hybrid, 50% GLP-1RA                    | 0.6149         | 0.6139      | -0.0010      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune real, 5% GLP-1RA                 | 0.5736         | 0.5656      | -0.0080      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune real, 5% GLP-1RA                       | 0.5736         | 0.5656      | -0.0080      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune real, 10% GLP-1RA                | 0.5958         | 0.5891      | -0.0067      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune real, 10% GLP-1RA                      | 0.5958         | 0.5891      | -0.0067      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune real, 25% GLP-1RA                | 0.6114         | 0.6114      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune real, 25% GLP-1RA                      | 0.6114         | 0.6114      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune real, 50% GLP-1RA                | 0.6113         | 0.6113      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune real, 50% GLP-1RA                      | 0.6113         | 0.6113      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune synthetic, 5% GLP-1RA            | 0.5489         | 0.5361      | -0.0128      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune synthetic, 5% GLP-1RA                  | 0.5489         | 0.5361      | -0.0128      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune synthetic, 10% GLP-1RA           | 0.5172         | 0.5109      | -0.0063      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune synthetic, 10% GLP-1RA                 | 0.5172         | 0.5109      | -0.0063      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune synthetic, 25% GLP-1RA           | 0.5783         | 0.5739      | -0.0044      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune synthetic, 25% GLP-1RA                 | 0.5783         | 0.5739      | -0.0044      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain none, fine-tune synthetic, 50% GLP-1RA           | 0.5683         | 0.5774      | 0.0091       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain none, fine-tune synthetic, 50% GLP-1RA                 | 0.5683         | 0.5774      | 0.0091       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune hybrid, 5% GLP-1RA               | 0.5817         | 0.5780      | -0.0037      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune hybrid, 5% GLP-1RA               | 0.5809         | 0.5835      | 0.0027       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune hybrid, 5% GLP-1RA                     | 0.5951         | 0.5969      | 0.0019       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune hybrid, 5% GLP-1RA                        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune hybrid, 5% GLP-1RA          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune hybrid, 5% GLP-1RA           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune hybrid, 5% GLP-1RA           | 0.5964         | 0.5965      | 0.0002       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune hybrid, 10% GLP-1RA              | 0.6069         | 0.6071      | 0.0002       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune hybrid, 10% GLP-1RA              | 0.6124         | 0.6112      | -0.0012      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune hybrid, 10% GLP-1RA                    | 0.6057         | 0.6089      | 0.0032       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune hybrid, 10% GLP-1RA                       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune hybrid, 10% GLP-1RA         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune hybrid, 10% GLP-1RA          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune hybrid, 10% GLP-1RA          | 0.5969         | 0.5963      | -0.0006      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune hybrid, 25% GLP-1RA              | 0.6108         | 0.6113      | 0.0005       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune hybrid, 25% GLP-1RA              | 0.6093         | 0.6110      | 0.0016       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune hybrid, 25% GLP-1RA                    | 0.6163         | 0.6141      | -0.0022      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune hybrid, 25% GLP-1RA                       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune hybrid, 25% GLP-1RA         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune hybrid, 25% GLP-1RA          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune hybrid, 25% GLP-1RA          | 0.6100         | 0.6118      | 0.0019       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune hybrid, 50% GLP-1RA              | 0.6099         | 0.6100      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune hybrid, 50% GLP-1RA              | 0.6121         | 0.6109      | -0.0011      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune hybrid, 50% GLP-1RA                    | 0.6110         | 0.6084      | -0.0026      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune hybrid, 50% GLP-1RA                       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune hybrid, 50% GLP-1RA         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune hybrid, 50% GLP-1RA          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune hybrid, 50% GLP-1RA          | 0.6104         | 0.6091      | -0.0013      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune none, 0% GLP-1RA                          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune real, 5% GLP-1RA                 | 0.5709         | 0.5627      | -0.0082      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune real, 5% GLP-1RA                 | 0.5751         | 0.5751      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune real, 5% GLP-1RA                       | 0.5723         | 0.5720      | -0.0002      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune real, 5% GLP-1RA                          | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune real, 5% GLP-1RA            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune real, 5% GLP-1RA             | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune real, 5% GLP-1RA             | 0.5940         | 0.5818      | -0.0122      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune real, 10% GLP-1RA                | 0.6057         | 0.6046      | -0.0011      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune real, 10% GLP-1RA                | 0.6075         | 0.6058      | -0.0017      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune real, 10% GLP-1RA                      | 0.6085         | 0.6082      | -0.0003      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune real, 10% GLP-1RA                         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune real, 10% GLP-1RA           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune real, 10% GLP-1RA            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune real, 10% GLP-1RA            | 0.6078         | 0.6065      | -0.0013      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune real, 25% GLP-1RA                | 0.6127         | 0.6127      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune real, 25% GLP-1RA                | 0.6127         | 0.6127      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune real, 25% GLP-1RA                      | 0.6139         | 0.6139      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune real, 25% GLP-1RA                         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune real, 25% GLP-1RA           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune real, 25% GLP-1RA            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune real, 25% GLP-1RA            | 0.6101         | 0.6123      | 0.0021       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune real, 50% GLP-1RA                | 0.6113         | 0.6113      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune real, 50% GLP-1RA                | 0.6115         | 0.6115      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune real, 50% GLP-1RA                      | 0.6118         | 0.6114      | -0.0005      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune real, 50% GLP-1RA                         | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune real, 50% GLP-1RA           | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune real, 50% GLP-1RA            | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune real, 50% GLP-1RA            | 0.6113         | 0.6120      | 0.0007       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune synthetic, 5% GLP-1RA            | 0.5485         | 0.5496      | 0.0011       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune synthetic, 5% GLP-1RA            | 0.5608         | 0.5858      | 0.0249       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune synthetic, 5% GLP-1RA                  | 0.5810         | 0.5905      | 0.0095       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune synthetic, 5% GLP-1RA                     | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune synthetic, 5% GLP-1RA       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune synthetic, 5% GLP-1RA        | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune synthetic, 5% GLP-1RA        | 0.6026         | 0.6020      | -0.0006      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune synthetic, 10% GLP-1RA           | 0.5328         | 0.5239      | -0.0089      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune synthetic, 10% GLP-1RA           | 0.5619         | 0.5723      | 0.0103       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune synthetic, 10% GLP-1RA                 | 0.6129         | 0.6078      | -0.0051      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune synthetic, 10% GLP-1RA                    | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune synthetic, 10% GLP-1RA      | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune synthetic, 10% GLP-1RA       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune synthetic, 10% GLP-1RA       | 0.5965         | 0.5888      | -0.0077      | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune synthetic, 25% GLP-1RA           | 0.5285         | 0.5293      | 0.0008       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune synthetic, 25% GLP-1RA           | 0.6171         | 0.6151      | -0.0021      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune synthetic, 25% GLP-1RA                 | 0.6087         | 0.6126      | 0.0038       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune synthetic, 25% GLP-1RA                    | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune synthetic, 25% GLP-1RA      | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune synthetic, 25% GLP-1RA       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune synthetic, 25% GLP-1RA       | 0.6004         | 0.6064      | 0.0059       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain real, fine-tune synthetic, 50% GLP-1RA           | 0.5717         | 0.5738      | 0.0021       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain real, fine-tune synthetic, 50% GLP-1RA           | 0.6104         | 0.6155      | 0.0051       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain real, fine-tune synthetic, 50% GLP-1RA                 | 0.6051         | 0.6099      | 0.0048       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain real, fine-tune synthetic, 50% GLP-1RA                    | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain real, fine-tune synthetic, 50% GLP-1RA      | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain real, fine-tune synthetic, 50% GLP-1RA       | 0.5878         | 0.5870      | -0.0008      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain real, fine-tune synthetic, 50% GLP-1RA       | 0.6069         | 0.6088      | 0.0019       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA          | 0.5635         | 0.5630      | -0.0005      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA          | 0.5550         | 0.5684      | 0.0134       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA                | 0.5657         | 0.5633      | -0.0024      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA                   | 0.5011         | 0.5108      | 0.0097       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA     | 0.5011         | 0.5108      | 0.0097       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA      | 0.5011         | 0.5108      | 0.0097       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune hybrid, 5% GLP-1RA      | 0.5579         | 0.5622      | 0.0042       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA         | 0.6146         | 0.6158      | 0.0012       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA         | 0.6131         | 0.6182      | 0.0052       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA               | 0.6178         | 0.6191      | 0.0014       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA                  | 0.5078         | 0.5271      | 0.0193       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA    | 0.5078         | 0.5271      | 0.0193       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA     | 0.5078         | 0.5271      | 0.0193       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune hybrid, 10% GLP-1RA     | 0.6134         | 0.6138      | 0.0004       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA         | 0.6107         | 0.6114      | 0.0006       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA         | 0.6120         | 0.6120      | -0.0000      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA               | 0.6088         | 0.6112      | 0.0024       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA                  | 0.5461         | 0.5509      | 0.0048       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA    | 0.5461         | 0.5509      | 0.0048       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA     | 0.5461         | 0.5509      | 0.0048       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune hybrid, 25% GLP-1RA     | 0.6088         | 0.6089      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA         | 0.6104         | 0.6084      | -0.0020      | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA         | 0.6109         | 0.6099      | -0.0010      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA               | 0.6142         | 0.6085      | -0.0057      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA                  | 0.5143         | 0.5305      | 0.0162       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA    | 0.5143         | 0.5305      | 0.0162       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA     | 0.5143         | 0.5305      | 0.0162       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune hybrid, 50% GLP-1RA     | 0.6123         | 0.6094      | -0.0029      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune none, 0% GLP-1RA                     | 0.5182         | 0.5420      | 0.0238       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune real, 5% GLP-1RA            | 0.5958         | 0.5967      | 0.0008       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune real, 5% GLP-1RA            | 0.6059         | 0.6034      | -0.0025      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune real, 5% GLP-1RA                  | 0.6131         | 0.6043      | -0.0088      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune real, 5% GLP-1RA                     | 0.5599         | 0.5703      | 0.0105       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune real, 5% GLP-1RA       | 0.5599         | 0.5703      | 0.0105       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune real, 5% GLP-1RA        | 0.5599         | 0.5703      | 0.0105       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune real, 5% GLP-1RA        | 0.6013         | 0.6049      | 0.0035       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune real, 10% GLP-1RA           | 0.6048         | 0.6050      | 0.0002       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune real, 10% GLP-1RA           | 0.6052         | 0.6000      | -0.0053      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune real, 10% GLP-1RA                 | 0.6066         | 0.6082      | 0.0015       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune real, 10% GLP-1RA                    | 0.5217         | 0.5516      | 0.0299       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune real, 10% GLP-1RA      | 0.5217         | 0.5516      | 0.0299       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune real, 10% GLP-1RA       | 0.5217         | 0.5516      | 0.0299       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune real, 10% GLP-1RA       | 0.5906         | 0.5983      | 0.0078       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune real, 25% GLP-1RA           | 0.6086         | 0.6086      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune real, 25% GLP-1RA           | 0.6091         | 0.6097      | 0.0005       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune real, 25% GLP-1RA                 | 0.6114         | 0.6124      | 0.0010       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune real, 25% GLP-1RA                    | 0.5778         | 0.5651      | -0.0127      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune real, 25% GLP-1RA      | 0.5778         | 0.5651      | -0.0127      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune real, 25% GLP-1RA       | 0.5778         | 0.5651      | -0.0127      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune real, 25% GLP-1RA       | 0.6111         | 0.6119      | 0.0008       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune real, 50% GLP-1RA           | 0.6113         | 0.6113      | 0.0000       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune real, 50% GLP-1RA           | 0.6116         | 0.6116      | 0.0001       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune real, 50% GLP-1RA                 | 0.6153         | 0.6092      | -0.0061      | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune real, 50% GLP-1RA                    | 0.5388         | 0.5414      | 0.0026       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune real, 50% GLP-1RA      | 0.5388         | 0.5414      | 0.0026       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune real, 50% GLP-1RA       | 0.5388         | 0.5414      | 0.0026       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune real, 50% GLP-1RA       | 0.6075         | 0.6082      | 0.0008       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA       | 0.5108         | 0.5126      | 0.0018       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA       | 0.5474         | 0.5119      | -0.0355      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA             | 0.5378         | 0.5523      | 0.0146       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA                | 0.5153         | 0.5423      | 0.0270       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA  | 0.5153         | 0.5423      | 0.0270       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA   | 0.5153         | 0.5423      | 0.0270       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune synthetic, 5% GLP-1RA   | 0.5315         | 0.5580      | 0.0266       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA      | 0.5146         | 0.5305      | 0.0159       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA      | 0.5717         | 0.5499      | -0.0218      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA            | 0.5469         | 0.5770      | 0.0301       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA               | 0.5005         | 0.4999      | -0.0006      | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA | 0.5005         | 0.4999      | -0.0006      | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA  | 0.5005         | 0.4999      | -0.0006      | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune synthetic, 10% GLP-1RA  | 0.5280         | 0.5458      | 0.0178       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA      | 0.5571         | 0.5599      | 0.0028       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA      | 0.5517         | 0.5557      | 0.0040       | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA            | 0.5812         | 0.5868      | 0.0055       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA               | 0.5355         | 0.5617      | 0.0262       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA | 0.5355         | 0.5617      | 0.0262       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA  | 0.5355         | 0.5617      | 0.0262       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune synthetic, 25% GLP-1RA  | 0.5741         | 0.5853      | 0.0112       | 1.000 |
+| Stage 8: fine-tuning                    | GLP-1RA-only model; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA      | 0.5634         | 0.5663      | 0.0028       | 1.000 |
+| Stage 8: fine-tuning                    | GNN joint training; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA      | 0.5909         | 0.5746      | -0.0164      | 1.000 |
+| Stage 8: fine-tuning                    | pooled refit; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA            | 0.5853         | 0.5972      | 0.0119       | 1.000 |
+| Stage 8: fine-tuning                    | no update; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA               | 0.5289         | 0.5450      | 0.0161       | 1.000 |
+| Stage 8: fine-tuning                    | intercept recalibration; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA | 0.5289         | 0.5450      | 0.0161       | 1.000 |
+| Stage 8: fine-tuning                    | logistic recalibration; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA  | 0.5289         | 0.5450      | 0.0161       | 1.000 |
+| Stage 8: fine-tuning                    | XGB continued boosting; pretrain synthetic, fine-tune synthetic, 50% GLP-1RA  | 0.5821         | 0.5745      | -0.0076      | 1.000 |
+| Stage 3: full factorial                 | all 45744 configurations                                                      | 0.6406         | 0.6417      | 0.0011       | 1.000 |
 
 ### Restriction to cohorts reporting vascular risk factors
 
@@ -615,55 +615,55 @@ Table: Sensitivity analysis restricted to cohorts reporting NAION risk-factor pr
 
 **Feature combinations and the compounding hypothesis.** Across all 511 combinations of nine feature groups, the largest Shapley contributions to XGBoost AUROC came from setting (0.0350), duration (0.0290), sex (0.0270), drug (0.0212). For the hypothesis that individually negligible features contribute in combination, no feature group met the prespecified criteria; no pair showed significant positive interaction. For an optional-input calculator, a single XGBoost trained with random feature-group dropout differed from a bank of dedicated sub-models by -0.0121 AUROC on average across input patterns.
 
-Table: Best feature-group combinations for each number of groups (two best per size; mean over folds; threshold = top 10% of training risk). SD = standard deviation of AUROC over folds; q (AUROC>0.5) and q (PPV>prev) = Benjamini-Hochberg adjusted P values for AUROC above chance and PPV above prevalence, over all 511 combinations and models; Sens, Spec, Acc, PPV, NPV as proportions. Full results for every combination and model are in Supplementary Workbook S1. Remaining abbreviations and variable names: Nomenclature appendix.
+Table: Best feature-group combinations for each number of groups (two best per size; mean over folds; threshold = top 10% of training risk). SD = standard deviation of AUROC over folds; q (AUROC>0.5) and q (PPV>prev) = Benjamini-Hochberg adjusted P values for AUROC above chance and PPV above prevalence, over all 511 combinations and models; Sens, Spec, Acc, PPV, NPV as proportions. Feature groups are joined by +; LR, logistic regression; RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN, one-dimensional convolutional network. Full results for every combination and model are in Supplementary Workbook S1. Remaining abbreviations and variable names: Nomenclature appendix.
 
-| Feature groups                                                          | Model   | AUROC   | SD      | q (AUROC>0.5)   | Sens   | Spec   | Acc    | PPV     | NPV    | q (PPV>prev)   |
-|:------------------------------------------------------------------------|:--------|:--------|:--------|:----------------|:-------|:-------|:-------|:--------|:-------|:---------------|
-| duration                                                                | gnn     | 0.6322  | 0.00684 | <0.001          | 0.3989 | 0.7579 | 0.7578 | 0.00074 | 0.9997 | <0.001         |
-| duration                                                                | xgb     | 0.6306  | 0.00753 | <0.001          | 0.3758 | 0.7804 | 0.7803 | 0.00077 | 0.9997 | <0.001         |
-| drug|setting                                                            | xgb     | 0.6532  | 0.00967 | <0.001          | 0.3266 | 0.8378 | 0.8375 | 0.00090 | 0.9997 | <0.001         |
-| drug|setting                                                            | cnn1d   | 0.6488  | 0.00993 | <0.001          | 0.3199 | 0.8452 | 0.8450 | 0.00095 | 0.9997 | <0.001         |
-| exposure|setting|sex                                                    | xgb     | 0.6594  | 0.00976 | <0.001          | 0.3424 | 0.8343 | 0.8341 | 0.00094 | 0.9997 | <0.001         |
-| duration|exposure|setting                                               | xgb     | 0.6576  | 0.00878 | <0.001          | 0.3386 | 0.8359 | 0.8357 | 0.00092 | 0.9997 | <0.001         |
-| age|exposure|setting|sex                                                | xgb     | 0.6601  | 0.00764 | <0.001          | 0.3470 | 0.8310 | 0.8308 | 0.00092 | 0.9997 | <0.001         |
-| exposure|hypertension|setting|sex                                       | xgb     | 0.6595  | 0.00811 | <0.001          | 0.3429 | 0.8336 | 0.8334 | 0.00094 | 0.9997 | <0.001         |
-| age|exposure|hypertension|setting|sex                                   | xgb     | 0.6595  | 0.00757 | <0.001          | 0.3529 | 0.8267 | 0.8265 | 0.00092 | 0.9997 | <0.001         |
-| diabetes|exposure|indication|setting|sex                                | xgb     | 0.6591  | 0.0132  | <0.001          | 0.3292 | 0.8453 | 0.8451 | 0.00096 | 0.9997 | <0.001         |
-| age|duration|exposure|hypertension|setting|sex                          | xgb     | 0.6591  | 0.00841 | <0.001          | 0.3432 | 0.8338 | 0.8336 | 0.00093 | 0.9997 | <0.001         |
-| diabetes|exposure|hypertension|indication|setting|sex                   | xgb     | 0.6584  | 0.0108  | <0.001          | 0.3291 | 0.8452 | 0.8449 | 0.00096 | 0.9997 | <0.001         |
-| age|diabetes|exposure|hypertension|indication|setting|sex               | xgb     | 0.6566  | 0.0111  | <0.001          | 0.3436 | 0.8311 | 0.8309 | 0.00093 | 0.9997 | <0.001         |
-| age|diabetes|drug|exposure|indication|setting|sex                       | xgb     | 0.6565  | 0.0103  | <0.001          | 0.3526 | 0.8199 | 0.8197 | 0.00087 | 0.9997 | <0.001         |
-| age|diabetes|drug|duration|exposure|indication|setting|sex              | xgb     | 0.6558  | 0.0104  | <0.001          | 0.3513 | 0.8209 | 0.8207 | 0.00087 | 0.9997 | <0.001         |
-| age|diabetes|duration|exposure|hypertension|indication|setting|sex      | xgb     | 0.6551  | 0.0118  | <0.001          | 0.3474 | 0.8228 | 0.8226 | 0.00087 | 0.9997 | <0.001         |
-| age|diabetes|drug|duration|exposure|hypertension|indication|setting|sex | xgb     | 0.6551  | 0.0120  | <0.001          | 0.3492 | 0.8209 | 0.8207 | 0.00087 | 0.9997 | <0.001         |
-| age|diabetes|drug|duration|exposure|hypertension|indication|setting|sex | rf      | 0.6513  | 0.0128  | <0.001          | 0.3210 | 0.8412 | 0.8410 | 0.00090 | 0.9996 | <0.001         |
+| Feature groups                                                                          | Model   | AUROC   | SD      | q (AUROC>0.5)   | Sens   | Spec   | Acc    | PPV     | NPV    | q (PPV>prev)   |
+|:----------------------------------------------------------------------------------------|:--------|:--------|:--------|:----------------|:-------|:-------|:-------|:--------|:-------|:---------------|
+| duration                                                                                | GNN     | 0.6322  | 0.00684 | <0.001          | 0.3989 | 0.7579 | 0.7578 | 0.00074 | 0.9997 | <0.001         |
+| duration                                                                                | XGB     | 0.6306  | 0.00753 | <0.001          | 0.3758 | 0.7804 | 0.7803 | 0.00077 | 0.9997 | <0.001         |
+| drug + setting                                                                          | XGB     | 0.6532  | 0.00967 | <0.001          | 0.3266 | 0.8378 | 0.8375 | 0.00090 | 0.9997 | <0.001         |
+| drug + setting                                                                          | CNN     | 0.6488  | 0.00993 | <0.001          | 0.3199 | 0.8452 | 0.8450 | 0.00095 | 0.9997 | <0.001         |
+| exposure + setting + sex                                                                | XGB     | 0.6594  | 0.00976 | <0.001          | 0.3424 | 0.8343 | 0.8341 | 0.00094 | 0.9997 | <0.001         |
+| duration + exposure + setting                                                           | XGB     | 0.6576  | 0.00878 | <0.001          | 0.3386 | 0.8359 | 0.8357 | 0.00092 | 0.9997 | <0.001         |
+| age + exposure + setting + sex                                                          | XGB     | 0.6601  | 0.00764 | <0.001          | 0.3470 | 0.8310 | 0.8308 | 0.00092 | 0.9997 | <0.001         |
+| exposure + hypertension + setting + sex                                                 | XGB     | 0.6595  | 0.00811 | <0.001          | 0.3429 | 0.8336 | 0.8334 | 0.00094 | 0.9997 | <0.001         |
+| age + exposure + hypertension + setting + sex                                           | XGB     | 0.6595  | 0.00757 | <0.001          | 0.3529 | 0.8267 | 0.8265 | 0.00092 | 0.9997 | <0.001         |
+| diabetes + exposure + indication + setting + sex                                        | XGB     | 0.6591  | 0.0132  | <0.001          | 0.3292 | 0.8453 | 0.8451 | 0.00096 | 0.9997 | <0.001         |
+| age + duration + exposure + hypertension + setting + sex                                | XGB     | 0.6591  | 0.00841 | <0.001          | 0.3432 | 0.8338 | 0.8336 | 0.00093 | 0.9997 | <0.001         |
+| diabetes + exposure + hypertension + indication + setting + sex                         | XGB     | 0.6584  | 0.0108  | <0.001          | 0.3291 | 0.8452 | 0.8449 | 0.00096 | 0.9997 | <0.001         |
+| age + diabetes + exposure + hypertension + indication + setting + sex                   | XGB     | 0.6566  | 0.0111  | <0.001          | 0.3436 | 0.8311 | 0.8309 | 0.00093 | 0.9997 | <0.001         |
+| age + diabetes + drug + exposure + indication + setting + sex                           | XGB     | 0.6565  | 0.0103  | <0.001          | 0.3526 | 0.8199 | 0.8197 | 0.00087 | 0.9997 | <0.001         |
+| age + diabetes + drug + duration + exposure + indication + setting + sex                | XGB     | 0.6558  | 0.0104  | <0.001          | 0.3513 | 0.8209 | 0.8207 | 0.00087 | 0.9997 | <0.001         |
+| age + diabetes + duration + exposure + hypertension + indication + setting + sex        | XGB     | 0.6551  | 0.0118  | <0.001          | 0.3474 | 0.8228 | 0.8226 | 0.00087 | 0.9997 | <0.001         |
+| age + diabetes + drug + duration + exposure + hypertension + indication + setting + sex | XGB     | 0.6551  | 0.0120  | <0.001          | 0.3492 | 0.8209 | 0.8207 | 0.00087 | 0.9997 | <0.001         |
+| age + diabetes + drug + duration + exposure + hypertension + indication + setting + sex | RF      | 0.6513  | 0.0128  | <0.001          | 0.3210 | 0.8412 | 0.8410 | 0.00090 | 0.9996 | <0.001         |
 
-Table: Reliability of each feature's odds ratio (OR) across all combinations containing it (count-weighted logistic regression with cluster-robust standard errors by study). Models = number of combinations; Median/Min/Max OR across them; OR>1 = share of combinations with OR above 1; q<0.05 = share significant after Benjamini-Hochberg correction. Study-level covariates are ecological and imprecise with 11 clusters. Remaining abbreviations and variable names: Nomenclature appendix.
+Table: Reliability of each feature's odds ratio (OR) across all combinations containing it (count-weighted logistic regression with cluster-robust standard errors by study). Combinations = number of feature combinations containing the feature; Median/Min/Max OR across them; OR>1 = share of combinations with OR above 1; q<0.05 = share significant after Benjamini-Hochberg correction. Study-level covariates are ecological and imprecise with 11 clusters. Remaining abbreviations and variable names: Nomenclature appendix.
 
-| Feature                    | Models   | Median OR   | Min OR   | Max OR   | OR>1   | q<0.05   |
-|:---------------------------|:---------|:------------|:---------|:---------|:-------|:---------|
-| therapy_dpp4i              | 256      | 0.73        | 0.24     | 1.86     | 25%    | 100%     |
-| source_type_single_center  | 256      | 254.36      | 0.01     | >10,000  | 99%    | 91%      |
-| therapy_other_antiobesity  | 256      | 0.19        | 0.05     | 32.57    | 16%    | 91%      |
-| pct_female                 | 256      | 0.61        | 0.06     | 1.42     | 13%    | 84%      |
-| indication_obesity         | 256      | 34.12       | 0.11     | 182.78   | 56%    | 78%      |
-| region_uk                  | 256      | 0.34        | 0.01     | 49.64    | 16%    | 75%      |
-| glp1ra_exposed             | 256      | 1.59        | 1.04     | 1.92     | 100%   | 74%      |
-| indication_iih             | 256      | 2.99        | <0.01    | >10,000  | 69%    | 67%      |
-| source_type_va_ehr         | 224      | 4.99        | <0.01    | 298.92   | 73%    | 65%      |
-| therapy_sglt2i             | 128      | 0.58        | 0.52     | 0.97     | 0%     | 62%      |
-| abcd_D                     | 128      | 0.29        | 0.01     | 8.11     | 27%    | 62%      |
-| abcd_B                     | 256      | 1.33        | 0.96     | 8.92     | 98%    | 61%      |
-| region_nordic              | 256      | 1.33        | <0.01    | 153.49   | 70%    | 57%      |
-| outcome_def_ion            | 216      | 1.08        | 0.16     | >10,000  | 53%    | 56%      |
-| source_type_ehr_network    | 256      | 1.38        | <0.01    | 96.85    | 66%    | 50%      |
-| mean_age                   | 256      | <0.01       | <0.01    | >10,000  | 30%    | 44%      |
-| abcd_A                     | 256      | 9.69        | <0.01    | >10,000  | 69%    | 39%      |
-| followup_years             | 256      | 0.98        | 0.67     | 22.81    | 47%    | 36%      |
-| therapy_no_glp1ra          | 256      | 0.99        | 0.86     | 1.82     | 49%    | 29%      |
-| therapy_other_antidiabetic | 256      | 0.93        | 0.36     | 6.10     | 45%    | 12%      |
-| therapy_sema_or_tirz       | 256      | 1.07        | 0.53     | 7.63     | 71%    | 0%       |
-| therapy_semaglutide        | 256      | 1.12        | 0.77     | 2.47     | 89%    | 0%       |
+| Feature                    | Combinations   | Median OR   | Min OR   | Max OR   | OR>1   | q<0.05   |
+|:---------------------------|:---------------|:------------|:---------|:---------|:-------|:---------|
+| therapy_dpp4i              | 256            | 0.73        | 0.24     | 1.86     | 25%    | 100%     |
+| source_type_single_center  | 256            | 254.36      | 0.01     | >10,000  | 99%    | 91%      |
+| therapy_other_antiobesity  | 256            | 0.19        | 0.05     | 32.57    | 16%    | 91%      |
+| pct_female                 | 256            | 0.61        | 0.06     | 1.42     | 13%    | 84%      |
+| indication_obesity         | 256            | 34.12       | 0.11     | 182.78   | 56%    | 78%      |
+| region_uk                  | 256            | 0.34        | 0.01     | 49.64    | 16%    | 75%      |
+| glp1ra_exposed             | 256            | 1.59        | 1.04     | 1.92     | 100%   | 74%      |
+| indication_iih             | 256            | 2.99        | <0.01    | >10,000  | 69%    | 67%      |
+| source_type_va_ehr         | 224            | 4.99        | <0.01    | 298.92   | 73%    | 65%      |
+| therapy_sglt2i             | 128            | 0.58        | 0.52     | 0.97     | 0%     | 62%      |
+| abcd_D                     | 128            | 0.29        | 0.01     | 8.11     | 27%    | 62%      |
+| abcd_B                     | 256            | 1.33        | 0.96     | 8.92     | 98%    | 61%      |
+| region_nordic              | 256            | 1.33        | <0.01    | 153.49   | 70%    | 57%      |
+| outcome_def_ion            | 216            | 1.08        | 0.16     | >10,000  | 53%    | 56%      |
+| source_type_ehr_network    | 256            | 1.38        | <0.01    | 96.85    | 66%    | 50%      |
+| mean_age                   | 256            | <0.01       | <0.01    | >10,000  | 30%    | 44%      |
+| abcd_A                     | 256            | 9.69        | <0.01    | >10,000  | 69%    | 39%      |
+| followup_years             | 256            | 0.98        | 0.67     | 22.81    | 47%    | 36%      |
+| therapy_no_glp1ra          | 256            | 0.99        | 0.86     | 1.82     | 49%    | 29%      |
+| therapy_other_antidiabetic | 256            | 0.93        | 0.36     | 6.10     | 45%    | 12%      |
+| therapy_sema_or_tirz       | 256            | 1.07        | 0.53     | 7.63     | 71%    | 0%       |
+| therapy_semaglutide        | 256            | 1.12        | 0.77     | 2.47     | 89%    | 0%       |
 
 ### Compute footprint and imaging what-if
 
@@ -988,9 +988,9 @@ Table: Training-fraction sweep (mean over 10 repeats). Training fraction = share
 
 ## Statistical inference (all P values, Benjamini-Hochberg q within family)
 
-Table: Within-study associations with NAION (count-weighted logistic regression with study fixed effects). Terms: exposed_ = GLP-1RA exposure in the named drug or indication subgroup; exposed_vs_ = versus the named comparator; exposed_x_ = interaction with the named study-level covariate (per 10 years of mean age, per 10 percentage points of women, per year of follow-up). OR = odds ratio; q = Benjamini-Hochberg adjusted P value. Remaining abbreviations and variable names: Nomenclature appendix.
+Table: Within-study associations with NAION (count-weighted logistic regression with study fixed effects). Specification = the regression model in which the term was estimated. Terms: exposed_ = GLP-1RA exposure in the named drug or indication subgroup; exposed_vs_ = versus the named comparator; exposed_x_ = interaction with the named study-level covariate (per 10 years of mean age, per 10 percentage points of women, per year of follow-up). OR = odds ratio; q = Benjamini-Hochberg adjusted P value. Remaining abbreviations and variable names: Nomenclature appendix.
 
-| Term                          | Model                                                                            | OR    | 95% CI low   | 95% CI high   | P      | q      |
+| Term                          | Specification                                                                    | OR    | 95% CI low   | 95% CI high   | P      | q      |
 |:------------------------------|:---------------------------------------------------------------------------------|:------|:-------------|:--------------|:-------|:-------|
 | glp1ra_exposed                | A2 study fixed effects: any GLP-1RA vs comparator                                | 1.587 | 1.422        | 1.772         | <0.001 | <0.001 |
 | exposed_semaglutide           | A2 study FE: exposure by drug                                                    | 1.730 | 1.439        | 2.080         | <0.001 | <0.001 |
@@ -1166,20 +1166,20 @@ Across the full factorial grid (45,360 configurations), 4452 hybrid or synthetic
 
 Table: Model performance by family. AUROC 10/90 = trained on 10%, tested on 90%; AUROC 10x10% folds = mean ± SD over ten disjoint folds; AUROC LOSO = leave-one-study-out; O/E = observed/expected events; Sens/Spec and PPV/NPV at the top-10% threshold; hybrid = real plus synthetic training data; synthetic only = no real training data; priors = published estimates used to generate synthetic data. Remaining abbreviations and variable names: Nomenclature appendix.\label{tbl:models}
 
-| Model                                                           | Training data         | AUROC 10/90   | AUROC 10×10% folds            | AUROC LOSO   | O/E   | Sens/Spec top 10%   | PPV/NPV top 10%   |
-|:----------------------------------------------------------------|:----------------------|:--------------|:------------------------------|:-------------|:------|:--------------------|:------------------|
-| Logistic regression (L2)                                        | PubMed only           | 0.627         | 0.616 ± 0.010                 | 0.528        | 1.01  | 0.26/0.85           | 0.075%/99.96%     |
-| Random forest                                                   | PubMed only           | 0.642         | 0.646 ± 0.014                 | 0.531        | 1.00  | 0.31/0.85           | 0.096%/99.96%     |
-| XGBoost                                                         | PubMed only           | 0.657         | 0.656 ± 0.011                 | 0.534        | 1.00  | 0.35/0.82           | 0.087%/99.97%     |
-| Mean ensemble (LR+RF+XGB)                                       | PubMed only           | 0.657         | 0.656 ± 0.011                 | —            | —     | 0.31/0.86           | 0.101%/99.97%     |
-| GNN (GraphSAGE, 2 layers)                                       | PubMed only           | 0.647         | 0.649 ± 0.014                 | 0.531        | 1.01  | 0.35/0.82           | 0.086%/99.97%     |
-| GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0)      | PubMed only           | —             | 0.657 (untouched folds)       | 0.541        | 1.03  | —                   | —                 |
-| xgb — pubmed only                                               | PubMed only           | —             | 0.667 (all fractions)         | —            | 1.00  | —                   | —                 |
-| xgb — hybrid (copula + structural generators, published priors, 100×, 10% synthetic)         | Hybrid                | —             | 0.669 (all fractions)         | —            | 1.01  | —                   | —                 |
-| ensemble — synthetic only (copula generator, real-data priors, 9×, 100% synthetic) | Synthetic only        | —             | 0.664 (all fractions)         | —            | 1.01  | —                   | —                 |
-| ensemble — synthetic only, 0% real (copula generator, 100×)                   | Published priors only | —             | 0.569 (all real data as test) | —            | 1.11  | —                   | —                 |
-| Ensemble cross_family(pubmed+hybrid+synthetic) (mean)           | PubMed only           | —             | 0.657 ± 0.010                 | —            | 1.01  | —                   | —                 |
-| Ensemble logreg+xgb (mean)                                      | PubMed only           | —             | 0.657 ± 0.008                 | —            | 1.00  | —                   | —                 |
+| Model                                                                | Training data         | AUROC 10/90   | AUROC 10×10% folds            | AUROC LOSO   | O/E   | Sens/Spec top 10%   | PPV/NPV top 10%   |
+|:---------------------------------------------------------------------|:----------------------|:--------------|:------------------------------|:-------------|:------|:--------------------|:------------------|
+| Logistic regression (L2)                                             | PubMed only           | 0.627         | 0.616 ± 0.010                 | 0.528        | 1.01  | 0.26/0.85           | 0.075%/99.96%     |
+| Random forest                                                        | PubMed only           | 0.642         | 0.646 ± 0.014                 | 0.531        | 1.00  | 0.31/0.85           | 0.096%/99.96%     |
+| XGBoost                                                              | PubMed only           | 0.657         | 0.656 ± 0.011                 | 0.534        | 1.00  | 0.35/0.82           | 0.087%/99.97%     |
+| Mean ensemble (LR+RF+XGB)                                            | PubMed only           | 0.657         | 0.656 ± 0.011                 | —            | —     | 0.31/0.86           | 0.101%/99.97%     |
+| GNN (GraphSAGE, 2 layers)                                            | PubMed only           | 0.647         | 0.649 ± 0.014                 | 0.531        | 1.01  | 0.35/0.82           | 0.086%/99.97%     |
+| GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0)           | PubMed only           | —             | 0.657 (untouched folds)       | 0.541        | 1.03  | —                   | —                 |
+| XGBoost (PubMed only)                                                | PubMed only           | —             | 0.667 (all fractions)         | —            | 1.00  | —                   | —                 |
+| XGBoost — hybrid (copula + structural generators, published priors, 100×, 10% synthetic)          | Hybrid                | —             | 0.669 (all fractions)         | —            | 1.01  | —                   | —                 |
+| Mean ensemble — synthetic only (copula generator, real-data priors, 9×, 100% synthetic) | Synthetic only        | —             | 0.664 (all fractions)         | —            | 1.01  | —                   | —                 |
+| Mean ensemble — synthetic only, 0% real (copula generator, 100×)                   | Published priors only | —             | 0.569 (all real data as test) | —            | 1.11  | —                   | —                 |
+| Ensemble cross-family (PubMed-only + hybrid + synthetic-only) (mean) | PubMed only           | —             | 0.657 ± 0.010                 | —            | 1.01  | —                   | —                 |
+| Ensemble LR+XGBoost (mean)                                           | PubMed only           | —             | 0.657 ± 0.008                 | —            | 1.00  | —                   | —                 |
 
 ## Data modalities and multimodal feasibility
 

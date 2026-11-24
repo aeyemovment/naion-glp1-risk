@@ -289,8 +289,20 @@ def table_abcd_ablation():
     d = pd.read_csv(p); d = d[d.metric == "auroc"][["experiment", "model", "without_abcd", "with_abcd", "diff", "q_bh"]]
     for c in ["without_abcd", "with_abcd"]: d[c] = d[c].map(lambda v: f(v, 4))
     d["diff"] = d["diff"].map(lambda v: f(v, 4)); d["q_bh"] = d.q_bh.map(pq)
+    MN = {"logreg": "LR", "rf": "RF", "xgb": "XGB", "gnn": "GNN", "cnn1d": "CNN", "ensemble": "Ens.", "autoencoder": "AE", "isolation_forest": "IForest",
+          "poisson_offset": "Poisson", "logreg_kingzeng": "LR (King-Zeng)", "xgb_balanced_raw": "XGB (balanced)", "xgb_balanced_priorcorrected": "XGB (balanced, prior-corrected)"}
+    UPD = {"glp_only": "GLP-1RA-only model", "gnn_joint": "GNN joint training", "pooled_refit": "pooled refit", "pretrain_only": "no update",
+           "recal_intercept": "intercept recalibration", "recal_logistic": "logistic recalibration", "xgb_continue": "XGB continued boosting"}
+    def lab(m):
+        parts = [x.strip() for x in str(m).split(" / ")]
+        if len(parts) == 4:
+            return f"{UPD.get(parts[3], parts[3])}; pretrain {parts[0]}, fine-tune {parts[1]}, {float(parts[2]) * 100:g}% GLP-1RA"
+        if m in MN: return MN[m]
+        m = re.sub(r"\b(logreg|rf|xgb|gnn|cnn1d)\b", lambda k: MN[k.group(1)], str(m))
+        return m.replace("cross_family", "cross-family").replace("(single)", "(single model)")
+    d["model"] = d.model.map(lab)
     return "Table: AUROC with and without partial ABCD2 features in every experiment (paired, identical splits; q, Benjamini-Hochberg).\n\n" + d.rename(columns={
-        "experiment": "Experiment", "model": "Model", "without_abcd": "Without ABCD", "with_abcd": "With ABCD", "diff": "Difference", "q_bh": "q"}).to_markdown(index=False)
+        "experiment": "Experiment", "model": "Model or configuration", "without_abcd": "Without ABCD", "with_abcd": "With ABCD", "diff": "Difference", "q_bh": "q"}).to_markdown(index=False)
 
 
 def results_combinations():
@@ -348,6 +360,8 @@ def tables_combinations():
             "T2_top10pct_sensitivity_mean": "Sens", "T2_top10pct_specificity_mean": "Spec", "T2_top10pct_accuracy_mean": "Acc",
             "T2_top10pct_ppv_mean": "PPV", "T2_top10pct_npv_mean": "NPV", "T2_top10pct_q_ppv_vs_prevalence": "q (PPV>prev)"}
     t = best[[c for c in cols if c in best.columns]].copy()
+    t["subset"] = t["subset"].str.split("|").map(" + ".join)
+    t["model"] = t["model"].map({"logreg": "LR", "rf": "RF", "xgb": "XGB", "gnn": "GNN", "cnn1d": "CNN", "ensemble": "Ens."}).fillna(t["model"])
     for c in t.columns:
         if c.startswith("q_") or "_q_" in c: t[c] = t[c].map(pq)
         elif t[c].dtype.kind == "f": t[c] = t[c].map(lambda v: f(v, 4) if abs(v) >= 0.01 else f"{v:.5f}")
@@ -358,7 +372,7 @@ def tables_combinations():
         for c in ["median_OR", "min_OR", "max_OR"]: s[c] = s[c].map(lambda v: ">10,000" if v >= 1e4 else ("<0.01" if v < 0.005 else f(v, 2)))
         for c in ["share_OR_gt1", "share_q05"]: s[c] = (100 * s[c]).map(lambda v: f"{v:.0f}%")
         out += ("\n\nTable: Odds-ratio reliability of each feature across all combinations that contain it (count-weighted logistic regression with cluster-robust standard "
-                "errors by study; study-level covariates are ecological and imprecise with 11 clusters).\n\n" + s.rename(columns={"base_feature": "Feature", "n_models": "Models",
+                "errors by study; study-level covariates are ecological and imprecise with 11 clusters).\n\n" + s.rename(columns={"base_feature": "Feature", "n_models": "Combinations",
                 "median_OR": "Median OR", "min_OR": "Min OR", "max_OR": "Max OR", "share_OR_gt1": "OR>1", "share_q05": "q<0.05"}).to_markdown(index=False))
     return out
 

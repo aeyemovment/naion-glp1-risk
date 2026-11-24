@@ -5,14 +5,19 @@ Every number is read from results/ at build time; sections whose runs have not f
 placeholder and are filled on the next build. research_prototype=true; compliance_ref=Addendum_5_DT9.
 NOT for clinical / diagnostic / regulatory use. Drafts for author review; not submitted.
 """
-import json, os, glob, subprocess, shutil, datetime as dt
+import json, os, re, glob, subprocess, shutil, datetime as dt
 import numpy as np, pandas as pd
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys; sys.path.insert(0, "src")
 _to_md = pd.DataFrame.to_markdown  # keep pre-formatted numbers (e.g. 1.20) exactly as written
-pd.DataFrame.to_markdown = lambda self, *a, **k: _to_md(self, *a, **{"disable_numparse": True, **k})
+def _safe_md(self, *a, **k):
+    """Refuse to emit a table whose cells or headers contain '|', which would split Markdown columns."""
+    bad = [str(c) for c in self.columns if "|" in str(c)] + [str(v) for v in self.to_numpy().ravel() if isinstance(v, str) and "|" in v]
+    if bad: raise ValueError(f"'|' inside a table cell would shift columns: {bad[:3]}")
+    return _to_md(self, *a, **{"disable_numparse": True, **k})
+pd.DataFrame.to_markdown = _safe_md
 from paper_sections_extra import intro_full, intro_nejm, methods_extended, results_extra, multimodal_table, results_incidence, table_incidence, results_subgroups, table_subgroups, calculator_section, results_abcd, table_abcd_ablation, results_combinations, tables_combinations, results_compute_imaging, methods_compute_imaging
 
 ROOT = os.path.expanduser("~/naion-glp1-risk"); os.chdir(ROOT)
@@ -187,7 +192,13 @@ def t_models():
         for r in S4["top10"][:2]:
             rows.append({"Model": f"Ensemble {r['ensemble']} ({r['method']})", "Training data": "PubMed only", "AUROC 10/90": "—", "AUROC 10×10% folds": f"{f(r['auroc'])} ± {f(r['sd'])}",
                          "AUROC LOSO": "—", "O/E": f(r["o_e"], 2), "Sens/Spec top 10%": "—", "PPV/NPV top 10%": "—"})
-    return pd.DataFrame(rows).to_markdown(index=False)
+    T = pd.DataFrame(rows)
+    def pm(m):
+        m = re.sub(r"cross_family\(pubmed\+hybrid\+synthetic\)", "cross-family (PubMed-only + hybrid + synthetic-only)", m)
+        m = re.sub(r"\blogreg\b", "LR", m); m = re.sub(r"^xgb\b|\bxgb\b", "XGBoost", m); m = re.sub(r"^ensemble\b", "Mean ensemble", m)
+        return m.replace(" — pubmed only", " (PubMed only)").replace("logreg+xgb", "LR+XGBoost")
+    T["Model"] = T["Model"].map(pm)
+    return T.to_markdown(index=False)
 
 def t_pvals(fam, cols, rename):
     d = S5[S5.family == fam][cols].copy()
@@ -546,7 +557,7 @@ def preprint():
             f"![SHAP beeswarm, XGBoost on the 90% hold-out.](results/stage1/fig_shap_beeswarm_xgb.png){{width=85%}}",
             f"![SHAP importance across ten folds.](results/stage1/fig_shap_kfold_importance.png){{width=85%}}",
             "### C. Statistical inference (all P values, Benjamini-Hochberg q within family)",
-            "Table: Within-study (study fixed effects) associations.\n\n" + t_pvals("A2_within_study_exposure", ["term", "model", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "model": "Model", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
+            "Table: Within-study (study fixed effects) associations.\n\n" + t_pvals("A2_within_study_exposure", ["term", "model", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "model": "Specification", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
             "Table: Marginal associations (cluster-robust SE by study; ecological, setting-confounded).\n\n" + t_pvals("A1_marginal_risk_factors", ["term", "OR", "ci_lo", "ci_hi", "p", "q_bh"], {"term": "Term", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
             "Table: SHAP permutation tests (B=500).\n\n" + t_pvals("B_shap_permutation", ["term", "obs_mean_abs_shap", "p", "q_bh", "p_within_study"], {"term": "Feature", "obs_mean_abs_shap": "Mean abs. SHAP", "p": "P (global null)", "q_bh": "q", "p_within_study": "P (within-study null)"}),
             "Table: Random-effects meta-analysis of published estimates.\n\n" + t_pvals("C_meta_analysis", ["term", "k", "pooled_ratio", "ci_lo", "ci_hi", "I2", "p", "q_bh"], {"term": "Analysis", "pooled_ratio": "Pooled ratio", "ci_lo": "95% CI low", "ci_hi": "95% CI high", "p": "P", "q_bh": "q"}),
