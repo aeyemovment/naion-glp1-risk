@@ -15,15 +15,11 @@
 # raw downloads: full texts and abstracts are not redistributed (PMIDs + refs only)
 /data/raw/fulltext/
 /data/raw/pubmed_records.json
-# paper: keep IEEE source+PDF, PDFs of other versions, release docs; drop working copies
+# paper: only the IEEE version is published; preprint, NEJM AI and medRxiv submission folders stay local
 /paper/*
 !/paper/ieee/
-!/paper/preprint/
-!/paper/nejm_ai/
 !/paper/data_release/
 !/paper/style/
-/paper/preprint/*.docx
-/paper/nejm_ai/*.docx
 /paper/data_release/synthetic/
 /paper/ieee/*.aux
 /paper/ieee/*.log
@@ -52,5 +48,3 @@ __pycache__/
 /results/stage3/factorial_tf30.csv
 /results/stage3/factorial_tf20.csv
 !/paper/overleaf_ieee/
-!/paper/medrxiv_submission/
-/paper/medrxiv_submission/*.zip

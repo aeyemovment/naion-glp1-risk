@@ -25,7 +25,7 @@ Code, model weights, derived data, synthetic data and manuscript for:
 | `data/extracted/` | structured extractions — every value has source PMID + evidence quote |
 | `data/processed/pseudo_ipd.csv` | count-weighted reconstructed patient-level data (11 cohorts) |
 | `data/raw/` | PMIDs, reference metadata, extraction rules (full texts/abstracts not redistributed) |
-| `paper/ieee/` | IEEE (IEEEtran) LaTeX source, figures, bib and PDF; `paper/preprint`, `paper/nejm_ai` PDFs + LaTeX |
+| `paper/ieee/`, `paper/overleaf_ieee/` | IEEE (IEEEtran) manuscript: LaTeX source, figures, bib and PDF (the only manuscript version in this repository) |
 | `paper/data_release/` | release README, data dictionary, checksums, real-derived CSVs, result tables |
 | `results/` | per-stage summaries, tables and figures |
 
