@@ -151,10 +151,11 @@ reported lower second-eye NAION with aspirin
 \cite{p9427177, p10624433}, but a larger retrospective cohort found
 possible short-term and little or no long-term benefit \cite{p9186127},
 and aspirin use was not associated with fellow-eye NAION in the
-prospectively followed IONDT cohort \cite{p12208242}. No randomized
-evidence was identified for aspirin in any risk-defined subgroup,
-including drug-associated NAION; this gap is relevant to whether
-antiplatelet therapy could be targeted at high-risk patients.
+prospectively followed IONDT cohort \cite{p12208242}. Aspirin is
+nevertheless commonly given after a first event to protect the fellow
+eye, and practice varies; no randomized evidence supports it, and no
+preventive treatment has been tested in people without NAION or in
+drug-associated NAION.
 
 GLP-1 is an intestinal L-cell hormone that augments insulin and
 suppresses glucagon secretion, slows gastrointestinal motility and
@@ -1056,6 +1057,61 @@ cardiovascular disease & 6 & -0.0009 & 0.0000 \\
 \bottomrule\end{tabular}}
 \end{table}
 
+\subsection{Aspirin decision threshold for flagged
+patients}\label{aspirin-decision-threshold-for-flagged-patients}
+
+Aspirin is used after a first NAION to protect the fellow eye, so we
+asked what aspirin would achieve if given to people the score flags. No
+extracted cohort or case report recorded aspirin exposure, so its effect
+on NAION could not be estimated from these data. Instead, the measured
+PPV of each threshold (ten disjoint folds) was combined with an assumed
+relative risk reduction of 25\% or 50\% (a scenario range; the upper
+value matches the most favourable observational fellow-eye reports) and
+the excess major bleeding with aspirin in primary prevention, an
+absolute increase of 0.47\% in a meta-analysis of 13 trials
+\cite{p30667501}. At the XGBoost top-10\% threshold (PPV 0.087\%),
+about 1,143 flagged people correspond to each NAION event. Even with a
+50\% risk reduction, 2,287 people would need aspirin to prevent one
+NAION, preventing 4.4 events per 10,000 treated while causing about 47
+excess major bleeds, or 11 major bleeds per NAION prevented (21 with a
+25\% reduction). Across models and thresholds the number needed to treat
+ranged from 1,982 to 5,924. To break even, with bleeding and NAION
+weighted equally, aspirin would need a PPV of 0.94\% (50\% reduction) to
+1.88\% (25\% reduction), 9 to 28 times the PPV the score achieved. The
+horizons differ (NAION over cohort follow-up, bleeding over about 6
+years of trial follow-up), and the calculation does not address aspirin
+after a first event, where the absolute risk to the fellow eye is far
+higher.
+
+\begin{table*}[!htbp]\centering\caption{Aspirin decision threshold for patients flagged by the score.
+Decision-analytic calculation, not an estimate from data: PPV is the
+score's measured positive predictive value (mean over ten disjoint 10\%
+folds); RRR, assumed relative risk reduction of NAION with aspirin (no
+randomized estimate exists); NNT, number needed to treat to prevent one
+NAION (1 / (PPV x RRR)); major bleeds, excess with aspirin in primary
+prevention (absolute increase 0.47\%; Zheng and Roddick 2019, 13
+trials); break-even PPV, the PPV at which NAION prevented equals excess
+major bleeds. Horizons differ (NAION over cohort follow-up; bleeding
+over about 6 years). XGB, XGBoost; RRR, relative risk reduction.
+Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\textwidth}{\begin{tabular}{lllllllll}\toprule
+Model & Threshold & PPV (\%) & Assumed RRR & NNT & NAION prevented per 10,000 & Major bleeds per 10,000 & Bleeds per NAION prevented & PPV needed to break even (\%) \\
+\midrule
+Ensemble & Youden & 0.069 & 25\% & 5,816 & 1.7 & 47 & 27.3 & 1.88 \\
+Ensemble & Youden & 0.069 & 50\% & 2,908 & 3.4 & 47 & 13.7 & 0.94 \\
+Ensemble & Top 10\% & 0.101 & 25\% & 3,965 & 2.5 & 47 & 18.6 & 1.88 \\
+Ensemble & Top 10\% & 0.101 & 50\% & 1,982 & 5.0 & 47 & 9.3 & 0.94 \\
+Ensemble & Top 20\% & 0.080 & 25\% & 5,024 & 2.0 & 47 & 23.6 & 1.88 \\
+Ensemble & Top 20\% & 0.080 & 50\% & 2,512 & 4.0 & 47 & 11.8 & 0.94 \\
+XGB & Youden & 0.068 & 25\% & 5,924 & 1.7 & 47 & 27.8 & 1.88 \\
+XGB & Youden & 0.068 & 50\% & 2,962 & 3.4 & 47 & 13.9 & 0.94 \\
+XGB & Top 10\% & 0.087 & 25\% & 4,573 & 2.2 & 47 & 21.5 & 1.88 \\
+XGB & Top 10\% & 0.087 & 50\% & 2,287 & 4.4 & 47 & 10.7 & 0.94 \\
+XGB & Top 20\% & 0.078 & 25\% & 5,116 & 2.0 & 47 & 24.0 & 1.88 \\
+XGB & Top 20\% & 0.078 & 50\% & 2,558 & 3.9 & 47 & 12.0 & 0.94 \\
+\bottomrule\end{tabular}}
+\end{table*}
+
 \subsection{Feature combinations and the compounding
 hypothesis}\label{feature-combinations-and-the-compounding-hypothesis}
 
@@ -1201,17 +1257,28 @@ tomography before treatment, counselling, or slower dose escalation,
 consistent with recent consensus recommendations
 \cite{p42132708, p41058255}.
 
-The intended clinical question is whether a validated score can identify
-patients who should start antiplatelet therapy. These data cannot answer
-it. Risk prediction is not treatment-effect prediction; none of the
-extracted cohorts or case reports recorded antiplatelet exposure, NAION
-is not primarily thromboembolic, and the evidence for aspirin after
-NAION is limited. At the observed PPV, treating every flagged patient
-would expose roughly a thousand people to bleeding risk per event that
-occurs, before any benefit is assumed. Answering the question requires
-prospective validation with patient-level predictors (disc morphology,
-sleep apnoea, nocturnal hypotension, dose escalation) followed by a
-risk-stratified trial with bleeding as a co-primary safety outcome.
+No preventive treatment for NAION of any cause is proven in randomized
+trials, and the score is not intended to select patients for a
+preventive drug. Aspirin is commonly given after a first event to
+protect the fellow eye, but that practice rests on conflicting
+observational data and varies between clinicians; it has never been
+studied as primary prophylaxis in people without NAION, and nothing in
+these data could support such use: risk prediction is not
+treatment-effect prediction, and none of the extracted cohorts or case
+reports recorded antiplatelet exposure. The aspirin threshold analysis
+makes the scale explicit: even assuming a 50\% risk reduction, about
+2,300 flagged people would need aspirin to prevent one NAION, at a cost
+of roughly 11 excess major bleeds per NAION prevented. The realistic
+uses are low-harm steps taken before or during GLP-1RA treatment:
+counselling and informed consent; a baseline dilated examination or
+optical coherence tomography to document a crowded disc at risk; the
+choice of agent, indication and dose-escalation schedule; and teaching
+patients to report painless visual loss promptly. A related question is
+whether to continue a GLP-1RA after NAION in one eye, given the risk to
+the fellow eye. For research, the score can enrich cohorts for
+pharmacovigilance and prospective studies. Each of these uses still
+requires prospective validation with patient-level predictors (disc
+morphology, sleep apnoea, nocturnal hypotension, dose escalation).
 
 Synthetic twins helped only weak learners. In the full factorial
 experiment, thousands of hybrid configurations improved logistic
@@ -1296,10 +1363,11 @@ versus chance).
 \textbf{Answer.} Published evidence supports a reproducible association
 between GLP-1RA exposure and NAION, strongest with obesity indications,
 but it does not support individual risk prediction good enough to select
-patients for treatment, including antiplatelet therapy. The model is a
-research tool for enriching cohorts, and its main product is a benchmark
-and protocol for the patient-level, imaging-linked prospective data that
-the question requires.
+patients for any treatment, and no preventive treatment for NAION is
+proven. The model is a research tool for counselling-level risk
+discussion and for enriching cohorts, and its main product is a
+benchmark and protocol for the patient-level, imaging-linked prospective
+data that the question requires.
 
 \clearpage\onecolumn
 \appendices
@@ -2258,8 +2326,8 @@ appendix.}
 
 {\footnotesize
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1714}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8286}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.0980}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.9020}}@{}}
 \caption{TRIPOD+AI reporting items (Transparent Reporting of a
 multivariable prediction model for Individual Prognosis Or Diagnosis, AI
 extension) and where each is addressed. Remaining abbreviations and
@@ -2285,8 +2353,9 @@ Where addressed
 Title/abstract & Identifies prediction-model development with ML on
 published aggregate evidence; structured abstract \\
 Background/objectives & Introduction: intended use = research risk
-stratification; future use = antiplatelet selection (not yet
-supported) \\
+stratification to guide low-harm steps (counselling, baseline disc
+examination, agent and titration choice, symptom education) and trial
+enrichment; not for treatment selection \\
 Data source & Methods: PubMed search, extraction schema, pseudo-IPD
 reconstruction \\
 Participants & Table~\ref{tbl:cohorts}: 11 non-overlapping cohorts;
@@ -2385,8 +2454,8 @@ messaging; not evidence of safety \\
 Net benefit & \textgreater{} treat-all and \textgreater{} treat-none at
 the trained thresholds & NA & Advantage only at threshold probabilities
 \ensuremath{\approx} 0.03--0.1\%, i.e.~for near-harmless actions (dilated exam / OCT of the
-disc, counselling, slower dose escalation). Not for antiplatelet
-therapy, whose bleeding risk implies a far higher treatment threshold \\
+disc, counselling, slower dose escalation). Not for starting a
+preventive drug: none is proven for primary prevention of NAION \\
 \end{longtable}
 }
 
@@ -2408,20 +2477,23 @@ therapy, whose bleeding risk implies a far higher treatment threshold \\
   limitation; patient-level features would fix it.
 \end{itemize}
 
-\subsection{Implication for the intended use (antiplatelet
-selection)}\label{implication-for-the-intended-use-antiplatelet-selection}
+\subsection{Implication for the intended
+use}\label{implication-for-the-intended-use}
 
 \begin{itemize}
 \tightlist
 \item
-  At PPV \textless{} 0.1\%, an antiplatelet given to everyone flagged
-  would treat about 1,000 people per NAION event that occurs, before any
-  treatment effect is considered. Antiplatelet benefit for NAION is
-  unproven.
+  At PPV \textless{} 0.1\%, about 1,000 flagged people correspond to
+  each NAION event, so only near-harmless actions are proportionate:
+  counselling, a baseline disc examination or OCT, agent and titration
+  choices, and symptom education. No preventive treatment for NAION is
+  proven in randomized trials (fellow-eye aspirin after a first event
+  rests on observational data), so the score is not a basis for primary
+  prophylaxis.
 \item
   The score in its current form supports research enrichment (choosing
   whom to examine or enrol), not treatment selection. Prospective,
-  patient-level validation plus a risk-stratified trial are required.
+  patient-level validation is required.
 \end{itemize}
 
 \section{Long result tables}

@@ -228,7 +228,7 @@ def t_thresholds():
 
 TRIPOD = pd.DataFrame([
     ("Title/abstract", "Identifies prediction-model development with ML on published aggregate evidence; structured abstract"),
-    ("Background/objectives", "Introduction: intended use = research risk stratification; future use = antiplatelet selection (not yet supported)"),
+    ("Background/objectives", "Introduction: intended use = research risk stratification to guide low-harm steps (counselling, baseline disc examination, agent and titration choice, symptom education) and trial enrichment; not for treatment selection"),
     ("Data source", "Methods: PubMed search, extraction schema, pseudo-IPD reconstruction"),
     ("Participants", "Table 1: 11 non-overlapping cohorts; eligibility = exposed/comparator counts for both arms"),
     ("Outcome", "NAION (or ischemic optic neuropathy where only ION reported; flagged as a feature)"),
@@ -386,11 +386,15 @@ def discussion():
          "Specificity added nothing beyond the flag rate, accuracy was uninformative because the outcome is rare, and the high NPV mainly reflected the low prevalence. Net benefit was "
          "positive only at threshold probabilities suited to low-risk actions such as a dilated examination or optical coherence tomography before treatment, counselling, or slower dose "
          "escalation, consistent with recent consensus recommendations [@p42132708; @p41058255].",
-         "The intended clinical question is whether a validated score can identify patients who should start antiplatelet therapy. These data cannot answer it. Risk prediction is not "
-         "treatment-effect prediction; none of the extracted cohorts or case reports recorded antiplatelet exposure, NAION is not primarily thromboembolic, and the evidence for aspirin "
-         "after NAION is limited. At the observed PPV, treating every flagged patient would expose roughly a thousand people to bleeding risk per event that occurs, before any benefit is "
-         "assumed. Answering the question requires prospective validation with patient-level predictors (disc morphology, sleep apnoea, nocturnal hypotension, dose escalation) followed by "
-         "a risk-stratified trial with bleeding as a co-primary safety outcome.",
+         "No preventive treatment for NAION of any cause is proven in randomized trials, and the score is not intended to select patients for a preventive drug. Aspirin is "
+         "commonly given after a first event to protect the fellow eye, but that practice rests on conflicting observational data and varies between clinicians; it has never been "
+         "studied as primary prophylaxis in people without NAION, and nothing in these data could support such use: risk prediction is not treatment-effect prediction, and none of "
+         "the extracted cohorts or case reports recorded antiplatelet exposure. The aspirin threshold analysis makes the scale explicit: even assuming a 50% risk "
+         "reduction, about 2,300 flagged people would need aspirin to prevent one NAION, at a cost of roughly 11 excess major bleeds per NAION prevented. The realistic uses are low-harm steps "
+         "taken before or during GLP-1RA treatment: counselling and informed consent; a baseline dilated examination or optical coherence tomography to document a crowded disc at risk; "
+         "the choice of agent, indication and dose-escalation schedule; and teaching patients to report painless visual loss promptly. A related question is whether to continue a "
+         "GLP-1RA after NAION in one eye, given the risk to the fellow eye. For research, the score can enrich cohorts for pharmacovigilance and prospective studies. Each of these uses "
+         "still requires prospective validation with patient-level predictors (disc morphology, sleep apnoea, nocturnal hypotension, dose escalation).",
          "Synthetic twins helped only weak learners. In the full factorial experiment, thousands of hybrid configurations improved logistic regression, consistent with "
          "regularization, but the best hybrid XGBoost gained only 0.0015 AUROC; twins built from published priors alone produced little more than chance discrimination, and "
          "fine-tuning a background model worked only with real GLP-1RA data. Twins cannot create patient-level information that the source data do not contain.",
@@ -450,8 +454,8 @@ def conclusion():
         f"convolutional, ensemble, anomaly-detection and synthetic digital-twin variants did not improve on it. In studies the model had not "
         f"seen, AUROC fell to {f(S1['loso_summary']['xgb']['auroc'])} (P{eq(lo.p)} versus chance).",
         "**Answer.** Published evidence supports a reproducible association between GLP-1RA exposure and NAION, strongest with obesity "
-        "indications, but it does not support individual risk prediction good enough to select patients for treatment, including "
-        "antiplatelet therapy. The model is a research tool for enriching cohorts, and its main product is a benchmark and protocol for the "
+        "indications, but it does not support individual risk prediction good enough to select patients for any treatment, "
+        "and no preventive treatment for NAION is proven. The model is a research tool for counselling-level risk discussion and for enriching cohorts, and its main product is a benchmark and protocol for the "
         "patient-level, imaging-linked prospective data that the question requires."])
 
 
@@ -495,6 +499,37 @@ def plain_terms(md):
     return md
 
 import nomenclature as NOM, captions as CAP
+
+def results_aspirin(table=True):
+    """Stage 20: aspirin decision threshold for flagged patients (decision-analytic; no aspirin data in the cohorts)."""
+    if not os.path.exists("results/stage20/aspirin_threshold.csv"): return ""
+    A = pd.read_csv("results/stage20/aspirin_threshold.csv")
+    x = A[(A.model == "xgb") & (A.threshold == "T2_top10pct")].set_index("assumed_rrr")
+    rng = lambda c: f"{A[c].min():,.0f} to {A[c].max():,.0f}"
+    txt = ("### Aspirin decision threshold for flagged patients\n\n"
+           "Aspirin is used after a first NAION to protect the fellow eye, so we asked what aspirin would achieve if given to people the score flags. "
+           "No extracted cohort or case report recorded aspirin exposure, so its effect on NAION could not be estimated from these data. Instead, the "
+           "measured PPV of each threshold (ten disjoint folds) was combined with an assumed relative risk reduction of 25% or 50% (a scenario range; "
+           "the upper value matches the most favourable observational fellow-eye reports) and the excess major bleeding with aspirin in primary "
+           "prevention, an absolute increase of 0.47% in a meta-analysis of 13 trials [@p30667501]. "
+           f"At the XGBoost top-10% threshold (PPV {100*x.loc[0.5,'ppv']:.3f}%), about {x.loc[0.5,'flagged_per_event']:,.0f} flagged people correspond to each NAION event. "
+           f"Even with a 50% risk reduction, {x.loc[0.5,'nnt']:,.0f} people would need aspirin to prevent one NAION, preventing "
+           f"{x.loc[0.5,'prevented_per_10k']:.1f} events per 10,000 treated while causing about {x.loc[0.5,'bleeds_per_10k']:.0f} excess major bleeds, "
+           f"or {x.loc[0.5,'bleeds_per_naion_prevented']:.0f} major bleeds per NAION prevented ({x.loc[0.25,'bleeds_per_naion_prevented']:.0f} with a 25% reduction). "
+           f"Across models and thresholds the number needed to treat ranged from {rng('nnt')}. To break even, with bleeding and NAION weighted equally, "
+           f"aspirin would need a PPV of {100*x.loc[0.5,'ppv_needed_break_even']:.2f}% (50% reduction) to {100*x.loc[0.25,'ppv_needed_break_even']:.2f}% (25% reduction), "
+           f"{A.ppv_shortfall_x.min():.0f} to {A.ppv_shortfall_x.max():.0f} times the PPV the score achieved. The horizons differ (NAION over cohort follow-up, "
+           "bleeding over about 6 years of trial follow-up), and the calculation does not address aspirin after a first event, where the absolute risk "
+           "to the fellow eye is far higher.")
+    if not table: return txt
+    T = A.assign(Model=A.model.map(MODEL_LABELS).fillna(A.model), Threshold=A.threshold.map({"T1_youden": "Youden", "T2_top10pct": "Top 10%", "T3_top20pct": "Top 20%"}))
+    T = pd.DataFrame({"Model": T.Model, "Threshold": T.Threshold, "PPV (%)": (100 * A.ppv).map(lambda v: f"{v:.3f}"),
+                      "Assumed RRR": (100 * A.assumed_rrr).map(lambda v: f"{v:.0f}%"), "NNT": A.nnt.map(lambda v: f"{v:,.0f}"),
+                      "NAION prevented per 10,000": A.prevented_per_10k.map(lambda v: f"{v:.1f}"), "Major bleeds per 10,000": A.bleeds_per_10k.map(lambda v: f"{v:.0f}"),
+                      "Bleeds per NAION prevented": A.bleeds_per_naion_prevented.map(lambda v: f"{v:.1f}"),
+                      "PPV needed to break even (%)": (100 * A.ppv_needed_break_even).map(lambda v: f"{v:.2f}")})
+    return txt + "\n\nTable: Aspirin decision threshold for patients flagged by the score.\n\n" + T.to_markdown(index=False)
+
 
 def results_optional_covariates(table=True):
     """Stage 19: optional covariates trained on the real (sparsely reported) cohort data."""
@@ -593,7 +628,7 @@ NEJM_FIG = {"flow": "Figure 2", "within": "Figure 3", "shap": "Figure 3", "roc":
 
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods().replace("## Methods\n\n", "## Methods\n\nFigure 1 summarizes the end-to-end pipeline, from the PubMed search to the released models and calculator.\n\n", 1), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), results_optional_covariates(table=False), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), calculator_section(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"), discussion(), AI_USE,
+          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods().replace("## Methods\n\n", "## Methods\n\nFigure 1 summarizes the end-to-end pipeline, from the PubMed search to the released models and calculator.\n\n", 1), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), results_optional_covariates(table=False), results_aspirin(table=False), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), calculator_section(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
           "Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.\n\n" + t_models(),
@@ -616,7 +651,7 @@ def nejm():
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"),
+            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), results_aspirin(), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"),
             (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
             (f"![AUROC and PPV of each model within non-users and within GLP-1RA users (mean ± SD over ten folds).](results/stage11/fig_subgroups.png){{width=100%}}" if os.path.exists("results/stage11/fig_subgroups.png") else ""),

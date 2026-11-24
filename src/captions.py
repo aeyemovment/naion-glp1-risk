@@ -184,6 +184,12 @@ TAB = {
         "Threshold metrics of the best PubMed-only model (XGBoost): advantages and limitations. Values are means over ten disjoint 10% "
         "training folds (tested on the remaining 90%) unless stated; Youden, top 10% and top 20% = decision thresholds fixed on the training "
         "data; vs chance = P value against the chance or no-information reference stated; LR+ = positive likelihood ratio; prevalence = 0.044%.",
+    "Aspirin decision threshold for patients flagged by the score":
+        "Aspirin decision threshold for patients flagged by the score. Decision-analytic calculation, not an estimate from data: PPV is the score's "
+        "measured positive predictive value (mean over ten disjoint 10% folds); RRR, assumed relative risk reduction of NAION with aspirin (no randomized "
+        "estimate exists); NNT, number needed to treat to prevent one NAION (1 / (PPV x RRR)); major bleeds, excess with aspirin in primary prevention "
+        "(absolute increase 0.47%; Zheng and Roddick 2019, 13 trials); break-even PPV, the PPV at which NAION prevented equals excess major bleeds. "
+        "Horizons differ (NAION over cohort follow-up; bleeding over about 6 years). XGB, XGBoost; RRR, relative risk reduction.",
     "Optional covariates trained on the cohort data":
         "Optional covariates trained on the cohort data: AUROC gain over the core model when each covariate is added alone (mean ensemble of "
         "XGBoost and L2 logistic regression; positive = better). Covariates are study-level prevalences (hypertension, sleep apnoea, "
