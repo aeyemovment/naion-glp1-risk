@@ -17,6 +17,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GroupKFold
 
 warnings.filterwarnings("ignore")
+from feature_labels import nice
 OUT = "results/stage1b"; os.makedirs(OUT, exist_ok=True)
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
 SER = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
@@ -111,7 +112,7 @@ res["meta_regression"] = {"n_estimates": int(len(m)), "n_studies": int(len(np.un
                           "pooled_weighted_ratio": float(np.exp(null)), "grouped_cv_weighted_r2": float(r2),
                           "shap_importance_grouped": imp.round(4).to_dict()}
 top = pd.Series(np.average(np.abs(sv), axis=0, weights=w), index=Xm.columns).sort_values(ascending=False).index[:12]
-plt.figure(); shap.summary_plot(sv[:, [list(Xm.columns).index(c) for c in top]], Xm[top], show=False, plot_size=(6.5, 4))
+plt.figure(); shap.summary_plot(sv[:, [list(Xm.columns).index(c) for c in top]], Xm[top].rename(columns=nice), show=False, plot_size=(6.5, 4))
 plt.xlabel("SHAP value (log ratio scale)"); plt.tight_layout(); plt.savefig(f"{OUT}/fig_meta_shap.png", dpi=300); plt.close("all")
 # forest plot of primary estimates
 _REFS = json.load(open("data/raw/refs.json"))

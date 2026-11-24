@@ -10,6 +10,8 @@ plt.rcParams.update({"font.size": 9, "font.family": "DejaVu Sans"})
 BLUE, ORANGE, GREEN, PURPLE, GOLD, RED, GREY, INK = "#2a78d6", "#eb6834", "#1baf7a", "#6250d6", "#eda100", "#e34948", "#a3a29d", "#0b0b0b"
 C = {"logreg": BLUE, "rf": ORANGE, "xgb": GREEN}
 NAMES = {"logreg": "Logistic regression (L2)", "rf": "Random forest", "xgb": "XGBoost"}
+import sys; sys.path.insert(0, "src")
+from feature_labels import nice
 plain = FuncFormatter(lambda v, _: f"{v:g}")
 
 
@@ -80,9 +82,23 @@ def shap_importance():
     for j, nm in enumerate(["logreg", "xgb"]):
         s = st[nm].reindex(top)
         ax.barh(np.arange(len(top)) + (j - 0.5) * 0.36, s.mean_abs_shap, height=0.34, xerr=s.sd, color=C[nm], error_kw={"lw": 1, "ecolor": "#52514e"}, label=NAMES[nm])
-    ax.set_yticks(np.arange(len(top)), top); ax.set_xlabel("Mean absolute SHAP value (log-odds), mean ± SD over 10 folds")
+    ax.set_yticks(np.arange(len(top)), [nice(t) for t in top]); ax.set_xlabel("Mean absolute SHAP value (log-odds), mean ± SD over 10 folds")
     ax.legend(frameon=False, fontsize=7, loc="lower right"); ax.grid(axis="x", color="#e4e3df"); ax.set_axisbelow(True); clean(ax)
     fig.tight_layout(); fig.savefig("results/stage1/fig_shap_kfold_importance.png", dpi=300); plt.close(fig)
+
+
+def beeswarm():
+    """XGBoost SHAP beeswarm on the 90% hold-out (same sample as stage1_models.py), with readable feature labels."""
+    import shap
+    from common import ipd, X_all, fit
+    from splits import holdout_10_90
+    tr, te = holdout_10_90(ipd, seed=2026); m = fit("xgb", tr); rng = np.random.default_rng(0)
+    idx = np.concatenate([np.repeat(te.index[te.y == 1], te.n[te.y == 1]),
+                          rng.choice(te.index[te.y == 0], 6000, p=(te.n[te.y == 0] / te.n[te.y == 0].sum()).to_numpy())])
+    sv = shap.TreeExplainer(m)(X_all.loc[idx]); sv.feature_names = [nice(c) for c in X_all.columns]
+    plt.figure(); shap.plots.beeswarm(sv, max_display=12, show=False, plot_size=(7, 4.2))
+    plt.xlabel("SHAP value (impact on model output, log-odds)"); plt.tight_layout()
+    plt.savefig("results/stage1/fig_shap_beeswarm_xgb.png", dpi=300); plt.close("all")
 
 
 # ---- published-estimate forest: full x label, plain ticks -----------------------------------------------------
@@ -162,5 +178,5 @@ def stage8():
 
 
 if __name__ == "__main__":
-    for fn in (imaging, incidence, kfold, shap_importance, forest, gnn, stage7, stage8):
+    for fn in (imaging, incidence, kfold, shap_importance, beeswarm, forest, gnn, stage7, stage8):
         fn(); print("ok", fn.__name__)

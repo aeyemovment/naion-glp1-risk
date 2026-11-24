@@ -24,7 +24,7 @@
 \bstctlcite{IEEEexample:BSTcontrol}
 \title{Toward a Foundation Model for NAION Risk Stratification in GLP-1 Receptor Agonist Users: Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence}
 \author{Kemar Earl Green, DO, FANA\textsuperscript{1,2}\thanks{Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\_only twins; compliance reference Addendum 5, DT\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. This preprint has not been peer reviewed. \copyright\ 2026 NeuroAgent AI, Inc.; code, model weights and data are licensed for non-commercial research use only, with attribution.}\\[4pt] {\normalsize\itshape \textsuperscript{1}Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA\\ \textsuperscript{2}NeuroAgent AI, Inc., Baltimore, MD, USA\\[2pt] \upshape\texttt{kemarearlgreen@neuroagentai.org}}}
-\markboth{}{Green: GLP-1 receptor agonists and NAION --- ML on published evidence}
+\markboth{}{Green: GLP-1 receptor agonists and NAION: ML on published evidence}
 \maketitle
 \begin{abstract}
 \emph{Background:} Observational studies and pharmacovigilance reports
@@ -409,7 +409,7 @@ populations) are released with a data dictionary and checksums.
 \subsection{Detailed description of every
 experiment}\label{detailed-description-of-every-experiment}
 
-\textbf{Stage 1 --- PubMed-only supervised learning.} Logistic
+\textbf{Stage 1: PubMed-only supervised learning.} Logistic
 regression (weights rescaled to the number of events so that the L2
 penalty is meaningful), random forest and XGBoost were evaluated with a
 10\%/90\% split, ten disjoint 10\% training folds and
@@ -421,7 +421,7 @@ cross-validation. \textbf{Stage 1c} repeated Stage 1 at training
 fractions of 10\% to 90\% (10 repeats each) and measured SHAP-rank
 agreement with Kendall's W.
 
-\textbf{Stage 2 --- synthetic-data grid with local refinement.} XGBoost
+\textbf{Stage 2: synthetic-data grid with local refinement.} XGBoost
 was trained on mixtures defined by three generators, six volumes (1, 3,
 6, 9, 27 and 100 times the real training size) and synthetic shares of
 10\% to 100\%, crossed with real held-out fractions of 10\% to 100\% and
@@ -431,7 +431,7 @@ otherwise bootstrapped) and s\ensuremath{\times}V\ensuremath{\times}R twins. The
 best cell with halving steps while AUROC improved by \ensuremath{\geq}0.005 (maximum
 depth 3).
 
-\textbf{Stage 3 --- full factorial.} Four models (logistic regression,
+\textbf{Stage 3: full factorial.} Four models (logistic regression,
 random forest, XGBoost and their mean) trained on identical data per
 cell; real training fractions 0\% to 90\%; seven generator sets (every
 non-empty combination of the marginal, copula and structural
@@ -442,12 +442,12 @@ robust configurations were ranked across all training fractions under a
 calibration constraint (\textbar O/E\ensuremath{-}1\textbar\textless0.10, slope 0.9
 to 1.1).
 
-\textbf{Stage 4 --- ensembles.} Eleven member subsets of logistic
+\textbf{Stage 4: ensembles.} Eleven member subsets of logistic
 regression, random forest, XGBoost and the GNN, three combiners (mean,
 inner-CV AUROC weights, logistic stacking on inner out-of-fold logits)
 and a cross-family ensemble, under the same split paradigms.
 
-\textbf{Stage 5 --- inference.} Count-weighted logistic models (marginal
+\textbf{Stage 5: inference.} Count-weighted logistic models (marginal
 with cluster-robust errors; within-study with study fixed effects,
 including exposure by drug, indication, comparator and study-level age,
 sex and follow-up); SHAP permutation tests (500 refits, global and
@@ -456,7 +456,7 @@ demographic contrasts (exact binomial, Wilcoxon, ratio-of-ratios z
 tests); and threshold metrics with tests against chance, McNemar and
 corrected resampled t comparisons, and net benefit.
 
-\textbf{Stage 6 --- graph neural networks.} GraphSAGE on a pattern graph
+\textbf{Stage 6: graph neural networks.} GraphSAGE on a pattern graph
 (k-nearest neighbours plus same-study links), with integrated-gradient
 attributions, under all split paradigms; \textbf{Stage 6c} tuned depth
 (1 to 6), k, edge weighting and same-study weight (360 configurations)
@@ -464,14 +464,14 @@ and learned attention weights (graph attention network, depths 1 to 6),
 selecting on folds 0 to 4, confirming on folds 5 to 9 and testing the
 top configurations by leave-one-study-out validation.
 
-\textbf{Stage 7 --- background-risk model with external validation in
+\textbf{Stage 7: background-risk model with external validation in
 GLP-1RA users.} Models trained only on non-GLP patients (internal splits
 as above) were applied to all GLP-1RA-exposed patients to discriminate
 NAION from no NAION; observed-to-expected ratios with exact Poisson
 intervals quantify how much a background model under-predicts GLP-1RA
 users. A GLP-aware model trained on both arms served as reference.
 
-\textbf{Stage 8 --- fine-tuning.} Within each of five repeats, non-GLP
+\textbf{Stage 8: fine-tuning.} Within each of five repeats, non-GLP
 patients were split 80/20 (pretraining pool, forgetting test) and GLP
 patients 50/10/40 (fine-tuning pool, validation, test). Pretraining
 sources (none, real, synthetic, hybrid) were crossed with fine-tuning
@@ -483,7 +483,7 @@ up-weighting (selected on validation), pooled refitting and GLP-only
 training. Three additional split schemes tested transport in each
 direction and the standard mixed split.
 
-\textbf{Stage 10 --- incidence, rare-event and anomaly models.}
+\textbf{Stage 10: incidence, rare-event and anomaly models.}
 Incidence rates per 100,000 person-years used reported person-years
 where available and otherwise N \ensuremath{\times} follow-up; rates were stratified by
 drug, indication, comparator, region, data source, study age band,
@@ -499,7 +499,7 @@ exposure-by-age strata. Anomaly detectors (Isolation Forest, one-class
 SVM, Local Outlier Factor and an autoencoder) were trained on non-event
 patients of the training split only.
 
-\textbf{Stage 11 --- detection within GLP-1RA users and within
+\textbf{Stage 11: detection within GLP-1RA users and within
 non-users.} Every model (logistic regression, random forest, XGBoost,
 GNN, 1D-CNN, mean ensemble, Poisson rate model, Isolation Forest and
 autoencoder) was trained on mixed data in each of the ten folds and
@@ -508,7 +508,7 @@ set (AUROC, PR-AUC, O/E, calibration slope and threshold metrics at the
 training top-10\% threshold); group differences were tested with
 corrected paired t tests and Benjamini-Hochberg correction.
 
-\textbf{Stage 12 --- validated vascular score and a proposed
+\textbf{Stage 12: validated vascular score and a proposed
 NAION-adapted score.} The ABCD2 score and its newest extension ABCD3-I
 were derived where possible (age 60 years or older as the expected share
 from study mean age with an assumed SD of 12 years; blood pressure from
@@ -521,7 +521,7 @@ with the same splits. \textbf{Stage 12b} repeated every experiment with
 and without the ABCD features using identical splits and seeds, so that
 all differences are paired.
 
-\textbf{Stage 14 --- feature combinations and the compounding
+\textbf{Stage 14: feature combinations and the compounding
 hypothesis.} Because a calculator should accept whatever inputs are
 available, models were trained on every non-empty combination of nine
 feature groups (exposure, drug, indication, age, sex, duration,
@@ -535,7 +535,7 @@ values with corrected t tests and Benjamini-Hochberg correction. A
 single XGBoost trained with random feature-group dropout was compared
 with a bank of dedicated sub-models for each input pattern.
 
-\textbf{Stage 9 --- convolutional networks and multimodal feasibility.}
+\textbf{Stage 9: convolutional networks and multimodal feasibility.}
 A one-dimensional CNN treated the encoded feature vector as a sequence
 (two convolution layers, global max pooling and a skip connection) under
 the same paradigms. A two- and three-dimensional imaging pipeline
@@ -543,7 +543,7 @@ the same paradigms. A two- and three-dimensional imaging pipeline
 Grad-CAM) was implemented and verified on random tensors, but could not
 be trained because no analysable images exist in the published corpus.
 
-\textbf{Stage 15 --- compute, energy and token use.} Energy was
+\textbf{Stage 15: compute, energy and token use.} Energy was
 estimated with the Green Algorithms method (runtime \ensuremath{\times} {[}cores \ensuremath{\times}
 per-core power + memory \ensuremath{\times} 0.3725 W/GB{]} \ensuremath{\times} PUE) for an Apple M3 Pro
 laptop (PUE 1.0, package power 25 to 45 W), with run times taken from
@@ -552,7 +552,7 @@ each stage's log where available, and converted to CO2e at 0.10 to 0.70
 predictions. Tokens consumed by the AI assistant were recorded where
 metered.
 
-\textbf{Stage 16 --- what-if: multimodal ocular imaging.} For each
+\textbf{Stage 16: what-if: multimodal ocular imaging.} For each
 reconstructed patient, imaging features were drawn conditional on the
 observed outcome (P{[}feature \textbar{} NAION{]} \ensuremath{\propto} prior \ensuremath{\times} odds ratio;
 P{[}feature \textbar{} no NAION{]} = prior), independently across
@@ -650,8 +650,7 @@ training folds the AUROC was 0.656 \ensuremath{\pm} 0.011 and O/E 1.00
 q\ensuremath{\geq}0.27). AUROC rose with training fraction to a plateau near 0.67 at
 40\% to 60\%. In unseen studies, AUROC fell to 0.534. SHAP rankings were
 stable across folds; permutation tests confirmed signal for exposure
-(q=0.004) and therapy (q=0.015), while data source and region ---
-markers of setting rather than patient risk --- carried the largest
+(q=0.004) and therapy (q=0.015), while data source and region (markers of setting rather than patient risk) carried the largest
 attributions (Fig.~\ref{fig:shap}).
 
 \begin{figure*}[!t]
@@ -873,7 +872,7 @@ and negative predictive values (proportions). LR, logistic regression;
 RF, random forest; XGB, XGBoost; GNN, graph neural network; CNN,
 one-dimensional convolutional network; Ens., mean ensemble; Poisson,
 Poisson regression with person-time offset; IForest, isolation forest;
-AE, autoencoder; --- = not applicable (anomaly scores are not calibrated
+AE, autoencoder; NA = not applicable (anomaly scores are not calibrated
 probabilities). Remaining abbreviations and variable names: Nomenclature
 appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{llllllllll}\toprule
@@ -893,10 +892,10 @@ Ens. & GLP-1RA users & 0.5977 & 0.0061 & 1.0674 & 0.3662 & 0.7374 & 0.7372 & 0.0
 Ens. & non-users & 0.6719 & 0.0015 & 0.9581 & 0.3150 & 0.8917 & 0.8914 & 0.0014 & 0.9997 \\
 Poisson & GLP-1RA users & 0.5972 & 0.0060 & 1.0153 & 0.3636 & 0.7426 & 0.7424 & 0.0010 & 0.9996 \\
 Poisson & non-users & 0.6706 & 0.0016 & 1.0112 & 0.3254 & 0.8817 & 0.8815 & 0.0013 & 0.9997 \\
-IForest & GLP-1RA users & 0.5110 & 0.0006 & --- & 0.2234 & 0.7991 & 0.7988 & 0.0006 & 0.9995 \\
-IForest & non-users & 0.5767 & 0.0007 & --- & 0.2405 & 0.9292 & 0.9289 & 0.0013 & 0.9997 \\
-AE & GLP-1RA users & 0.5136 & 0.0037 & --- & 0.2349 & 0.8168 & 0.8165 & 0.0008 & 0.9995 \\
-AE & non-users & 0.6114 & 0.0008 & --- & 0.1617 & 0.9475 & 0.9472 & 0.0012 & 0.9997 \\
+IForest & GLP-1RA users & 0.5110 & 0.0006 & NA & 0.2234 & 0.7991 & 0.7988 & 0.0006 & 0.9995 \\
+IForest & non-users & 0.5767 & 0.0007 & NA & 0.2405 & 0.9292 & 0.9289 & 0.0013 & 0.9997 \\
+AE & GLP-1RA users & 0.5136 & 0.0037 & NA & 0.2349 & 0.8168 & 0.8165 & 0.0008 & 0.9995 \\
+AE & non-users & 0.6114 & 0.0008 & NA & 0.1617 & 0.9475 & 0.9472 & 0.0012 & 0.9997 \\
 \bottomrule\end{tabular}}
 \end{table*}
 
@@ -1186,8 +1185,8 @@ discriminated only modestly, and most of what it learned was where a
 patient was treated rather than who the patient was. Discrimination
 collapsed toward chance in studies the model had not seen, and the
 strongest attributions went to data source and region. More flexible
-learners --- graph neural networks, ensembles and synthetic digital
-twins --- did not change this picture.
+learners (graph neural networks, ensembles and synthetic digital
+twins) did not change this picture.
 
 The threshold metrics show what this means in practice. Sensitivity and
 PPV beat chance, so the score enriches for cases roughly twofold, which
@@ -1598,14 +1597,14 @@ abbreviations and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\textwidth}{\begin{tabular}{lllllll}\toprule
 Source & Data type & Modalities & No.~of modalities & Records & Patients & Used in \\
 \midrule
-PubMed bibliographic records & unstructured text (title, abstract) + metadata & text & 1 & 169 & --- & screening, extraction \\
-PMC open-access full texts & unstructured text + embedded tables & text, tabular & 2 & 60 & --- & extraction \\
-Cohort / case-control studies (extracted) & structured tabular: categorical + numeric counts/effects & categorical, numeric & 2 & 166 & --- & pseudo-IPD (Stage 1), meta-regression, twin generators \\
+PubMed bibliographic records & unstructured text (title, abstract) + metadata & text & 1 & 169 & NA & screening, extraction \\
+PMC open-access full texts & unstructured text + embedded tables & text, tabular & 2 & 60 & NA & extraction \\
+Cohort / case-control studies (extracted) & structured tabular: categorical + numeric counts/effects & categorical, numeric & 2 & 166 & NA & pseudo-IPD (Stage 1), meta-regression, twin generators \\
 Reconstructed pseudo-IPD & structured tabular (count-weighted patient rows) & categorical, numeric, binary outcome & 2 & 48 & 3,271,499 & Stage 1 supervised ML, Stage 2 test sets \\
 Case reports / series (extracted) & structured tabular from narrative text & categorical, numeric, free-text notes & 3 & 20 & 20 & unsupervised phenotyping \\
 Case-report ophthalmic imaging (figures only, not analysed as pixels) & image (fundus photo, OCT RNFL/GCIPL, visual fields, MRI) & image & 1 & 17 & 8 & inventory only (pre/post pairs counted); insufficient n for CV/DL \\
-Pharmacovigilance (FAERS, VigiBase, EudraVigilance) & structured tabular (disproportionality statistics) & categorical, numeric & 2 & 25 & --- & external priors, discussion \\
-RCT-pooled analyses and meta-analyses & structured tabular (pooled estimates) & categorical, numeric & 2 & 44 & --- & external priors for synthetic-only (h=100\%) generators \\
+Pharmacovigilance (FAERS, VigiBase, EudraVigilance) & structured tabular (disproportionality statistics) & categorical, numeric & 2 & 25 & NA & external priors, discussion \\
+RCT-pooled analyses and meta-analyses & structured tabular (pooled estimates) & categorical, numeric & 2 & 44 & NA & external priors for synthetic-only (h=100\%) generators \\
 Video & - & none located & 0 & 0 & 0 & - \\
 \bottomrule\end{tabular}}
 \end{table}
@@ -1701,15 +1700,16 @@ XGB & 90\% & 0.6641 & 0.0227 & 0.0053 & 0.0004 & 0.9885 & 0.9621 & 0.1082 \\
 
 \begin{figure}
 \centering
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are named variable\_level (e.g., therapy\_sglt2i = SGLT2-inhibitor comparator arm; source\_type\_single\_center = single-center data source). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_beeswarm_xgb.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are labelled `Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm; Data source: single centre = single-centre study); `missing' marks a not-reported indicator. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_beeswarm_xgb.png}
 \caption{SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each
 dot is one covariate pattern; the x-axis is its SHAP value (contribution
 to the predicted log-odds of NAION; right = higher risk); colour is the
 feature value (red = high or 1, blue = low or 0). Features are ordered
-by mean absolute SHAP value; one-hot features are named variable\_level
-(e.g., therapy\_sglt2i = SGLT2-inhibitor comparator arm;
-source\_type\_single\_center = single-center data source). Remaining
-abbreviations and variable names: Nomenclature appendix.}
+by mean absolute SHAP value; one-hot features are labelled `Variable:
+level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm;
+Data source: single centre = single-centre study); `missing' marks a
+not-reported indicator. Remaining abbreviations and variable names:
+Nomenclature appendix.}
 \end{figure}
 
 \section{Statistical inference (all P values, Benjamini-Hochberg q
@@ -1871,10 +1871,10 @@ Analysis & k & Pooled ratio & 95\% CI low & 95\% CI high & I2 & P & q \\
 All studies (most precise estimate each) & 25.000 & 1.341 & 1.161 & 1.549 & 86.6 & \textless0.001 & \textless0.001 \\
 Indication = T2D & 20.000 & 1.363 & 1.163 & 1.598 & 87.8 & \textless0.001 & \textless0.001 \\
 Indication = T2D or obesity & 2.000 & 1.859 & 0.764 & 4.525 & 86.9 & 0.172 & 0.229 \\
-Subgroup difference by indication & 2.000 & --- & --- & --- & --- & 0.501 & 0.501 \\
+Subgroup difference by indication & 2.000 & NA & NA & NA & NA & 0.501 & 0.501 \\
 Drug = any GLP-1RA & 15.000 & 1.302 & 1.128 & 1.504 & 81.1 & \textless0.001 & \textless0.001 \\
 Drug = semaglutide & 8.000 & 1.569 & 1.007 & 2.444 & 91.9 & 0.047 & 0.075 \\
-Subgroup difference by drug & 2.000 & --- & --- & --- & --- & 0.434 & 0.496 \\
+Subgroup difference by drug & 2.000 & NA & NA & NA & NA & 0.434 & 0.496 \\
 Excluding IIH cohort & 24.000 & 1.380 & 1.196 & 1.592 & 86.4 & \textless0.001 & \textless0.001 \\
 \bottomrule\end{tabular}}
 \end{table}
@@ -2002,17 +2002,16 @@ abbreviations and variable names: Nomenclature appendix.}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). Features describe the publication: dataset\_ (data source, e.g., danish = Danish registries, trinetx = TriNetX network, medicare = Medicare claims), design\_ (cohort or target-trial emulation), comparator\_cls\_ (comparator class), exposure\_drug\_ (exposure drug), followup (years) and followup\_missing (not reported). Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_meta_shap.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). Features describe the publication: data source (e.g., Danish registries, TriNetX network, Medicare claims), design (cohort or target-trial emulation), comparator class, exposure drug, follow-up (years) and whether follow-up was not reported. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_meta_shap.png}
 \caption{SHAP summary for the random-forest meta-regression of 148
 published log ratio estimates from 25 studies. Each dot is one published
 estimate; the x-axis is its SHAP value on the log-ratio scale; colour is
 the feature value (red = 1 or high, blue = 0 or low). Features describe
-the publication: dataset\_ (data source, e.g., danish = Danish
-registries, trinetx = TriNetX network, medicare = Medicare claims),
-design\_ (cohort or target-trial emulation), comparator\_cls\_
-(comparator class), exposure\_drug\_ (exposure drug), followup (years)
-and followup\_missing (not reported). Remaining abbreviations and
-variable names: Nomenclature appendix.}
+the publication: data source (e.g., Danish registries, TriNetX network,
+Medicare claims), design (cohort or target-trial emulation), comparator
+class, exposure drug, follow-up (years) and whether follow-up was not
+reported. Remaining abbreviations and variable names: Nomenclature
+appendix.}
 \end{figure}
 
 \section{Graph neural networks}\label{graph-neural-networks-1}
@@ -2184,27 +2183,27 @@ Random forest & PubMed only & 0.642 & 0.646 \ensuremath{\pm} 0.014 & 0.531 & 1.0
 0.31/0.85 & 0.096\%/99.96\% \\
 XGBoost & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & 0.534 & 1.00 & 0.35/0.82
 & 0.087\%/99.97\% \\
-Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & --- &
---- & 0.31/0.86 & 0.101\%/99.97\% \\
+Mean ensemble (LR+RF+XGB) & PubMed only & 0.657 & 0.656 \ensuremath{\pm} 0.011 & NA &
+NA & 0.31/0.86 & 0.101\%/99.97\% \\
 GNN (GraphSAGE, 2 layers) & PubMed only & 0.647 & 0.649 \ensuremath{\pm} 0.014 & 0.531
 & 1.01 & 0.35/0.82 & 0.086\%/99.97\% \\
 GNN tuned (SAGE, depth 6, k=20, uniform, study weight 5.0) & PubMed only
-& --- & 0.657 (untouched folds) & 0.541 & 1.03 & --- & --- \\
-XGBoost (PubMed only) & PubMed only & --- & 0.667 (all fractions) & ---
-& 1.00 & --- & --- \\
-XGBoost --- hybrid (copula + structural generators, published priors,
-100\ensuremath{\times}, 10\% synthetic) & Hybrid & --- & 0.669 (all fractions) & --- &
-1.01 & --- & --- \\
-Mean ensemble --- synthetic only (copula generator, real-data priors,
-9\ensuremath{\times}, 100\% synthetic) & Synthetic only & --- & 0.664 (all fractions) &
---- & 1.01 & --- & --- \\
-Mean ensemble --- synthetic only, 0\% real (copula generator, 100\ensuremath{\times}) &
-Published priors only & --- & 0.569 (all real data as test) & --- & 1.11
-& --- & --- \\
+& NA & 0.657 (untouched folds) & 0.541 & 1.03 & NA & NA \\
+XGBoost (PubMed only) & PubMed only & NA & 0.667 (all fractions) & NA
+& 1.00 & NA & NA \\
+XGBoost: hybrid (copula + structural generators, published priors,
+100\ensuremath{\times}, 10\% synthetic) & Hybrid & NA & 0.669 (all fractions) & NA &
+1.01 & NA & NA \\
+Mean ensemble: synthetic only (copula generator, real-data priors,
+9\ensuremath{\times}, 100\% synthetic) & Synthetic only & NA & 0.664 (all fractions) &
+NA & 1.01 & NA & NA \\
+Mean ensemble: synthetic only, 0\% real (copula generator, 100\ensuremath{\times}) &
+Published priors only & NA & 0.569 (all real data as test) & NA & 1.11
+& NA & NA \\
 Ensemble cross-family (PubMed-only + hybrid + synthetic-only) (mean) &
-PubMed only & --- & 0.657 \ensuremath{\pm} 0.010 & --- & 1.01 & --- & --- \\
-Ensemble LR+XGBoost (mean) & PubMed only & --- & 0.657 \ensuremath{\pm} 0.008 & --- &
-1.00 & --- & --- \\
+PubMed only & NA & 0.657 \ensuremath{\pm} 0.010 & NA & 1.01 & NA & NA \\
+Ensemble LR+XGBoost (mean) & PubMed only & NA & 0.657 \ensuremath{\pm} 0.008 & NA &
+1.00 & NA & NA \\
 \end{longtable}
 }
 
@@ -2384,7 +2383,7 @@ NPV & 99.97\% & p \textless{} 1e-12 vs 1 \ensuremath{-} prevalence & Mostly refl
 the low prevalence (baseline 99.956\%). Advantage only for reassurance
 messaging; not evidence of safety \\
 Net benefit & \textgreater{} treat-all and \textgreater{} treat-none at
-the trained thresholds & --- & Advantage only at threshold probabilities
+the trained thresholds & NA & Advantage only at threshold probabilities
 \ensuremath{\approx} 0.03--0.1\%, i.e.~for near-harmless actions (dilated exam / OCT of the
 disc, counselling, slower dose escalation). Not for antiplatelet
 therapy, whose bleeding risk implies a far higher treatment threshold \\

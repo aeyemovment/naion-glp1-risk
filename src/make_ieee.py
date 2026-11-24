@@ -49,6 +49,16 @@ def to_ascii_tex(t):
     if left: raise SystemExit(f"unmapped non-ASCII characters: {left}")
     return t
 
+def no_em_dashes(t):
+    """Remove long dashes (---) from the LaTeX: 'Stage N --- X' -> 'Stage N: X'; paired asides -> parentheses;
+    empty table cells -> NA; any other --- -> colon. En dashes (--, ranges) are kept."""
+    t = re.sub(r"(\\textbf\{Stage \d+) --- ", r"\1: ", t)
+    t = re.sub(r"(^|&)([ \t]*)---(?=\s*(?:&|\\\\))", r"\1\2NA", t, flags=re.M)
+    t = t.replace("--- = not applicable", "NA = not applicable")
+    t = re.sub(r" ---\s+([^&\n]{1,120}(?:\n[^&\n]{1,120})?)\s+--- ", r" (\1) ", t)
+    t = re.sub(r"\s*---\s*", ": ", t)
+    return t
+
 def author_block(thanks):
     """Name with superscript affiliation numbers, then numbered affiliations and e-mail beneath (arXiv-style)."""
     aff = "\\\\ ".join(f"\\textsuperscript{{{i}}}{a}" for i, a in enumerate(AFFILS, 1))
@@ -90,7 +100,7 @@ def build():
     thanks = ("Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
               "compliance reference Addendum 5, DT\\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. "
               "This preprint has not been peer reviewed. \\copyright\\ 2026 NeuroAgent AI, Inc.; code, model weights and data are licensed for non-commercial research use only, with attribution.")
-    meta = {"title": MP.title, "author": author_block(thanks), "shorttitle": "Green: GLP-1 receptor agonists and NAION --- ML on published evidence",
+    meta = {"title": MP.title, "author": author_block(thanks), "shorttitle": "Green: GLP-1 receptor agonists and NAION: ML on published evidence",
             "abstract": tolatex(abstract_md), "keywords": KEYWORDS}
     args = ["pandoc", f"{d}/ieee.md", "-f", "markdown+pipe_tables+implicit_figures+raw_attribute", "-t", "latex", "-s", "--natbib",
             "--shift-heading-level-by=-1", "--template", "paper/style/ieee_template.tex", "--lua-filter", "paper/style/ieee_floats.lua",
@@ -99,7 +109,7 @@ def build():
     subprocess.run(args, check=True)
     t = open(f"{d}/naion_glp1_ieee.tex").read()
     t = re.sub(r"\\cite[pt]\{", r"\\cite{", t)
-    t = to_ascii_tex(t)
+    t = no_em_dashes(to_ascii_tex(t))
     for pth in set(re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", t)):
         src = pth if os.path.isabs(pth) else os.path.join(MP.ROOT, pth)
         if os.path.exists(src):

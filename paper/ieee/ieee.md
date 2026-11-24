@@ -1011,7 +1011,7 @@ Table: Training-fraction sweep (mean over 10 repeats). Training fraction = share
 | XGB     | 80%                 | 0.6733  | 0.0099     | 0.0053   | 0.0004  | 0.9867       | 0.9799 | 0.0475   |
 | XGB     | 90%                 | 0.6641  | 0.0227     | 0.0053   | 0.0004  | 0.9885       | 0.9621 | 0.1082   |
 
-![SHAP summary (beeswarm) for XGBoost on the 90% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are named variable_level (e.g., therapy_sglt2i = SGLT2-inhibitor comparator arm; source_type_single_center = single-center data source). Remaining abbreviations and variable names: Nomenclature appendix.](results/stage1/fig_shap_beeswarm_xgb.png){width=85%}
+![SHAP summary (beeswarm) for XGBoost on the 90% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are labelled 'Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm; Data source: single centre = single-centre study); 'missing' marks a not-reported indicator. Remaining abbreviations and variable names: Nomenclature appendix.](results/stage1/fig_shap_beeswarm_xgb.png){width=85%}
 
 
 ## Statistical inference (all P values, Benjamini-Hochberg q within family)
@@ -1160,7 +1160,7 @@ Among 18 NAION case patients (median age 47; 69% men; 15 semaglutide, 2 tirzepat
 
 ![Case-report phenotypes: NAION case patients from case reports and series projected onto the first two principal components (PC1, PC2; percentage of variance explained in parentheses) of standardized clinical features. Colours = k-means clusters at the best silhouette solution (k = 2); one cluster contains a single tirzepatide-treated patient, so no stable multi-patient phenotype was found. Remaining abbreviations and variable names: Nomenclature appendix.](results/stage1b/fig_case_phenotypes_pca.png){width=60%}
 
-![SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). Features describe the publication: dataset_ (data source, e.g., danish = Danish registries, trinetx = TriNetX network, medicare = Medicare claims), design_ (cohort or target-trial emulation), comparator_cls_ (comparator class), exposure_drug_ (exposure drug), followup (years) and followup_missing (not reported). Remaining abbreviations and variable names: Nomenclature appendix.](results/stage1b/fig_meta_shap.png){width=80%}
+![SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). Features describe the publication: data source (e.g., Danish registries, TriNetX network, Medicare claims), design (cohort or target-trial emulation), comparator class, exposure drug, follow-up (years) and whether follow-up was not reported. Remaining abbreviations and variable names: Nomenclature appendix.](results/stage1b/fig_meta_shap.png){width=80%}
 
 ## Graph neural networks
 

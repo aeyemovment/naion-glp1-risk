@@ -28,8 +28,8 @@ FIG = {
     "fig_shap_beeswarm_xgb.png":
         "SHAP summary (beeswarm) for XGBoost on the 90% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution "
         "to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features "
-        "are ordered by mean absolute SHAP value; one-hot features are named variable_level (e.g., therapy_sglt2i = SGLT2-inhibitor "
-        "comparator arm; source_type_single_center = single-center data source).",
+        "are ordered by mean absolute SHAP value; one-hot features are labelled 'Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor "
+        "comparator arm; Data source: single centre = single-centre study); 'missing' marks a not-reported indicator.",
     "fig_shap_kfold_importance.png":
         "Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with "
         "one-hot levels summed into their parent variable (therapy = drug arm; region; source_type = data source; outcome_def = outcome "
@@ -50,9 +50,8 @@ FIG = {
     "fig_meta_shap.png":
         "SHAP summary for the random-forest meta-regression of 148 published log ratio estimates from 25 studies. Each dot is one published "
         "estimate; the x-axis is its SHAP value on the log-ratio scale; colour is the feature value (red = 1 or high, blue = 0 or low). "
-        "Features describe the publication: dataset_ (data source, e.g., danish = Danish registries, trinetx = TriNetX network, medicare = "
-        "Medicare claims), design_ (cohort or target-trial emulation), comparator_cls_ (comparator class), exposure_drug_ (exposure drug), "
-        "followup (years) and followup_missing (not reported).",
+        "Features describe the publication: data source (e.g., Danish registries, TriNetX network, Medicare claims), "
+        "design (cohort or target-trial emulation), comparator class, exposure drug, follow-up (years) and whether follow-up was not reported.",
     "fig_gnn_depth_weights.png":
         "Graph neural network tuning, evaluated on untouched folds 5 to 9 (AUROC). (A) Network depth (1 to 6 message-passing layers) by edge "
         "weighting: uniform = all k-nearest-neighbour edges weight 1; gauss0.5, gauss1, gauss2 = Gaussian kernel of feature distance with "
