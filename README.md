@@ -9,7 +9,9 @@ Code, model weights, derived data, synthetic data and manuscript for:
 
 **Green KE.** *Toward a Foundation Model for NAION Risk Stratification in GLP-1 Receptor Agonist Users: Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence.* medRxiv preprint (not peer reviewed), 2026.
 
-**Research calculator:** https://naion-glp1-calculator.vercel.app (client-side; research use only)
+**Research calculator v1** (described in the medRxiv preprint): https://naion-glp1-calculator.vercel.app (client-side; research use only)
+
+**Research calculator v2** (exploratory; core ensemble plus optional cup-to-disc ratio and sleep apnoea, selected in Stage 18; not validated): https://naion-glp1-calculator-v2.vercel.app (`app_v2/`)
 
 ## Key results
 - Within-study OR for NAION with GLP-1RA exposure 1.59 (95% CI 1.42–1.77); semaglutide 1.73; obesity indication 2.70.
