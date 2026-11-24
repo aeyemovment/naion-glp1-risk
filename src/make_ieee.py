@@ -9,7 +9,7 @@ import make_papers as MP
 
 # credentials as on the author's 2026 arXiv paper (arXiv:2606.09681v2)
 AUTHOR_NAME = "Kemar Earl Green, DO, FANA"
-AFFILS = ["Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA", "NeuroAgent AI, Inc., Baltimore, MD, USA"]
+AFFILS = ["NeuroAgentAI, Inc., Baltimore, MD, USA", "Johns Hopkins Data Science and AI Institute, Baltimore, MD, USA"]  # order as edited by author in Overleaf 2026-11-24
 EMAIL = "kemarearlgreen@neuroagentai.org"
 KEYWORDS = ("Nonarteritic anterior ischemic optic neuropathy, GLP-1 receptor agonists, semaglutide, machine learning, "
             "synthetic data, digital twins, graph neural networks, risk prediction, explainable AI")
@@ -62,7 +62,7 @@ def no_em_dashes(t):
 def author_block(thanks):
     """Name with superscript affiliation numbers, then numbered affiliations and e-mail beneath (arXiv-style)."""
     aff = "\\\\ ".join(f"\\textsuperscript{{{i}}}{a}" for i, a in enumerate(AFFILS, 1))
-    return (f"{AUTHOR_NAME}\\textsuperscript{{{','.join(str(i) for i in range(1, len(AFFILS) + 1))}}}\\thanks{{{thanks}}}"
+    return (f"{AUTHOR_NAME}\\textsuperscript{{{','.join(str(i) for i in range(1, len(AFFILS) + 1))}}}" + (f"\\thanks{{{thanks}}}" if thanks else "") +
             f"\\\\[4pt] {{\\normalsize\\itshape {aff}\\\\[2pt] \\upshape\\texttt{{{EMAIL}}}}}")
 
 def build():
@@ -97,9 +97,7 @@ def build():
     d = "paper/ieee"; os.makedirs(f"{d}/figures", exist_ok=True)
     open(f"{d}/ieee.md", "w").write(md_ieee)
     tolatex = lambda s: subprocess.run(["pandoc", "-f", "markdown", "-t", "latex"], input=s, capture_output=True, text=True, check=True).stdout.strip()
-    thanks = ("Research prototype: uses only published aggregate data and computationally generated synthetic records (synthetic\\_only twins; "
-              "compliance reference Addendum 5, DT\\#9); not validated for clinical, diagnostic, treatment-selection or regulatory use. "
-              "This preprint has not been peer reviewed. \\copyright\\ 2026 NeuroAgent AI, Inc.; code, model weights and data are licensed for non-commercial research use only, with attribution.")
+    thanks = ""  # boilerplate footnote removed by author in Overleaf 2026-11-24
     meta = {"title": MP.title, "author": author_block(thanks), "shorttitle": "Green: GLP-1 receptor agonists and NAION: ML on published evidence",
             "abstract": tolatex(abstract_md), "keywords": KEYWORDS}
     args = ["pandoc", f"{d}/ieee.md", "-f", "markdown+pipe_tables+implicit_figures+raw_attribute", "-t", "latex", "-s", "--natbib",
