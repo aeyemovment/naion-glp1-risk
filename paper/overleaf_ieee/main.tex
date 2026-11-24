@@ -940,6 +940,54 @@ Reported hypertension and sleep apnea prevalence & 4 & 1,476,079 & 611 & 2.02 & 
 \bottomrule\end{tabular}}
 \end{table*}
 
+\subsection{Optional covariates trained on the cohort
+data}\label{optional-covariates-trained-on-the-cohort-data}
+
+To test whether the sparsely reported cohort covariates could serve as
+optional calculator inputs, a separate model was trained for every
+availability pattern of six covariates (hyperlipidaemia (6 of 11),
+cardiovascular disease (6 of 11), hypertension (5 of 11), sleep apnoea
+(4 of 11), HbA1c (3 of 11), BMI (2 of 11); 64 patterns), each on the
+core features plus that subset, with XGBoost (native handling of missing
+values), L2 logistic regression (median imputation with missing-value
+indicators) and their mean ensemble. Each model was compared with the
+core model on identical splits: the ten disjoint 10\% training folds and
+leave-one-study-out. To avoid optimistic selection, covariates were
+chosen by forward selection on folds 0 to 4 (kept if the gain was at
+least 0.005 AUROC with Benjamini-Hochberg q \textless{} 0.05,
+Nadeau-Bengio corrected t test) and confirmed on folds 5 to 9 and
+leave-one-study-out. No covariate was kept. Added alone, no covariate
+changed fold AUROC by more than 0.0009; the first forward-selection step
+(sleep apnoea) gained 0.0012 (P=0.94), and all six together changed
+AUROC by -0.0004 (0.655 vs 0.656). In unseen studies, all six together
+gave 0.544 vs 0.535 for the core model; the change came from a single
+held-out study. Because these covariates are study-level prevalences or
+means, they mainly identify the study, which the core features already
+encode, and a patient's own value cannot be learned from them. The
+optional-input design therefore needs patient-level covariates; in the
+reconstructed published data, the core model is the validated model.
+
+\begin{table}[!htbp]\centering\caption{Optional covariates trained on the cohort data: AUROC gain over the core
+model when each covariate is added alone (mean ensemble of XGBoost and
+L2 logistic regression; positive = better). Covariates are study-level
+prevalences (hypertension, sleep apnoea, hyperlipidaemia, cardiovascular
+disease) or means (HbA1c, BMI). 10 folds = ten disjoint 10\% training
+folds tested on the remaining 90\%; leave-one-study-out = trained on ten
+cohorts, tested on the eleventh. No covariate met the selection rule
+(gain at least 0.005 AUROC with Benjamini-Hochberg q \textless{} 0.05).
+Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
+\maxwbox{\columnwidth}{\begin{tabular}{llll}\toprule
+Covariate & Cohorts reporting (of 11) & AUROC gain, 10 folds & AUROC gain, leave-one-study-out \\
+\midrule
+sleep apnoea & 4 & 0.0006 & 0.0101 \\
+hyperlipidaemia & 6 & 0.0002 & 0.0088 \\
+HbA1c & 3 & 0.0002 & 0.0000 \\
+BMI & 2 & -0.0003 & 0.0088 \\
+hypertension & 5 & -0.0003 & -0.0034 \\
+cardiovascular disease & 6 & -0.0009 & 0.0000 \\
+\bottomrule\end{tabular}}
+\end{table}
+
 \subsection{Feature combinations and the compounding
 hypothesis}\label{feature-combinations-and-the-compounding-hypothesis}
 
@@ -1254,6 +1302,7 @@ AI & artificial intelligence \\
 AION & anterior ischemic optic neuropathy \\
 AUROC & area under the receiver operating characteristic curve \\
 B & number of permutations \\
+BMI & body mass index \\
 BP & blood pressure \\
 CDR & cup-to-disc ratio \\
 CI & confidence interval \\
@@ -1278,6 +1327,7 @@ GLP-1RA & glucagon-like peptide-1 receptor agonist \\
 GNN & graph neural network \\
 Grad-CAM & gradient-weighted class activation mapping \\
 GraphSAGE & graph sample-and-aggregate network \\
+HbA1c & glycated haemoglobin \\
 IC025 & lower 95\% credibility bound of the information component
 (pharmacovigilance) \\
 IForest & isolation forest (anomaly detector) \\

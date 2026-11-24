@@ -496,6 +496,37 @@ def plain_terms(md):
 
 import nomenclature as NOM, captions as CAP
 
+def results_optional_covariates(table=True):
+    """Stage 19: optional covariates trained on the real (sparsely reported) cohort data."""
+    if not os.path.exists("results/stage19/summary.json"): return ""
+    S = J("results/stage19/summary.json"); G = pd.read_csv("results/stage19/single_covariate_gain.csv"); P = pd.read_csv("results/stage19/forward_selection.csv")
+    NM = {"hypertension": "hypertension", "sleep_apnoea": "sleep apnoea", "hyperlipidaemia": "hyperlipidaemia", "cardiovascular_disease": "cardiovascular disease",
+          "hba1c": "HbA1c", "bmi": "BMI"}
+    rep = ", ".join(f"{NM[g]} ({k} of 11)" for g, k in sorted(S["reported_by"].items(), key=lambda x: -x[1]))
+    C = S["confirmation"]; best = P.iloc[0]
+    txt = ("### Optional covariates trained on the cohort data\n\n"
+           "To test whether the sparsely reported cohort covariates could serve as optional calculator inputs, a separate model was trained for every "
+           f"availability pattern of six covariates ({rep}; 64 patterns), each on the core features plus that subset, with XGBoost (native handling of "
+           "missing values), L2 logistic regression (median imputation with missing-value indicators) and their mean ensemble. Each model was compared "
+           "with the core model on identical splits: the ten disjoint 10% training folds and leave-one-study-out. To avoid optimistic selection, "
+           "covariates were chosen by forward selection on folds 0 to 4 (kept if the gain was at least 0.005 AUROC with Benjamini-Hochberg q < 0.05, "
+           "Nadeau-Bengio corrected t test) and confirmed on folds 5 to 9 and leave-one-study-out. "
+           f"No covariate was kept. Added alone, no covariate changed fold AUROC by more than {f(G.gain_folds.abs().max(), 4)}; the first forward-selection "
+           f"step ({NM[best.added]}) gained {f(best.gain_sel, 4)} (P={f(best.p_sel, 2)}), and all six together changed AUROC by "
+           f"{f(C['all_six_folds_all']['gain'], 4)} ({f(C['all_six_folds_all']['auroc_all'])} vs {f(C['all_six_folds_all']['auroc_core'])}). "
+           f"In unseen studies, all six together gave {f(C['all_six_loso']['auroc_all'])} vs {f(C['all_six_loso']['auroc_core'])} for the core model; "
+           "the change came from a single held-out study. Because these covariates are study-level prevalences or means, they mainly identify the "
+           "study, which the core features already encode, and a patient's own value cannot be learned from them. The optional-input design "
+           "therefore needs patient-level covariates; in the reconstructed published data, the core model is the validated model.")
+    if not table: return txt
+    T = G.rename(columns={"subset": "Covariate", "reported_by": "Cohorts reporting (of 11)", "gain_folds": "AUROC gain, 10 folds",
+                          "gain_loso": "AUROC gain, leave-one-study-out"})
+    T["Covariate"] = T.Covariate.map(NM)
+    for c in ["AUROC gain, 10 folds", "AUROC gain, leave-one-study-out"]: T[c] = T[c].map(lambda v: f(v, 4))
+    T = T[["Covariate", "Cohorts reporting (of 11)", "AUROC gain, 10 folds", "AUROC gain, leave-one-study-out"]]
+    return txt + "\n\nTable: Optional covariates trained on the cohort data: AUROC gain over the core model when each covariate is added alone.\n\n" + T.to_markdown(index=False)
+
+
 def results_sensitivity(table=True):
     """Stage 17: robustness of the exposure effect in cohorts that reported vascular / NAION risk-factor prevalence."""
     if not os.path.exists("results/stage17/sensitivity_comorbidity.csv"): return ""
@@ -519,7 +550,7 @@ def results_sensitivity(table=True):
 
 def nejm():
     md = [f"---\ntitle: \"{title}\"\nsubtitle: \"Original Article\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), calculator_section(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
+          AUTH, DISCL, "## Abstract", abstract(), intro_nejm(), methods(), methods_compute_imaging(), results(), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(table=False), results_optional_covariates(table=False), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), calculator_section(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(), discussion(), AI_USE,
           "## Tables and figures",
           "Table: Cohorts reconstructed into count-weighted patient-level data (one primary, non-overlapping contrast per study).\n\n" + t_cohorts(),
           "Table: Model performance by family. AUROC values for 10×10% folds are mean ± SD; thresholds fixed on training data; PPV and NPV as percentages. LOSO, leave-one-study-out; O/E, observed-to-expected events.\n\n" + t_models(),
@@ -540,7 +571,7 @@ def nejm():
 
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
-            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
+            AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + results_incidence(), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + results_subgroups(), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), "### Feature combinations and the compounding hypothesis\n\n" + results_combinations(), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + results_compute_imaging(),
             (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
             (f"![AUROC and PPV of each model within non-users and within GLP-1RA users (mean ± SD over ten folds).](results/stage11/fig_subgroups.png){{width=100%}}" if os.path.exists("results/stage11/fig_subgroups.png") else ""),

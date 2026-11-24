@@ -179,6 +179,12 @@ TAB = {
         "Threshold metrics of the best PubMed-only model (XGBoost): advantages and limitations. Values are means over ten disjoint 10% "
         "training folds (tested on the remaining 90%) unless stated; Youden, top 10% and top 20% = decision thresholds fixed on the training "
         "data; vs chance = P value against the chance or no-information reference stated; LR+ = positive likelihood ratio; prevalence = 0.044%.",
+    "Optional covariates trained on the cohort data":
+        "Optional covariates trained on the cohort data: AUROC gain over the core model when each covariate is added alone (mean ensemble of "
+        "XGBoost and L2 logistic regression; positive = better). Covariates are study-level prevalences (hypertension, sleep apnoea, "
+        "hyperlipidaemia, cardiovascular disease) or means (HbA1c, BMI). 10 folds = ten disjoint 10% training folds tested on the remaining 90%; "
+        "leave-one-study-out = trained on ten cohorts, tested on the eleventh. No covariate met the selection rule (gain at least 0.005 AUROC with "
+        "Benjamini-Hochberg q < 0.05).",
     "SHAP permutation tests":
         "SHAP permutation tests (B = 500 permutations). Mean abs. SHAP = mean absolute SHAP value (XGBoost, log-odds); P (global null) = outcome "
         "permuted across all patients; P (within-study null) = outcome permuted within studies, which tests whether the feature carries "
