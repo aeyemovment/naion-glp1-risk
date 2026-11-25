@@ -19,6 +19,9 @@
 \renewcommand{\topfraction}{0.9}\renewcommand{\dbltopfraction}{0.9}\renewcommand{\bottomfraction}{0.8}
 \renewcommand{\textfraction}{0.07}\renewcommand{\floatpagefraction}{0.75}\renewcommand{\dblfloatpagefraction}{0.75}
 \setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+% abstract / index-term headings with a colon instead of IEEEtran's em dash (author request 2026-11-24)
+\renewenvironment{abstract}{\normalfont\bfseries\footnotesize\noindent\textit{Abstract}:\ \ignorespaces}{\par\vspace{0.6\baselineskip}}
+\renewenvironment{IEEEkeywords}{\normalfont\bfseries\footnotesize\noindent\textit{Index Terms}:\ \ignorespaces}{\par\vspace{0.6\baselineskip}}
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
 \title{$title$}

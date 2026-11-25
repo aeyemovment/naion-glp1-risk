@@ -24,7 +24,7 @@ MODIFIERS = [
     {"id": "htn", "label": "Hypertension", "type": "binary", "or": 1.28, "p_ref": ref("pct_hypertension"), "source": "PMID 34671609"},
     {"id": "hld", "label": "Hyperlipidaemia", "type": "binary", "or": 1.43, "p_ref": ref("pct_hyperlipidemia"), "source": "PMID 34671609"},
     {"id": "chd", "label": "Coronary heart disease", "type": "binary", "or": 1.68, "p_ref": ref("pct_cvd"), "source": "PMID 34671609"},
-    {"id": "osa", "label": "Obstructive sleep apnoea", "type": "binary", "or": 3.28, "p_ref": ref("pct_osa"), "source": "PMID 34671609 (RR used as OR)"},
+    {"id": "osa", "label": "Obstructive sleep apnea", "type": "binary", "or": 3.28, "p_ref": ref("pct_osa"), "source": "PMID 34671609 (RR used as OR)"},
     {"id": "cdr", "label": "Cup-to-disc ratio", "type": "categorical",
      "levels": [{"v": "le020", "label": "0.20 or less", "or": 46.3, "p": 0.09}, {"v": "021_040", "label": "0.21 to 0.40", "or": 6.8, "p": 0.47},
                 {"v": "gt040", "label": "Greater than 0.40", "or": 1.0, "p": 0.44}],

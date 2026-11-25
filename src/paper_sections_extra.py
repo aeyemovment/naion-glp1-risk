@@ -339,13 +339,13 @@ def calculator_section():
             "Calculator version 2 keeps the five core inputs the models were trained on (GLP-1RA drug, comparator, indication, age and time horizon) and returns the "
             "mean of the XGBoost and logistic-regression probabilities, the mean ensemble reported above (AUROC 0.657 \u00b1 0.008). Optional patient factors were not "
             "chosen in advance. Every factor with a verified published odds ratio was a candidate: male sex, hypertension, hyperlipidaemia, coronary heart disease and "
-            "obstructive sleep apnoea [@p34671609], and cup-to-disc ratio [@p42556433]; diabetes was excluded because the indication input already determines it. "
+            "obstructive sleep apnea [@p34671609], and cup-to-disc ratio [@p42556433]; diabetes was excluded because the indication input already determines it. "
             "Because no cohort reported these factors per patient, each was assigned to the held-out patients conditional on their observed outcome using its published "
             "odds ratio and the reference prevalence of the training cohorts, independently across factors (the design of the imaging what-if analysis), with every "
             "factor combination carried as an exactly weighted row. Each factor adds ln(OR) \u00d7 (patient value \u2212 reference level) to the core log-odds, so a "
             "factor left unknown changes nothing. Greedy forward selection over the same ten disjoint 10% training folds kept a factor if it raised AUROC by at least "
             f"0.005 with Benjamini-Hochberg-corrected significance. From a core AUROC of {f(S['core_auroc_mean'])}, cup-to-disc ratio was selected first "
-            f"(+{f(fs.marginal_gain.iloc[0], 3)}) and sleep apnoea second (+{f(fs.marginal_gain.iloc[1], 3)}; AUROC {f(S['auroc_selected'])}). The remaining factors added "
+            f"(+{f(fs.marginal_gain.iloc[0], 3)}) and sleep apnea second (+{f(fs.marginal_gain.iloc[1], 3)}; AUROC {f(S['auroc_selected'])}). The remaining factors added "
             f"little: {dropped}; all six together reached {f(S['auroc_all_candidates'])}. Version 2 therefore offers two optional inputs, for seven inputs in total. "
             "These gains are simulated from published odds ratios rather than observed, assume conditional independence, and inherit the limitations of the sources: the "
             "cup-to-disc ratio odds ratios were measured in fellow eyes after NAION, and no pre-treatment estimate exists. Version 2 is exploratory, separate from the "
@@ -393,7 +393,7 @@ def results_compute_imaging(short=False):
                    f"of car travel. The largest single consumer was the {lt['stage'].split('·')[-1].strip()} ({f(lt['seconds']/3600,1)} h). Inference was negligible: "
                    + ", ".join(f"{r['model']} {r['seconds_per_1000']*1000:.2f} ms" for r in C["inference"]) + " per 1,000 patients. The AI assistant used for retrieval, "
                    f"extraction and drafting consumed at least {C['llm_tokens_total_known']:,} tokens in the four metered extraction and literature agents; tokens of the main "
-                   "session were not metered, and assistant inference energy, which occurs in remote data centres, is not included in these totals.")
+                   "session were not metered, and assistant inference energy, which occurs in remote data centers, is not included in these totals.")
     else: out.append(PENDING("the compute and carbon accounting (Stage 15)"))
     if I:
         s = pd.DataFrame(I["summary"]); c = s[s.effect_level == "central"].set_index("scenario")
@@ -403,7 +403,7 @@ def results_compute_imaging(short=False):
                    f"{f(g('base (published features only)'))} to {f(g('+ fundus-photo CDR'))}; OCT-measured ratio reached {f(g('+ OCT CDR'))}. Adding hypothetical effects for optic "
                    f"disc drusen, OCT angiography perfusion and serial on-treatment imaging reached {f(g('+ all imaging incl. serial'))} (range across hypothetical effect sizes "
                    f"{f(s[(s.scenario=='+ all imaging incl. serial')].auroc.min())} to {f(s[(s.scenario=='+ all imaging incl. serial')].auroc.max())}), and {f(g('+ all imaging + OSA'))} "
-                   f"with sleep apnoea added; sleep apnoea alone reached {f(g('+ OSA only (non-imaging)'))}. Positive predictive value at the top-10% threshold rose from "
+                   f"with sleep apnea added; sleep apnea alone reached {f(g('+ OSA only (non-imaging)'))}. Positive predictive value at the top-10% threshold rose from "
                    f"{f(100*g('base (published features only)','ppv_top10'),3)}% to {f(100*g('+ all imaging + OSA','ppv_top10'),3)}%, still below 1% because NAION is rare. "
                    f"A prospective cohort would need about {int(g('+ all imaging incl. serial','prospective_events_for_auroc_ci_pm0.03'))} NAION events, roughly "
                    f"{int(g('+ all imaging incl. serial','approx_patients_to_observe_those_events')):,} GLP-1RA initiators at the observed incidence, to estimate AUROC within "
@@ -420,6 +420,6 @@ def methods_compute_imaging():
             "**Stage 16 — what-if: multimodal ocular imaging.** For each reconstructed patient, imaging features were drawn conditional on the observed outcome "
             "(P[feature | NAION] ∝ prior × odds ratio; P[feature | no NAION] = prior), independently across features: cup-to-disc ratio categories with the published "
             "control distribution and odds ratios (fundus photography with 25% and OCT with 5% adjacent-category misclassification), and hypothetical optic disc drusen "
-            "(prevalence 2%, odds ratio 2 to 8), OCT angiography hypoperfusion (20%, 1.5 to 3) and serial on-treatment imaging change (5%, 2 to 10), with sleep apnoea "
+            "(prevalence 2%, odds ratio 2 to 8), OCT angiography hypoperfusion (20%, 1.5 to 3) and serial on-treatment imaging change (5%, 2 to 10), with sleep apnea "
             "(27%, 3.28) as a non-imaging comparator. XGBoost was trained with and without these features on five patient-level 10%/90% folds for each of three "
             "generation seeds, and the number of events needed to estimate AUROC within ±0.03 in a prospective cohort was derived from the Hanley-McNeil variance.")

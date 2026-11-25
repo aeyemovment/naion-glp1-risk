@@ -3,7 +3,7 @@
 Core model: mean of XGBoost and L2 logistic-regression probabilities (the paper's mean ensemble), trained on each of the
 ten disjoint 10% folds and tested on the remaining 90% (same splits as Stage 1).
 Candidates: every patient-level factor with a verified published ratio - male sex, hypertension, hyperlipidaemia, coronary
-heart disease, obstructive sleep apnoea (Liu 2021, PMID 34671609) and cup-to-disc ratio (PMID 42556433). Diabetes is not a
+heart disease, obstructive sleep apnea (Liu 2021, PMID 34671609) and cup-to-disc ratio (PMID 42556433). Diabetes is not a
 candidate because the indication input already fixes it.
 Because the published cohorts report none of these per patient, each factor is assigned to the test patients conditional on
 their actual outcome (P(x | no NAION) = training-cohort reference prevalence; P(x | NAION) from the published OR), independently
@@ -28,7 +28,7 @@ CAND = {  # name: (levels [(OR, P(level | no NAION))], label)
     "hypertension": ([(1.28, ref("pct_hypertension")), (1.0, 1 - ref("pct_hypertension"))], "Hypertension"),
     "hyperlipidaemia": ([(1.43, ref("pct_hyperlipidemia")), (1.0, 1 - ref("pct_hyperlipidemia"))], "Hyperlipidaemia"),
     "coronary_heart_disease": ([(1.68, ref("pct_cvd")), (1.0, 1 - ref("pct_cvd"))], "Coronary heart disease"),
-    "sleep_apnoea": ([(3.28, ref("pct_osa")), (1.0, 1 - ref("pct_osa"))], "Obstructive sleep apnoea"),
+    "sleep_apnoea": ([(3.28, ref("pct_osa")), (1.0, 1 - ref("pct_osa"))], "Obstructive sleep apnea"),
     "cup_to_disc": ([(46.3, 0.09), (6.8, 0.47), (1.0, 0.44)], "Cup-to-disc ratio (3 levels)"),
 }
 

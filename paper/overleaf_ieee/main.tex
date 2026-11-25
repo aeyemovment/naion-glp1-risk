@@ -20,6 +20,9 @@
 \renewcommand{\topfraction}{0.9}\renewcommand{\dbltopfraction}{0.9}\renewcommand{\bottomfraction}{0.8}
 \renewcommand{\textfraction}{0.07}\renewcommand{\floatpagefraction}{0.75}\renewcommand{\dblfloatpagefraction}{0.75}
 \setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+% abstract / index-term headings with a colon instead of IEEEtran's em dash (author request 2026-11-24)
+\renewenvironment{abstract}{\normalfont\bfseries\footnotesize\noindent\textit{Abstract}:\ \ignorespaces}{\par\vspace{0.6\baselineskip}}
+\renewenvironment{IEEEkeywords}{\normalfont\bfseries\footnotesize\noindent\textit{Index Terms}:\ \ignorespaces}{\par\vspace{0.6\baselineskip}}
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
 \title{Toward a Foundation Model for NAION Risk Stratification in GLP-1 Receptor Agonist Users: Machine Learning, Graph Neural Networks and Synthetic Digital Twins Built from PubMed-Indexed Evidence}
@@ -562,7 +565,7 @@ distribution and odds ratios (fundus photography with 25\% and OCT with
 5\% adjacent-category misclassification), and hypothetical optic disc
 drusen (prevalence 2\%, odds ratio 2 to 8), OCT angiography
 hypoperfusion (20\%, 1.5 to 3) and serial on-treatment imaging change
-(5\%, 2 to 10), with sleep apnoea (27\%, 3.28) as a non-imaging
+(5\%, 2 to 10), with sleep apnea (27\%, 3.28) as a non-imaging
 comparator. XGBoost was trained with and without these features on five
 patient-level 10\%/90\% folds for each of three generation seeds, and
 the number of events needed to estimate AUROC within \ensuremath{\pm}0.03 in a
@@ -1015,9 +1018,9 @@ data}\label{optional-covariates-trained-on-the-cohort-data}
 To test whether the sparsely reported cohort covariates could serve as
 optional calculator inputs, a separate model was trained for every
 availability pattern of six covariates (hyperlipidaemia (6 of 11),
-cardiovascular disease (6 of 11), hypertension (5 of 11), sleep apnoea
-(4 of 11), HbA1c (3 of 11), BMI (2 of 11); 64 patterns), each on the
-core features plus that subset, with XGBoost (native handling of missing
+cardiovascular disease (6 of 11), hypertension (5 of 11), sleep apnea (4
+of 11), HbA1c (3 of 11), BMI (2 of 11); 64 patterns), each on the core
+features plus that subset, with XGBoost (native handling of missing
 values), L2 logistic regression (median imputation with missing-value
 indicators) and their mean ensemble. Each model was compared with the
 core model on identical splits: the ten disjoint 10\% training folds and
@@ -1027,9 +1030,9 @@ least 0.005 AUROC with Benjamini-Hochberg q \textless{} 0.05,
 Nadeau-Bengio corrected t test) and confirmed on folds 5 to 9 and
 leave-one-study-out. No covariate was kept. Added alone, no covariate
 changed fold AUROC by more than 0.0009; the first forward-selection step
-(sleep apnoea) gained 0.0012 (P=0.94), and all six together changed
-AUROC by -0.0004 (0.655 vs 0.656). In unseen studies, all six together
-gave 0.544 vs 0.535 for the core model; the change came from a single
+(sleep apnea) gained 0.0012 (P=0.94), and all six together changed AUROC
+by -0.0004 (0.655 vs 0.656). In unseen studies, all six together gave
+0.544 vs 0.535 for the core model; the change came from a single
 held-out study. Because these covariates are study-level prevalences or
 means, they mainly identify the study, which the core features already
 encode, and a patient's own value cannot be learned from them. The
@@ -1039,7 +1042,7 @@ reconstructed published data, the core model is the validated model.
 \begin{table}[!htbp]\centering\caption{Optional covariates trained on the cohort data: AUROC gain over the core
 model when each covariate is added alone (mean ensemble of XGBoost and
 L2 logistic regression; positive = better). Covariates are study-level
-prevalences (hypertension, sleep apnoea, hyperlipidaemia, cardiovascular
+prevalences (hypertension, sleep apnea, hyperlipidaemia, cardiovascular
 disease) or means (HbA1c, BMI). 10 folds = ten disjoint 10\% training
 folds tested on the remaining 90\%; leave-one-study-out = trained on ten
 cohorts, tested on the eleventh. No covariate met the selection rule
@@ -1048,7 +1051,7 @@ Remaining abbreviations and variable names: Nomenclature appendix.}\scriptsize
 \maxwbox{\columnwidth}{\begin{tabular}{llll}\toprule
 Covariate & Cohorts reporting (of 11) & AUROC gain, 10 folds & AUROC gain, leave-one-study-out \\
 \midrule
-sleep apnoea & 4 & 0.0006 & 0.0101 \\
+sleep apnea & 4 & 0.0006 & 0.0101 \\
 hyperlipidaemia & 6 & 0.0002 & 0.0088 \\
 HbA1c & 3 & 0.0002 & 0.0000 \\
 BMI & 2 & -0.0003 & 0.0088 \\
@@ -1194,7 +1197,7 @@ Inference was negligible: logreg 0.75 ms, rf 26.68 ms, xgb 1.69 ms per
 1,000 patients. The AI assistant used for retrieval, extraction and
 drafting consumed at least 764,562 tokens in the four metered extraction
 and literature agents; tokens of the main session were not metered, and
-assistant inference energy, which occurs in remote data centres, is not
+assistant inference energy, which occurs in remote data centers, is not
 included in these totals.
 
 \textbf{What-if: adding ocular imaging (simulation).} Imaging values
@@ -1205,23 +1208,23 @@ misclassification, raised AUROC from 0.653 to 0.770; OCT-measured ratio
 reached 0.818. Adding hypothetical effects for optic disc drusen, OCT
 angiography perfusion and serial on-treatment imaging reached 0.840
 (range across hypothetical effect sizes 0.825 to 0.876), and 0.854 with
-sleep apnoea added; sleep apnoea alone reached 0.708. Positive
-predictive value at the top-10\% threshold rose from 0.098\% to 0.262\%,
-still below 1\% because NAION is rare. A prospective cohort would need
-about 263 NAION events, roughly 604,000 GLP-1RA initiators at the
-observed incidence, to estimate AUROC within \ensuremath{\pm}0.03; a case-control
-design enriched for NAION would need far fewer imaged patients. These
-figures are simulations that assume conditional independence of features
-and, for drusen, OCT angiography and serial imaging, effect sizes that
-have not been measured (Fig.~\ref{fig:imaging}).
+sleep apnea added; sleep apnea alone reached 0.708. Positive predictive
+value at the top-10\% threshold rose from 0.098\% to 0.262\%, still
+below 1\% because NAION is rare. A prospective cohort would need about
+263 NAION events, roughly 604,000 GLP-1RA initiators at the observed
+incidence, to estimate AUROC within \ensuremath{\pm}0.03; a case-control design
+enriched for NAION would need far fewer imaged patients. These figures
+are simulations that assume conditional independence of features and,
+for drusen, OCT angiography and serial imaging, effect sizes that have
+not been measured (Fig.~\ref{fig:imaging}).
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Simulated effect of adding ocular imaging and obstructive sleep apnoea (OSA) to the published-feature XGBoost model (AUROC; values at bar ends). Grey = base model; blue = with imaging features; orange = with OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus photographs or optical coherence tomography (OCT); drusen = optic disc drusen; OCTA = OCT angiography (peripapillary perfusion); serial = on-treatment change on repeat imaging. CDR and OSA effects use published odds ratios; drusen, OCTA and serial effects are hypothetical, and black bars show the range across low and high assumed effect sizes. All imaging values are synthetic. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_imaging_whatif.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio,alt={Simulated effect of adding ocular imaging and obstructive sleep apnea (OSA) to the published-feature XGBoost model (AUROC; values at bar ends). Grey = base model; blue = with imaging features; orange = with OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus photographs or optical coherence tomography (OCT); drusen = optic disc drusen; OCTA = OCT angiography (peripapillary perfusion); serial = on-treatment change on repeat imaging. CDR and OSA effects use published odds ratios; drusen, OCTA and serial effects are hypothetical, and black bars show the range across low and high assumed effect sizes. All imaging values are synthetic. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_imaging_whatif.png}
 \caption{Simulated effect of adding ocular imaging and obstructive sleep
-apnoea (OSA) to the published-feature XGBoost model (AUROC; values at
-bar ends). Grey = base model; blue = with imaging features; orange =
-with OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus
+apnea (OSA) to the published-feature XGBoost model (AUROC; values at bar
+ends). Grey = base model; blue = with imaging features; orange = with
+OSA (non-imaging comparator). CDR = cup-to-disc ratio from fundus
 photographs or optical coherence tomography (OCT); drusen = optic disc
 drusen; OCTA = OCT angiography (peripapillary perfusion); serial =
 on-treatment change on repeat imaging. CDR and OSA effects use published
@@ -1278,7 +1281,7 @@ whether to continue a GLP-1RA after NAION in one eye, given the risk to
 the fellow eye. For research, the score can enrich cohorts for
 pharmacovigilance and prospective studies. Each of these uses still
 requires prospective validation with patient-level predictors (disc
-morphology, sleep apnoea, nocturnal hypotension, dose escalation).
+morphology, sleep apnea, nocturnal hypotension, dose escalation).
 
 Synthetic twins helped only weak learners. In the full factorial
 experiment, thousands of hybrid configurations improved logistic
@@ -1363,8 +1366,8 @@ versus chance).
 \textbf{Answer.} Published evidence supports a reproducible association
 between GLP-1RA exposure and NAION, strongest with obesity indications,
 but it does not support individual risk prediction good enough to select
-patients for any treatment, and no preventive treatment for NAION is
-proven. The model is a research tool for counselling-level risk
+patients for any prophylactic therapy, and no preventive treatment for
+NAION is proven. The model is a research tool for counselling-level risk
 discussion and for enriching cohorts, and its main product is a
 benchmark and protocol for the patient-level, imaging-linked prospective
 data that the question requires.
@@ -1768,14 +1771,14 @@ XGB & 90\% & 0.6641 & 0.0227 & 0.0053 & 0.0004 & 0.9885 & 0.9621 & 0.1082 \\
 
 \begin{figure}
 \centering
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are labelled `Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm; Data source: single centre = single-centre study); `missing' marks a not-reported indicator. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_beeswarm_xgb.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio,alt={SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features are ordered by mean absolute SHAP value; one-hot features are labelled `Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm; Data source: single center = single-center study); `missing' marks a not-reported indicator. Remaining abbreviations and variable names: Nomenclature appendix.}]{figures/fig_shap_beeswarm_xgb.png}
 \caption{SHAP summary (beeswarm) for XGBoost on the 90\% hold-out. Each
 dot is one covariate pattern; the x-axis is its SHAP value (contribution
 to the predicted log-odds of NAION; right = higher risk); colour is the
 feature value (red = high or 1, blue = low or 0). Features are ordered
 by mean absolute SHAP value; one-hot features are labelled `Variable:
 level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor comparator arm;
-Data source: single centre = single-centre study); `missing' marks a
+Data source: single center = single-center study); `missing' marks a
 not-reported indicator. Remaining abbreviations and variable names:
 Nomenclature appendix.}
 \end{figure}

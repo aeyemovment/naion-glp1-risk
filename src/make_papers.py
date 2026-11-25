@@ -394,7 +394,7 @@ def discussion():
          "taken before or during GLP-1RA treatment: counselling and informed consent; a baseline dilated examination or optical coherence tomography to document a crowded disc at risk; "
          "the choice of agent, indication and dose-escalation schedule; and teaching patients to report painless visual loss promptly. A related question is whether to continue a "
          "GLP-1RA after NAION in one eye, given the risk to the fellow eye. For research, the score can enrich cohorts for pharmacovigilance and prospective studies. Each of these uses "
-         "still requires prospective validation with patient-level predictors (disc morphology, sleep apnoea, nocturnal hypotension, dose escalation).",
+         "still requires prospective validation with patient-level predictors (disc morphology, sleep apnea, nocturnal hypotension, dose escalation).",
          "Synthetic twins helped only weak learners. In the full factorial experiment, thousands of hybrid configurations improved logistic regression, consistent with "
          "regularization, but the best hybrid XGBoost gained only 0.0015 AUROC; twins built from published priors alone produced little more than chance discrimination, and "
          "fine-tuning a background model worked only with real GLP-1RA data. Twins cannot create patient-level information that the source data do not contain.",
@@ -454,7 +454,7 @@ def conclusion():
         f"convolutional, ensemble, anomaly-detection and synthetic digital-twin variants did not improve on it. In studies the model had not "
         f"seen, AUROC fell to {f(S1['loso_summary']['xgb']['auroc'])} (P{eq(lo.p)} versus chance).",
         "**Answer.** Published evidence supports a reproducible association between GLP-1RA exposure and NAION, strongest with obesity "
-        "indications, but it does not support individual risk prediction good enough to select patients for any treatment, "
+        "indications, but it does not support individual risk prediction good enough to select patients for any prophylactic therapy, "
         "and no preventive treatment for NAION is proven. The model is a research tool for counselling-level risk discussion and for enriching cohorts, and its main product is a benchmark and protocol for the "
         "patient-level, imaging-linked prospective data that the question requires."])
 
@@ -535,7 +535,7 @@ def results_optional_covariates(table=True):
     """Stage 19: optional covariates trained on the real (sparsely reported) cohort data."""
     if not os.path.exists("results/stage19/summary.json"): return ""
     S = J("results/stage19/summary.json"); G = pd.read_csv("results/stage19/single_covariate_gain.csv"); P = pd.read_csv("results/stage19/forward_selection.csv")
-    NM = {"hypertension": "hypertension", "sleep_apnoea": "sleep apnoea", "hyperlipidaemia": "hyperlipidaemia", "cardiovascular_disease": "cardiovascular disease",
+    NM = {"hypertension": "hypertension", "sleep_apnoea": "sleep apnea", "hyperlipidaemia": "hyperlipidaemia", "cardiovascular_disease": "cardiovascular disease",
           "hba1c": "HbA1c", "bmi": "BMI"}
     rep = ", ".join(f"{NM[g]} ({k} of 11)" for g, k in sorted(S["reported_by"].items(), key=lambda x: -x[1]))
     C = S["confirmation"]; best = P.iloc[0]
@@ -652,7 +652,7 @@ def nejm():
 def preprint():
     secs = [f"---\ntitle: \"{title}\"\nsubtitle: \"Preprint with all experiments and results\"\ndate: \"{dt.date.today():%B %d, %Y}\"\n---",
             AUTH, DISCL, "## Abstract", abstract(), intro_full(), methods(full=True), methods_extended(), methods_compute_imaging(), results(full=True), "### Transport, fine-tuning and convolutional networks\n\n" + results_extra(), "### Incidence, rare-event and anomaly models\n\n" + cite_first(results_incidence(), "incidence"), table_incidence(), "### Detection within GLP-1RA users and non-users\n\n" + cite_first(results_subgroups(), "subgroups"), table_subgroups(), "### Vascular score features and a proposed NAION-adapted score\n\n" + results_abcd(), table_abcd_ablation(), "### Restriction to cohorts reporting vascular risk factors\n\n" + results_sensitivity(), results_optional_covariates(), results_aspirin(), "### Feature combinations and the compounding hypothesis\n\n" + cite_first(results_combinations(), "combos"), tables_combinations(), "### Compute footprint and imaging what-if\n\n" + cite_first(results_compute_imaging(), "imaging", "What-if"),
-            (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnoea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
+            (f"![Simulated AUROC after adding ocular imaging modalities and sleep apnea to the published-feature model; black bars show the range across hypothetical effect sizes.](results/stage16/fig_imaging_whatif.png){{width=100%}}" if os.path.exists("results/stage16/fig_imaging_whatif.png") else ""),
             (f"![Stand-alone gain vs Shapley value of each feature group (XGBoost) and pairwise Shapley interactions across all 511 feature combinations.](results/stage14/fig_feature_combinations.png){{width=100%}}" if os.path.exists("results/stage14/fig_feature_combinations.png") else ""),
             (f"![AUROC and PPV of each model within non-users and within GLP-1RA users (mean ± SD over ten folds).](results/stage11/fig_subgroups.png){{width=100%}}" if os.path.exists("results/stage11/fig_subgroups.png") else ""),
             (f"![NAION incidence per 100,000 person-years by study age band, indication and drug; grey band = published background incidence in adults aged 50 years or older.](results/stage10/fig_incidence_strata.png){{width=100%}}" if os.path.exists("results/stage10/fig_incidence_strata.png") else ""),

@@ -3,7 +3,7 @@
 Question: if the calculator lets users enter any covariate that some cohorts reported, and a model trained on the actual data
 for that availability pattern is used, how much does each covariate add - measured on held-out data, not simulated?
 Covariates (study-level prevalences or means from data/extracted/cohort_level.json; reported by k of 11 cohorts):
-  hypertension (5), sleep apnoea (4), hyperlipidaemia (6), cardiovascular disease (6), HbA1c (3), BMI (2).
+  hypertension (5), sleep apnea (4), hyperlipidaemia (6), cardiovascular disease (6), HbA1c (3), BMI (2).
 Core features: the Stage 1 columns (drug, comparator, indication, age, sex share, follow-up, setting + missing flags).
 Model bank: for every subset of the six covariates (64 patterns) a dedicated model is trained on core + that subset
 (XGBoost with native missing handling; L2 logistic regression with median imputation + missing flags; mean ensemble).

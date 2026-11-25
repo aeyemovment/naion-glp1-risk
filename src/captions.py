@@ -29,7 +29,7 @@ FIG = {
         "SHAP summary (beeswarm) for XGBoost on the 90% hold-out. Each dot is one covariate pattern; the x-axis is its SHAP value (contribution "
         "to the predicted log-odds of NAION; right = higher risk); colour is the feature value (red = high or 1, blue = low or 0). Features "
         "are ordered by mean absolute SHAP value; one-hot features are labelled 'Variable: level' (e.g., Therapy: SGLT2 inhibitor = SGLT2-inhibitor "
-        "comparator arm; Data source: single centre = single-centre study); 'missing' marks a not-reported indicator.",
+        "comparator arm; Data source: single center = single-center study); 'missing' marks a not-reported indicator.",
     "fig_shap_kfold_importance.png":
         "Feature-group importance across ten folds: mean absolute SHAP value (log-odds scale; bars = mean, whiskers = SD over folds), with "
         "one-hot levels summed into their parent variable (therapy = drug arm; region; source_type = data source; outcome_def = outcome "
@@ -111,7 +111,7 @@ FIG = {
         "(OR = within-study odds ratio with 95% CI; AUROC mean +/- SD over ten disjoint 10% training folds; unseen studies = "
         "leave-one-study-out; hybrid = real plus synthetic training data; observed/expected > 1 = under-prediction); (6) released outputs.",
     "fig_imaging_whatif.png":
-        "Simulated effect of adding ocular imaging and obstructive sleep apnoea (OSA) to the published-feature XGBoost model (AUROC; values at "
+        "Simulated effect of adding ocular imaging and obstructive sleep apnea (OSA) to the published-feature XGBoost model (AUROC; values at "
         "bar ends). Grey = base model; blue = with imaging features; orange = with OSA (non-imaging comparator). CDR = cup-to-disc ratio from "
         "fundus photographs or optical coherence tomography (OCT); drusen = optic disc drusen; OCTA = OCT angiography (peripapillary "
         "perfusion); serial = on-treatment change on repeat imaging. CDR and OSA effects use published odds ratios; drusen, OCTA and serial "
@@ -177,7 +177,7 @@ TAB = {
     "Optional calculator factors":
         "Optional calculator factors: published odds ratios and forward-selection results (calculator version 2; simulated gains, not "
         "validated). Reference level = median prevalence across the training cohorts (cup-to-disc ratio: share of control eyes in the source "
-        "study); OR = odds ratio (sleep apnoea: pooled risk ratio used as OR; cup-to-disc ratio relative to a ratio above 0.40); AUROC gain "
+        "study); OR = odds ratio (sleep apnea: pooled risk ratio used as OR; cup-to-disc ratio relative to a ratio above 0.40); AUROC gain "
         "alone = gain over the core ensemble when the factor is added by itself; marginal AUROC gain = gain at its forward-selection step; "
         "factors were kept if the marginal gain was at least 0.005 with Benjamini-Hochberg q < 0.05.",
     "Threshold metrics of the best PubMed-only model (XGBoost)":
@@ -192,7 +192,7 @@ TAB = {
         "Horizons differ (NAION over cohort follow-up; bleeding over about 6 years). XGB, XGBoost; RRR, relative risk reduction.",
     "Optional covariates trained on the cohort data":
         "Optional covariates trained on the cohort data: AUROC gain over the core model when each covariate is added alone (mean ensemble of "
-        "XGBoost and L2 logistic regression; positive = better). Covariates are study-level prevalences (hypertension, sleep apnoea, "
+        "XGBoost and L2 logistic regression; positive = better). Covariates are study-level prevalences (hypertension, sleep apnea, "
         "hyperlipidaemia, cardiovascular disease) or means (HbA1c, BMI). 10 folds = ten disjoint 10% training folds tested on the remaining 90%; "
         "leave-one-study-out = trained on ten cohorts, tested on the eleventh. No covariate met the selection rule (gain at least 0.005 AUROC with "
         "Benjamini-Hochberg q < 0.05).",

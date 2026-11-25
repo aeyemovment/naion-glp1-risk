@@ -54,7 +54,7 @@ card = f"""# Model card - NAION risk in GLP-1RA users (PubMed-only models) v1.0.
 - Files: `xgb_pubmed_only.json/.ubj` (XGBoost 300 trees, depth 3, lr 0.05; load with `xgboost.Booster().load_model`),
   `logreg_pubmed_only.json` (L2 logistic regression on standardized features: p = sigmoid(intercept + coef . (x - mu)/sd)), `rf_pubmed_only.joblib` (scikit-learn RF).
 - Validation (from the paper): XGBoost AUROC 0.656 +/- 0.011 over ten disjoint 10% training folds; leave-one-study-out AUROC ~0.53; PPV at top-10% threshold ~0.087% vs prevalence 0.044%.
-- Known limitations: discrimination is driven mainly by study setting; transport to unseen settings is near chance; individual-level risk factors (cup-to-disc ratio, sleep apnoea, hypertension) are absent.
+- Known limitations: discrimination is driven mainly by study setting; transport to unseen settings is near chance; individual-level risk factors (cup-to-disc ratio, sleep apnea, hypertension) are absent.
 - Intended use: research enrichment and hypothesis generation only.
 """
 open("models/MODEL_CARD.md", "w").write(card)

@@ -9,9 +9,9 @@ LEVEL = {"dpp4i": "DPP-4 inhibitor", "dpp4": "DPP-4 inhibitor", "glp1ra_class": 
          "other_antidiabetic": "other antidiabetic", "other_antiobesity": "other anti-obesity", "sema_or_tirz": "semaglutide or tirzepatide",
          "sglt2i": "SGLT2 inhibitor", "sglt2": "SGLT2 inhibitor", "iih": "IIH", "obesity": "obesity", "t2d": "T2D", "nordic": "Nordic", "uk": "UK",
          "us": "US", "claims": "claims", "ehr_network": "EHR network", "ehr_primary_care": "primary-care EHR", "national_registry": "national registry",
-         "single_center": "single centre", "va_ehr": "VA EHR", "ion": "ION", "naion": "NAION", "va": "VA", "trinetx": "TriNetX", "danish": "Danish",
+         "single_center": "single center", "va_ehr": "VA EHR", "ion": "ION", "naion": "NAION", "va": "VA", "trinetx": "TriNetX", "danish": "Danish",
          "norw": "Norwegian", "swed": "Swedish", "cprd": "CPRD", "medicare": "Medicare", "marketscan": "MarketScan", "optum": "Optum",
-         "korea": "Korea", "taiwan": "Taiwan", "iqvia": "IQVIA", "single": "single centre", "veterans": "VA", "other": "other",
+         "korea": "Korea", "taiwan": "Taiwan", "iqvia": "IQVIA", "single": "single center", "veterans": "VA", "other": "other",
          "semaglutide": "semaglutide", "tirzepatide": "tirzepatide", "any_glp1ra": "any GLP-1RA", "t2d_or_obesity": "T2D or obesity",
          "unexposed": "unexposed", "insulin": "insulin", "metformin": "metformin", "antiobesity": "anti-obesity"}
 
